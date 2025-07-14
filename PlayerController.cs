@@ -12,11 +12,12 @@ public class PlayerController : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
+   
     void Update()
     {
         moveDirection.x = Input.GetAxis("Horizontal");
         moveDirection.y = Input.GetAxis("Vertical");
+
 
         float currentSpeed = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? runmovespeed : movespeed;
         moveDirection *= currentSpeed;
