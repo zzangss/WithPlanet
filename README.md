@@ -25,12 +25,14 @@ KING 15기 하계방학 프로젝트 - WithPlanet
 
 ### 2. 브랜치 전략
 
-| 브랜치명           | 설명                     |
-|-------------------|--------------------------|
-| `main`            | 배포 가능한 안정 버전     |
-| `develop`         | 개발 통합 브랜치         |
-| `feature/기능명`   | 개별 기능 개발 브랜치     |
-| `hotfix/버그명`    | 긴급 버그 수정 브랜치     |
+| 브랜치명           | 설명                     | 예시 |
+|-------------------|--------------------------|--------------|
+| `main`            | 배포 가능한 안정 버전     | |
+| `develop`         | 개발 통합 브랜치         | |
+| `feature/기능명`   | 개별 기능 개발 브랜치, 새로운 기능 추가     |`feature/login-page`   |
+| `fix/`      | 버그 수정                        | `fix/login-error`      |
+| `refactor/` | 리팩토링 (기능 변경 없음)        | `refactor/user-service`|
+| `chore/`    | 설정, 문서 등 사소한 변경        | `chore/update-readme`  |
 
 
 ### 3. 커밋 메시지 규칙
@@ -42,6 +44,7 @@ KING 15기 하계방학 프로젝트 - WithPlanet
 | `docs`     | 문서 수정                      |
 | `style`    | 포맷팅, 세미콜론 등 비기능 변경 |
 | `refactor` | 코드 리팩토링                 |
+| `chore`    | 설정, 문서 등 사소한 변경 |
 | `test`     | 테스트 코드 추가              |
 | `art`      | 아트 에셋 추가/수정           |
 
@@ -50,6 +53,40 @@ KING 15기 하계방학 프로젝트 - WithPlanet
 - feat: 플레이어 점프 기능 추가
 - fix: 게임 시작 시 NullReferenceException 해결
 
+### 4. 폴더 구조
+
+```plaintext
+Assets/
+├── Art/                # 🎨 아트 에셋
+│   ├── Characters/     # 캐릭터 스프라이트, 모델 등
+│   ├── Environment/    # 배경, 타일셋 등
+│   ├── UI/             # UI 이미지 (버튼, 패널 등)
+│   └── Icons/          # 인벤토리 아이콘 등
+├── Audio/              # 🔊 사운드 리소스
+│   ├── BGM/            # 배경 음악
+│   └── SFX/            # 효과음
+├── Materials/          # 머티리얼 파일
+├── Animations/         # 🎞 애니메이션 관련
+│   ├── Characters/     # 캐릭터 애니메이션
+│   └── UI/             # UI 전환 애니메이션
+├── Prefabs/            # 📦 재사용 가능한 프리팹
+│   ├── Characters/
+│   ├── Environment/
+│   └── UI/
+├── Scenes/             # 🎬 씬 파일
+│   ├── [이름]Scene.unity  # 개발자 별 테스트 씬 (예: Zzangss_Scene.unity)
+│   └── Shared/            # 공통 요소를 위한 씬
+├── Scripts/            # 📜 코드 구성 (기능/역할별 정리)
+│   ├── Core/           # GameManager, 상태 관리, 싱글톤 등 핵심 로직
+│   ├── Systems/        # 입력, 시간, 세이브/로드 등 시스템 관리
+│   ├── Characters/
+│   │   ├── Player/     # 플레이어 동작/컨트롤
+│   │   └── Enemy/      # 적 캐릭터 AI 등
+│   ├── UI/             # UI 제어 및 상호작용
+│   ├── Items/          # 아이템 로직 및 데이터
+│   └── Utils/          # 공용 유틸 함수, 확장 메서드
+└── Plugins/            # 외부 라이브러리 및 플러그인
+```
 
 
 ## 💻 코드 컨벤션 (Avangarde Software 기준 강화판)
