@@ -32,7 +32,6 @@ KING 15기 하계방학 프로젝트 - WithPlanet
 | `feature/기능명`   | 개별 기능 개발 브랜치, 새로운 기능 추가     |`feature/login-page`   |
 | `fix/`      | 버그 수정                        | `fix/login-error`      |
 | `refactor/` | 리팩토링 (기능 변경 없음)        | `refactor/user-service`|
-| `chore/`    | 설정, 문서 등 사소한 변경        | `chore/update-readme`  |
 
 
 ### 3. 커밋 메시지 규칙
