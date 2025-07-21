@@ -3,6 +3,19 @@ KING 15기 하계방학 프로젝트 - WithPlanet
 
 ## 🤝 GitHub 협업 가이드
 
+### 0. 기본 설정 
+
+1. **개발환경**
+   - 버전: Unity 2022.3 LTS (Long Term Support)
+   - URP 3D
+
+2. **그래픽**
+   - Sprite 모드: 2D and UI
+   - Filter Mode: Bilinear (카툰/일러스트 스타일용)
+   - 2D 부감 시점
+      - 이소메트릭 시점 (카메라 각도: X축 30도, Y축 45도, Z축 0도)
+      - Shadow Casting 활성화로 2D 스프라이트도 3D 그림자 생성
+
 ### 1. 협업 절차
 
 1. **레포지터리 클론**  
