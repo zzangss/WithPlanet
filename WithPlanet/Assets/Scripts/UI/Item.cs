@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 [System.Flags]
 public enum ItemType  // 아이템 유형
@@ -10,21 +11,13 @@ public enum ItemType  // 아이템 유형
     /// 특별한 상호작용이 있는 오브젝트로 취급한다.
     /// </summary>
     NONE = 0b0, //0
+
+    //소모, 기타, 재료, 퀘스트아이템 등등
     SKILL = 0b1, //1
-
-    //장비 아이템 영역
-    //장비 아이템 타입에서 추가되는경우, 증가하는 값으로 추가한다.
-    Equipment_HELMET = 0b10, //2
-    Equipment_ARMORPLATE = 0b100, //4
-    Equipment_GLOVE = 0b1000, //8
-    Equipment_PANTS = 0b10000, //16
-    Equipment_SHOES = 0b100000, //32
-
-    //장비 아이템이 아닌 아이템들(소모, 기타, 재료, 퀘스트아이템 등등)
-    Etc = 0b1000000, //64
-    Consumable = 0b10000000, //128
-    Ingredient = 0b100000000, //256
-    Quest = 0b1000000000, //512
+    Etc = 0b10, //2
+    Consumable = 0b100, //4
+    Ingredient = 0b1000, //8
+    Quest = 0b10000, //16
 }
 
 [CreateAssetMenu(fileName = "Item", menuName =  "Add Item/Item")]
@@ -91,7 +84,18 @@ public class Item : ScriptableObject
         }
     }
 
-    [Header("인벤토리에서 보여질 아이템의 이미지")]
+    [Header("아이템의 이름")]
+    [SerializeField] private string mName;
+
+    public string Name
+    {
+        get
+        {
+            return mName;
+        }
+    }
+
+    [Header("아이템의 이미지")]
     [SerializeField] private Sprite mItemImage;
     public Sprite Image
     {

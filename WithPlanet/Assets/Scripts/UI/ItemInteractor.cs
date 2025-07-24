@@ -10,7 +10,7 @@ public class ItemInteractor : MonoBehaviour
 
     private bool mIsPickupActive = false;  //아이템 습득이 가능한가?
 
-    private ItemPickUp mCurrentItem; //활성화시 현재 등록된 아이템
+    private ItemPickupPoint mCurrentItem; //현재 상호작용 가능한(픽업 가능한) ItemPickupPoint 참조
 
     [SerializeField] private InventoryMain mInventory; //인벤토리 메인
 
@@ -69,16 +69,17 @@ public class ItemInteractor : MonoBehaviour
     {
         if(other.transform.tag == "Item")
         {
-            ItemPickUp rayCastedItem = other.transform.GetComponent<ItemPickUp>();
+            ItemPickupPoint collidedItem = other.transform.GetComponent<ItemPickupPoint>();
 
-            if(mCurrentItem == rayCastedItem)
+            if(mCurrentItem == collidedItem)
             {
                 return;
             }
 
-            mCurrentItem = rayCastedItem;
+            mCurrentItem = collidedItem;
 
             Debug.LogFormat("아이템 : {0} 획득 가능", mCurrentItem.Item.name);
+            
 
             mIsPickupActive = true;
 

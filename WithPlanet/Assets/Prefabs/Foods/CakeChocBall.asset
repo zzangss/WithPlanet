@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mItemID: 0
   mCanOverlap: 1
-  mIsInteractivity: 1
-  mIsConsumable: 1
+  mIsInteractivity: 0
+  mIsConsumable: 0
   mItemCooltime: -1
-  mItemType: 894
+  mItemType: -1
+  mName: ChocoBall
   mItemImage: {fileID: 21300000, guid: 9e1f5e74528314a47a56f47519c8fa01, type: 3}

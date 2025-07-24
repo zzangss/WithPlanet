@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mItemID: 1
   mCanOverlap: 1
-  mIsInteractivity: 1
-  mIsConsumable: 1
+  mIsInteractivity: 0
+  mIsConsumable: 0
   mItemCooltime: -1
-  mItemType: 894
+  mItemType: -1
+  mName: white
   mItemImage: {fileID: 21300000, guid: 2d0f805d8b9545f4fbe2a22cf86508f5, type: 3}

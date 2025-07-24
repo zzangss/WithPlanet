@@ -74,12 +74,6 @@ public class InventoryMain : InventoryBase
 
     private void TryOpenInventory()
     {
-        /*
-        if (GameMenuManager.IsOptionActive)
-        {
-            return;
-        }
-        */
 
         if (Input.GetKeyDown(KeyCode.I)) // I 키를 눌렀을 때
         {
