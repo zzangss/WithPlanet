@@ -5,8 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 
-public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler,
-                            IDragHandler, IEndDragHandler, IDropHandler, IPointerEnterHandler, IPointerExitHandler
+public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+
 {
     private Item mItem;
     public Item Item
@@ -67,18 +67,110 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
     {
         mItem = null;
         mItemCount = 0;
-        mItemImage = null;
-        mName = null;
-
+        mItemImage.sprite = null;
+        mName.text = null;
         mTextCount.text = "";
     }
 
-    pubilc void OnBeginDrag(PointerEventData eventData)
+    // 아이템 드래그 시작 
+    public void OnBeginDrag(PointerEventData eventData)
     {
         if(mItem != null)
         {
-            
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                DragSlot.Instance.IsShiftMode = true;
+            }
+            else
+            {
+                DragSlot.Instance.IsShiftMode = false;
+            }
+
+            DragSlot.Instance.CurrentSlot = this;
+            DragSlot.Instance.DragSetImage(mItemImage);
+            DragSlot.Instance.transform.position = eventData.position;
         }
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (mItem != null) {
+            DragSlot.Instance.transform.position = eventData.position;
+        }
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        DragSlot.Instance.SetColor(0);
+        //DragSlot.Instance.CurrentSlot = null;
+    }
+
+    public void OnDrop(PointerEventData eventData)
+    {
+        if (DragSlot.Instance.IsShiftMode && mItem != null) { return; }
+
+        //드래그 슬롯에 놓여진 아이템과, 바꿔질 아이템의 마스크가 모두 통과되면 바꾼다.
+        if (!IsMask(DragSlot.Instance.CurrentSlot.Item)) { return; }
+
+        //타겟 드래그 슬롯에 이미 아이템이 있는경우, 해당 아이템이 직전의 아이템 슬롯에서 마스크를 체크한다.
+        if (mItem != null && !DragSlot.Instance.CurrentSlot.IsMask(mItem)) { return; }
+
+        ChangeSlot();
+    }
+
+    private void ChangeSlot()
+    {
+        if (DragSlot.Instance.CurrentSlot.Item.Type >= ItemType.Etc)
+        {
+            //쉬프트 모드 관계 없이 일어날 수 있는 경우
+            //새로운 슬롯과 이전 슬롯의 아이템ID가 같은경우 개수를 합친다.
+            if (mItem != null && mItem.ItemID == DragSlot.Instance.CurrentSlot.Item.ItemID)
+            {
+                int changedSlotCount;
+                if (DragSlot.Instance.IsShiftMode) 
+                { 
+                    changedSlotCount = (int)(DragSlot.Instance.CurrentSlot.mItemCount * 0.5f); 
+                }
+                else 
+                { 
+                    changedSlotCount = DragSlot.Instance.CurrentSlot.mItemCount; 
+                }
+
+                UpdateSlotCount(changedSlotCount);
+                DragSlot.Instance.CurrentSlot.UpdateSlotCount(-changedSlotCount);
+                return;
+            }
+
+            //쉬프트 모드인경우 개수를 반으로 나눈다.
+            if (DragSlot.Instance.IsShiftMode)
+            {
+                //changedSlotCount 개수만큼 더하고 뺄것이다 (+와 -의 차이가 0이어야 아이템이 복사, 유실되지 않는다.)
+                int changedSlotCount = (int)(DragSlot.Instance.CurrentSlot.mItemCount * 0.5f);
+
+                //(int)로의 형변환으로 인해 0이 되는 경우는 (int)(1 * 0.5f)이기에 단순히 새로운 슬롯으로 옮긴다.
+                if (changedSlotCount == 0)
+                {
+                    AddItem(DragSlot.Instance.CurrentSlot.Item, 1);
+                    DragSlot.Instance.CurrentSlot.ClearSlot();
+                    return;
+                }
+
+                //위 모든 경우가 아닌경우 새로운 슬롯에 새로운 아이템을 생성한다.
+                AddItem(DragSlot.Instance.CurrentSlot.Item, changedSlotCount);
+                DragSlot.Instance.CurrentSlot.UpdateSlotCount(-changedSlotCount);
+                return;
+            }
+        }
+
+        //슬롯 서로 교환하기
+        Item tempItem = mItem;
+        int tempItemCount = mItemCount;
+
+        AddItem(DragSlot.Instance.CurrentSlot.mItem, DragSlot.Instance.CurrentSlot.mItemCount);
+        
+
+        if (tempItem != null) { DragSlot.Instance.CurrentSlot.AddItem(tempItem, tempItemCount); }
+        else { DragSlot.Instance.CurrentSlot.ClearSlot(); }
     }
 }
 
