@@ -265,7 +265,9 @@ MonoBehaviour:
   mSlotMask: -1
   mItemImage: {fileID: 1047228202655865021}
   mTextCount: {fileID: 2963438507579559251}
-  mBackImage: {fileID: 0}
+  mBackImage: {fileID: 8234852784625092924}
+  mValueImage: {fileID: 5458195100655806066}
+  mValueCount: {fileID: 4752631578137724625}
 --- !u!1 &8095551948050218760
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,8 +302,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -40, y: 45}
-  m_SizeDelta: {x: 60, y: 60}
+  m_AnchoredPosition: {x: -1.0103, y: 0.7103}
+  m_SizeDelta: {x: 46.0205, y: 45.4206}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5994318510590575868
 CanvasRenderer:

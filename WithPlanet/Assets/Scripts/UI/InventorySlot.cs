@@ -22,7 +22,7 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [Header("해당 슬롯에 어떠한 타입만 들어올 수 있는지 타입 마스크")]
     [SerializeField] private ItemType mSlotMask;
 
-    private int mItemCount; //현재 슬롯에 들어있는 아이템의 개수 
+    public int mItemCount; //현재 슬롯에 들어있는 아이템의 개수 
 
 
     [Header("아이템 슬롯에 있는 UI 오브젝트")]
@@ -31,7 +31,7 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [SerializeField] private Image mBackImage; //아이템의 이름 텍스트 
 
     [SerializeField] private Image mValueImage;
-    [SerializeField] private TMP_Text mVauleCount;
+    [SerializeField] private TMP_Text mValueCount;
 
 
     void Awake()
@@ -49,10 +49,10 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void SetItem(Item item, int count = 1)
     {
         mItem = item;
-        mItemCount += count;
+        mItemCount = count;
         mItemImage.sprite = item.Image;
         mTextCount.text = count.ToString();
-
+        mValueCount.text = (mItemCount * mItem.Value).ToString();
     }
 
     // 현재 슬롯의 아이템 개수 업데이트
@@ -61,6 +61,7 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         Debug.Log($"[UpdateSlotCount] 이전={mItemCount}, 더하기={count}");
         mItemCount += count; //테스트 값
         mTextCount.text = mItemCount.ToString();
+        mValueCount.text = (mItemCount * mItem.Value).ToString();
 
         if (mItemCount <= 0)
             ClearSlot();
@@ -73,7 +74,14 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         mItemCount = 0;
         mItemImage.sprite = null;
         mTextCount.text = "";
+        mValueCount.text = "";
     }
+
+    public int GetItemCount()
+    {
+        return mItemCount;
+    }
+
 
     // 아이템 드래그 시작 
     public void OnBeginDrag(PointerEventData eventData)
@@ -139,7 +147,7 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         if (mItem != null)
         {
-            ShowItemVaule(mItem);
+            mValueImage.gameObject.SetActive(true);
         }
     }
 
@@ -147,11 +155,8 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void OnPointerExit(PointerEventData eventData)
     {
         Debug.Log($"{this.name}에서 빠져나옴");
-    }
 
-    private void ShowItemVaule(Item item)
-    {
-
+        mValueImage.gameObject.SetActive(false);
     }
 
 
