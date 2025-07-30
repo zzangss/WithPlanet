@@ -34,13 +34,13 @@ public class InventoryMain : InventoryBase
             {
                 if (targetSlot.Item.ItemID == item.ItemID)
                 {
-                    targetSlot.UpdateSlotCount(count);
+                    targetSlot.AddItem(count);
                 }
             }
         }
         else
         {
-            targetSlot.AddItem(item, count);
+            targetSlot.SetItem(item, count);
         }
     }
 
@@ -55,7 +55,7 @@ public class InventoryMain : InventoryBase
                 if (mSlots[i].Item != null && mSlots[i].Item.ItemID == item.ItemID)
                 {
                         //현재 슬롯의 아이템 개수(Count)를 갱신한다.
-                    mSlots[i].UpdateSlotCount(count);
+                    mSlots[i].AddItem(count);
                     return;
                 }
             }
@@ -65,7 +65,7 @@ public class InventoryMain : InventoryBase
             //마스크를 사용하여 해당 슬롯이 마스크에 허용되는 위치인경우에만 아이템을 집어넣도록 한다.
             if (mSlots[i].Item == null)
             {
-                mSlots[i].AddItem(item, count);
+                mSlots[i].SetItem(item, count);
                 return;
             }
         }
