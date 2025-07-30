@@ -20,3 +20,4 @@ MonoBehaviour:
   mItemType: -1
   mName: 
   mItemImage: {fileID: 21300000, guid: 9d0743122f4a68c4f88f8a18e491f4cd, type: 3}
+  mItemValue: 60

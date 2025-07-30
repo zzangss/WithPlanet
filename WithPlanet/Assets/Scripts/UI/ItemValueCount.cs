@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ItemValueCount : MonoBehaviour
 {
     // Start is called before the first frame update
+
+    [SerializeField] InventoryMain mInventoryMain;
+    private TMP_Text mValueCount;
+
     void Start()
     {
         
@@ -15,4 +20,7 @@ public class ItemValueCount : MonoBehaviour
     {
         
     }
+
+
+
 }
