@@ -1,12 +1,15 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
+using TMPro;
 
 public class InventoryMain : InventoryBase
 {
 
     public static bool IsInventoryActive = false; //인벤토리 활성화 여부
+    [SerializeField] private TMP_Text mTotalValue;
 
     // Start is called before the first frame update
     void Awake() 
@@ -18,7 +21,22 @@ public class InventoryMain : InventoryBase
     // Update is called once per frame
     void Update()
     {
-        //TryOpenInventory();
+        mTotalValue.text = CalTotalItemValue().ToString();
+    }
+
+    private int CalTotalItemValue()
+    {
+        int total = 0;
+        foreach (var slot in mSlots)
+        {
+            // 아이템이 있는 슬롯만 계산
+            if (slot.Item != null)
+            {
+                total += slot.GetItemCount() * slot.Item.Value;
+            }
+        }
+
+        return total;
     }
 
     public InventorySlot[] GetAllItems()
