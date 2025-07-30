@@ -104,4 +104,14 @@ public class Item : ScriptableObject
             return mItemImage;
         }
     }
+
+    [Header("아이템의 값(가중치)")]
+    [SerializeField] private int mItemValue;
+    public int Value
+    {
+        get
+        {
+            return mItemValue;
+        }
+    }
 }
