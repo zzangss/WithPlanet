@@ -5,7 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 
-public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, 
+    IPointerEnterHandler, IPointerExitHandler
 
 {
     private Item mItem;
@@ -27,7 +28,10 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [Header("아이템 슬롯에 있는 UI 오브젝트")]
     [SerializeField] private Image mItemImage; //아이템의 이미지
     [SerializeField] private TMP_Text mTextCount; //아이템의 개수 텍스트
-    [SerializeField] private TMP_Text mName; //아이템의 이름 텍스트 
+    [SerializeField] private Image mBackImage; //아이템의 이름 텍스트 
+
+    private Color mDefaultColor;
+
 
     void Awake()
     {
@@ -41,18 +45,17 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     }
 
     // 인벤토리에 새로운 아이템 슬롯 추가
-    public void AddItem(Item item, int count = 1)
+    public void SetItem(Item item, int count = 1)
     {
         mItem = item;
         mItemCount += count;
         mItemImage.sprite = item.Image;
-        mName.text = item.Name;
         mTextCount.text = count.ToString();
 
     }
 
     // 현재 슬롯의 아이템 개수 업데이트
-    public void UpdateSlotCount(int count)
+    public void AddItem(int count)
     {
         Debug.Log($"[UpdateSlotCount] 이전={mItemCount}, 더하기={count}");
         mItemCount += count; //테스트 값
@@ -68,7 +71,6 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         mItem = null;
         mItemCount = 0;
         mItemImage.sprite = null;
-        mName.text = null;
         mTextCount.text = "";
     }
 
@@ -107,6 +109,18 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnDrop(PointerEventData eventData)
     {
+        if (DragSlot.Instance == null || DragSlot.Instance.CurrentSlot == null)
+        {
+            Debug.LogWarning("드래그 슬롯 or 현재 슬롯이 널");
+            return;
+        }
+        if(DragSlot.Instance.CurrentSlot.Item == null)
+        {
+            Debug.LogWarning("드래그된 아이템은 NULL");
+            return;
+        }
+
+
         if (DragSlot.Instance.IsShiftMode && mItem != null) { return; }
 
         //드래그 슬롯에 놓여진 아이템과, 바꿔질 아이템의 마스크가 모두 통과되면 바꾼다.
@@ -116,6 +130,18 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         if (mItem != null && !DragSlot.Instance.CurrentSlot.IsMask(mItem)) { return; }
 
         ChangeSlot();
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        Debug.Log("마우스 올라옴");
+        mBackImage.color = mDefaultColor * 0.8f; // 어둡게 (0.8배)
+    }
+
+    // 마우스가 슬롯에서 벗어났을 때
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        mBackImage.color = mDefaultColor;
     }
 
     private void ChangeSlot()
@@ -136,8 +162,8 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                     changedSlotCount = DragSlot.Instance.CurrentSlot.mItemCount; 
                 }
 
-                UpdateSlotCount(changedSlotCount);
-                DragSlot.Instance.CurrentSlot.UpdateSlotCount(-changedSlotCount);
+                AddItem(changedSlotCount);
+                DragSlot.Instance.CurrentSlot.AddItem(-changedSlotCount);
                 return;
             }
 
@@ -150,14 +176,14 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                 //(int)로의 형변환으로 인해 0이 되는 경우는 (int)(1 * 0.5f)이기에 단순히 새로운 슬롯으로 옮긴다.
                 if (changedSlotCount == 0)
                 {
-                    AddItem(DragSlot.Instance.CurrentSlot.Item, 1);
+                    SetItem(DragSlot.Instance.CurrentSlot.Item, 1);
                     DragSlot.Instance.CurrentSlot.ClearSlot();
                     return;
                 }
 
                 //위 모든 경우가 아닌경우 새로운 슬롯에 새로운 아이템을 생성한다.
-                AddItem(DragSlot.Instance.CurrentSlot.Item, changedSlotCount);
-                DragSlot.Instance.CurrentSlot.UpdateSlotCount(-changedSlotCount);
+                SetItem(DragSlot.Instance.CurrentSlot.Item, changedSlotCount);
+                DragSlot.Instance.CurrentSlot.AddItem(-changedSlotCount);
                 return;
             }
         }
@@ -166,10 +192,10 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         Item tempItem = mItem;
         int tempItemCount = mItemCount;
 
-        AddItem(DragSlot.Instance.CurrentSlot.mItem, DragSlot.Instance.CurrentSlot.mItemCount);
+        SetItem(DragSlot.Instance.CurrentSlot.mItem, DragSlot.Instance.CurrentSlot.mItemCount);
         
 
-        if (tempItem != null) { DragSlot.Instance.CurrentSlot.AddItem(tempItem, tempItemCount); }
+        if (tempItem != null) { DragSlot.Instance.CurrentSlot.SetItem(tempItem, tempItemCount); }
         else { DragSlot.Instance.CurrentSlot.ClearSlot(); }
     }
 }
