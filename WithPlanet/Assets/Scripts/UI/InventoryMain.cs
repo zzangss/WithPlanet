@@ -18,7 +18,7 @@ public class InventoryMain : InventoryBase
     // Update is called once per frame
     void Update()
     {
-        TryOpenInventory();
+        //TryOpenInventory();
     }
 
     public InventorySlot[] GetAllItems()
@@ -72,10 +72,10 @@ public class InventoryMain : InventoryBase
 
     }
 
-    private void TryOpenInventory()
+    public void TryOpenInventory()
     {
 
-        if (Input.GetKeyDown(KeyCode.I)) // I 키를 눌렀을 때
+        if (Input.GetKeyDown(KeyCode.Q)) // Q 키를 눌렀을 때
         {
             if (!IsInventoryActive) 
             {

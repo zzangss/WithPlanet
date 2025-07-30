@@ -30,7 +30,8 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [SerializeField] private TMP_Text mTextCount; //아이템의 개수 텍스트
     [SerializeField] private Image mBackImage; //아이템의 이름 텍스트 
 
-    private Color mDefaultColor;
+    [SerializeField] private Image mValueImage;
+    [SerializeField] private TMP_Text mVauleCount;
 
 
     void Awake()
@@ -134,15 +135,25 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("마우스 올라옴");
-        mBackImage.color = mDefaultColor * 0.8f; // 어둡게 (0.8배)
+        Debug.Log($"{this.name}에마우스 올라옴");
+
+        if (mItem != null)
+        {
+            ShowItemVaule(mItem);
+        }
     }
 
     // 마우스가 슬롯에서 벗어났을 때
     public void OnPointerExit(PointerEventData eventData)
     {
-        mBackImage.color = mDefaultColor;
+        Debug.Log($"{this.name}에서 빠져나옴");
     }
+
+    private void ShowItemVaule(Item item)
+    {
+
+    }
+
 
     private void ChangeSlot()
     {

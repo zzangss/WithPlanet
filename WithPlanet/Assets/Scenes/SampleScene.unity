@@ -3284,6 +3284,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mInventory: {fileID: 87178549}
+--- !u!114 &1557407802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557407788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 775f087c496dd5940b59a9bf0924193e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mInventory: {fileID: 87178549}
 --- !u!1 &1595888268
 GameObject:
   m_ObjectHideFlags: 0
@@ -6569,6 +6582,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4896748056690600425, guid: ab45593c7f8e4d6468f6391d2a404b2c,
         type: 3}
       insertIndex: 4
+      addedObject: {fileID: 1557407802}
+    - targetCorrespondingSourceObject: {fileID: 4896748056690600425, guid: ab45593c7f8e4d6468f6391d2a404b2c,
+        type: 3}
+      insertIndex: 5
       addedObject: {fileID: 1557407800}
     - targetCorrespondingSourceObject: {fileID: 4896748056690600425, guid: ab45593c7f8e4d6468f6391d2a404b2c,
         type: 3}
@@ -6637,6 +6654,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CakeChocBall
+      objectReference: {fileID: 0}
+    - target: {fileID: 6544354269486059451, guid: 1b0ca0831f1604b47843b93577f11ffd,
+        type: 3}
+      propertyPath: m_TagString
+      value: Cart
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
