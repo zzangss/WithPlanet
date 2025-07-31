@@ -39,6 +39,11 @@ public class InventoryMain : InventoryBase
         return total;
     }
 
+    public bool GetIsInventoryActive()
+    {
+        return IsInventoryActive;
+    }
+
     public InventorySlot[] GetAllItems()
     {
         return mSlots;
@@ -93,16 +98,13 @@ public class InventoryMain : InventoryBase
     public void TryOpenInventory()
     {
 
-        if (Input.GetKeyDown(KeyCode.Q)) // Q 키를 눌렀을 때
+        if (!IsInventoryActive) 
         {
-            if (!IsInventoryActive) 
-            {
-                OpenInventory(); // 인벤토리가 닫혀있으면 열기
-            }
-            else
-            {
-                CloseInventory(); // 인벤토리가 열려있으면 닫기 
-            }
+            OpenInventory(); // 인벤토리가 닫혀있으면 열기
+        }
+        else
+        {
+            CloseInventory(); // 인벤토리가 열려있으면 닫기 
         }
     }
 

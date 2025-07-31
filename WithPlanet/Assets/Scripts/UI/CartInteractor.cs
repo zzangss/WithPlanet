@@ -20,13 +20,21 @@ public class CartInteractor : MonoBehaviour
     {
         if (isOnCart)
         {
-            mInventory.TryOpenInventory();
+            if (Input.GetKeyUp(KeyCode.Q))
+            {
+                mInventory.TryOpenInventory();
+            }
             if (Input.GetKey(KeyCode.Space))
             {
                 this.other.transform.position = this.transform.position;
             }
         }
 
+        // 카트에 있지 않지만 카트 인벤토리가 켜져있는 경우 
+        if (mInventory.GetIsInventoryActive() && !isOnCart)
+        {
+            mInventory.TryOpenInventory();
+        }
         
     }
 

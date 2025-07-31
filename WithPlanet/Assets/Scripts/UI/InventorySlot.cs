@@ -113,7 +113,20 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void OnEndDrag(PointerEventData eventData)
     {
         DragSlot.Instance.SetColor(0);
-        //DragSlot.Instance.CurrentSlot = null;
+
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            Debug.Log("UI 바깥으로 드롭함 → 아이템 버리기 또는 필드에 생성");
+
+            // 예: 아이템을 월드에 생성하기
+            ItemSpawner itemSpawner = FindObjectOfType<ItemSpawner>();
+            itemSpawner.DropItemToWorld(mItem, mItemCount);
+
+            // 드래그 중이던 슬롯 비우기
+            DragSlot.Instance.CurrentSlot.ClearSlot();
+        }
+
+        DragSlot.Instance.CurrentSlot = null;
     }
 
     public void OnDrop(PointerEventData eventData)

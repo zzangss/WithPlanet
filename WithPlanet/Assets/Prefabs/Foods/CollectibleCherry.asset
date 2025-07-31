@@ -21,3 +21,5 @@ MonoBehaviour:
   mName: 
   mItemImage: {fileID: 21300000, guid: 9d0743122f4a68c4f88f8a18e491f4cd, type: 3}
   mItemValue: 60
+  mWorldPrefab: {fileID: 5564300412818467617, guid: baf5ff3a86411294bab6c1977e8b0de7,
+    type: 3}
