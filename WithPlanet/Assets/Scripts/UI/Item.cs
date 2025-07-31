@@ -114,4 +114,15 @@ public class Item : ScriptableObject
             return mItemValue;
         }
     }
+
+    [Header("월드에 표시할 프리팹")]
+    [SerializeField] private GameObject mWorldPrefab;
+
+    public GameObject WorldPrefab
+    {
+        get
+        {
+            return mWorldPrefab;
+        }
+    }
 }

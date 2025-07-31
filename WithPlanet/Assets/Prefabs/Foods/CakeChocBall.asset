@@ -21,3 +21,5 @@ MonoBehaviour:
   mName: ChocoBall
   mItemImage: {fileID: 21300000, guid: 9e1f5e74528314a47a56f47519c8fa01, type: 3}
   mItemValue: 10
+  mWorldPrefab: {fileID: 6544354269486059451, guid: 1b0ca0831f1604b47843b93577f11ffd,
+    type: 3}
