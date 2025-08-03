@@ -338,6 +338,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 50
   maxHealth: 100
+  isInvincible: 0
 --- !u!65 &4581235454418398486
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ public class Attack : MonoBehaviour
 
             Debug.Log("플레이어와 감지!");
 
-            if (playerHealth != null)
+            if (playerHealth != null && !playerHealth.isInvincible)
             {
                 float before = playerHealth.health;
                 playerHealth.health -= damage;
@@ -25,15 +25,22 @@ public class Attack : MonoBehaviour
                     playerHealth.health = 0;
                     Debug.Log("플레이어 사망");
                 }
-            }
 
+                //무적상태
+                StartCoroutine(playerHealth.Invincibility(1.0f)); // 1초 무적
+
+            }
+            //넉백
             if (playerRb != null)
             { 
                 knockback(playerRb,transform.position, knockbackForce); 
             }
 
             
+
+
         }
+
     }
     private void knockback(Rigidbody playerRb, Vector3 attackPosition, float force)
     {

@@ -130,10 +130,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3964030349043525332, guid: ef9b5a55f8aeb4849b878e60dba02243, type: 3}
-      propertyPath: m_Radius
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5314993975983562135, guid: ef9b5a55f8aeb4849b878e60dba02243, type: 3}
       propertyPath: m_LocalPosition.x
       value: 39.6
@@ -567,10 +563,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 4581235454418398486, guid: e73926dc950802246b0cafe0044e3ba7, type: 3}
-      propertyPath: m_Size.x
-      value: 17
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -587,10 +579,6 @@ PrefabInstance:
     - target: {fileID: 720016786752204938, guid: eacb05507cac5974693c450ad7492d8b, type: 3}
       propertyPath: m_Name
       value: Spawner
-      objectReference: {fileID: 0}
-    - target: {fileID: 3681845478680626877, guid: eacb05507cac5974693c450ad7492d8b, type: 3}
-      propertyPath: spawnItems.Array.data[0].count
-      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6428663123116617052, guid: eacb05507cac5974693c450ad7492d8b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -741,10 +729,6 @@ PrefabInstance:
     - target: {fileID: 1736007012093939699, guid: edba1ec96bf1dcf4e9b778c150a5a2d3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8281934942899939531, guid: edba1ec96bf1dcf4e9b778c150a5a2d3, type: 3}
-      propertyPath: knockbackForce
-      value: 130
       objectReference: {fileID: 0}
     - target: {fileID: 8304670197134909055, guid: edba1ec96bf1dcf4e9b778c150a5a2d3, type: 3}
       propertyPath: m_Name
