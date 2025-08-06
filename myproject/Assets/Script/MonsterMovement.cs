@@ -7,7 +7,7 @@ public class MonsterMovement : MonoBehaviour
     public float moveSpeed = 2f; //이동속도
     public float patrolDistance = 5f; //순찰거리
     private Vector3 startPosition;
-    private int direction = 1; //이동방향
+    public int direction = 1; //이동방향
     // Start is called before the first frame update
     void Start()
     {

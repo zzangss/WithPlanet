@@ -39,6 +39,7 @@ public class PlayerMoveController : MonoBehaviour
         {
             rigid.velocity = new Vector3(0, rigid.velocity.y, 0);
         }
+        
     }
 
     void LateUpdate()
@@ -52,4 +53,6 @@ public class PlayerMoveController : MonoBehaviour
         }
 
     }
+
+   
 }

@@ -26,7 +26,14 @@ public class Item : MonoBehaviour
         if (rb == null)
             rb = gameObject.AddComponent<Rigidbody>();
     }
-
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Floor")
+        { 
+            rb.isKinematic = true; // 바닥에 닿으면 Rigidbody를 비활성화
+            GetCollider().enabled = false; // Collider도 비활성화
+        }
+    }
     // 외부에서 Rigidbody에 접근할 수 있게 해주는 메서드
     public Rigidbody GetRigidbody()
     {
