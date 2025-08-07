@@ -1,0 +1,18 @@
+{
+    "name": "StaticSprites.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:c632b0d02496d4fe69f6b69a76a0aea9"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
