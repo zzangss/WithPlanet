@@ -7,6 +7,9 @@ TagManager:
   - Ground
   - Item
   - Cart
+  - HealingZone
+  - Undefined
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -14,10 +17,10 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - ground
+  - wall
+  - player
+  - bullet
   - 
   - 
   - 
