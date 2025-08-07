@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Item : MonoBehaviour
+public class Item_second : MonoBehaviour
 {
     public enum Type {Normal,CoreTreasure};
 

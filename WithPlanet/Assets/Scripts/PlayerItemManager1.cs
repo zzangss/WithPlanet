@@ -13,7 +13,7 @@ public class PlayerItemManager : MonoBehaviour
     public PlayerMoveController playerMoveController; // 플레이어 이동 컨트롤러
 
 
-    public Item currentItem = null; // 현재 플레이어가 들고 있는 아이템  
+    public Item_second currentItem = null; // 현재 플레이어가 들고 있는 아이템  
     public Transform itemHoldPoint; // 아이템을 들고 있을 위치
     public Transform itemHoldingPoint; // 아이템을 들고 있는 위치
     private Animator playerAnimator; // 플레이어 애니메이터
@@ -60,7 +60,7 @@ public class PlayerItemManager : MonoBehaviour
 
         foreach (Collider col in nearbyObjects)
         {
-            Item item = col.GetComponent<Item>();
+            Item_second item = col.GetComponent<Item_second>();
             if (item != null)
             {
                 PickupItem(item);
@@ -70,7 +70,7 @@ public class PlayerItemManager : MonoBehaviour
     }
 
     // 아이템 획득
-    void PickupItem(Item item)
+    void PickupItem(Item_second item)
     {
        
 
@@ -113,16 +113,16 @@ public class PlayerItemManager : MonoBehaviour
 
  
         // 아이템 타입에 따른 처리 효과 다르게하기
-        if (item.itemType == Item.Type.CoreTreasure)
+        if (item.itemType == Item_second.Type.CoreTreasure)
         {
             Debug.Log("코어 아이템 획득: " + item.itemName);
         }
-        else if (item.itemType == Item.Type.Normal)
+        else if (item.itemType == Item_second.Type.Normal)
         {
             Debug.Log("일반 아이템 획득: " + item.itemName);
         }
     }
-    IEnumerator MoveToHoldPosition(Item item)
+    IEnumerator MoveToHoldPosition(Item_second item)
     {
         yield return new WaitForSeconds(0.5f);
 

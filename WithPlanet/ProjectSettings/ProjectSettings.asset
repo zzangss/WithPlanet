@@ -759,11 +759,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: df63b80e-638c-42fa-ba0a-f2f3d4dc2a9b
+  cloudProjectId: 9590772a-70e4-42c3-b9b6-1d61e820bcb6
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: myproject
-  organizationId: yaerimee26
+  projectName: WithPlanet 2025-07-21_22-41-31
+  organizationId: hcw900517
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
