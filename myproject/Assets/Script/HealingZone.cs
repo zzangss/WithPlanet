@@ -22,11 +22,11 @@ public class HealingZone : MonoBehaviour
         if (player != null && healingTimers.ContainsKey(player))
         {
             healingTimers[player] += Time.deltaTime;
+
             if (healingTimers[player] >= 1f)
             {
-                float before = player.health;
-                player.health = Mathf.Min(player.health + healingAmount, player.maxHealth);
-                Debug.Log($"힐링Zone: 체력 {before} → {player.health} (+{healingAmount})");
+                player.Heal(healingAmount); 
+                Debug.Log($"힐링Zone: 체력 회복 +{healingAmount}");
                 healingTimers[player] = 0f;
             }
         }

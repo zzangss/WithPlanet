@@ -8,6 +8,7 @@ TagManager:
   - HealingZone
   - Undefined
   - Wall
+  - bullet
   layers:
   - Default
   - TransparentFX
