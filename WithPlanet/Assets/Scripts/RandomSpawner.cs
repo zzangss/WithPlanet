@@ -49,7 +49,8 @@ public class RandomSpawner : MonoBehaviour
         {
             float x = Random.Range(-spawnAreaSize.x / 2f, spawnAreaSize.x / 2f);
             float z = Random.Range(-spawnAreaSize.z / 2f, spawnAreaSize.z / 2f);
-            float y = transform.position.y;
+            float y = transform.position.y; // y포지션 뭘 가져오는거지?
+
 
             Vector3 candidate = new Vector3(x, y, z) + transform.position;
 

@@ -16,13 +16,13 @@ public class ItemInteractor : MonoBehaviour
 
     private void Update()
     {
-        if (mIsPickupActive) { TryPickItem(); }
+        if (mIsPickupActive) { isPickableItem(); }
     }
 
     /// <summary>
     /// 아이템을 주울 수 있는지 확인한다.
     /// </summary>
-    private void TryPickItem()
+    private void isPickableItem()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {

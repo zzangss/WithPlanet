@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Attack : MonoBehaviour
+public class MonsterAttack : MonoBehaviour
 {
     public float damage = 10f;
     public float knockbackForce = 20f;

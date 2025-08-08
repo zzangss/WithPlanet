@@ -717,7 +717,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 744925815056624999, guid: e73926dc950802246b0cafe0044e3ba7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 48
+      value: 48.4
       objectReference: {fileID: 0}
     - target: {fileID: 744925815056624999, guid: e73926dc950802246b0cafe0044e3ba7, type: 3}
       propertyPath: m_LocalPosition.y
@@ -794,6 +794,18 @@ PrefabInstance:
     - target: {fileID: 7087475805599282417, guid: e73926dc950802246b0cafe0044e3ba7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7928039676036504166, guid: e73926dc950802246b0cafe0044e3ba7, type: 3}
+      propertyPath: runSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7928039676036504166, guid: e73926dc950802246b0cafe0044e3ba7, type: 3}
+      propertyPath: currentSpeed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8142123326536604588, guid: e73926dc950802246b0cafe0044e3ba7, type: 3}
+      propertyPath: pickupRange
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10186,7 +10198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackCooldown: 2
-  bulletPrefab: {fileID: 1460606906026432065, guid: 0ab658af318c7714d903ea4817d344fd, type: 3}
+  bulletPrefab: {fileID: 6418523827480805161, guid: 1526f35cdcdf54246abfdbbefb5baaa2, type: 3}
   bulletSpeed: 10
 --- !u!1001 &9215122104761865374
 PrefabInstance:

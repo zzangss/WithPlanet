@@ -8,7 +8,7 @@ public class PlayerItemManager : MonoBehaviour
     public float moveToHoldDuration = 1f;
     public Vector3 holdingOffset = new Vector3(6f, 2f, 0.5f); //플레이어 기본 왼쪽 오프셋
     public Vector3 holdOffset = new Vector3(0f, 18f, 0.5f); // 플레이어 앞쪽 위 오프셋
-    public float pickupRange = 2f; // 아이템 획득 범위
+    public float pickupRange = 8f; // 아이템 획득 범위
     public float dropForce = 5f; // 버릴 때 힘
     public PlayerMoveController playerMoveController; // 플레이어 이동 컨트롤러
 
@@ -60,12 +60,26 @@ public class PlayerItemManager : MonoBehaviour
 
         foreach (Collider col in nearbyObjects)
         {
-            Item_second item = col.GetComponent<Item_second>();
+
+            if (!col.CompareTag("Item")) continue;
+
+            // 부모나 자식에도 붙어있을 수 있으니 이렇게 검색
+            Item_second item = col.GetComponent<Item_second>() ??
+                               col.GetComponentInParent<Item_second>() ??
+                               col.GetComponentInChildren<Item_second>();
+
             if (item != null)
             {
+                Debug.Log("아이템 줍기");
                 PickupItem(item);
-                break; // 첫번째 아이템만 획득 
+                break;
             }
+
+            if (item == null)
+            {
+                Debug.Log("아이템 없음");
+            }
+
         }
     }
 

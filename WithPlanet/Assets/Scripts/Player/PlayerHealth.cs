@@ -39,7 +39,6 @@ public class PlayerHealth : MonoBehaviour
         rb.velocity = Vector3.zero;
         rb.AddForce(Vector3.up * knockbackUpForce, ForceMode.Impulse);
         rb.AddForce(direction * force, ForceMode.Impulse);
-
        
     }
 

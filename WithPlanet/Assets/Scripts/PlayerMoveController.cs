@@ -6,8 +6,8 @@ public class PlayerMoveController : MonoBehaviour
     private Animator anim;
     private SpriteRenderer spriter;
     private Vector3 moveDirection;
-    public float currentSpeed = 10f;
-    public float runSpeed = 15f; 
+    public float currentSpeed = 15f;
+    public float runSpeed = 20f; 
     public bool isFlipped = false; 
 
     void Start()
