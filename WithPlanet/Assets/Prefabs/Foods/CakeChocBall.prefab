@@ -148,4 +148,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mItem: {fileID: 11400000, guid: e516f5d811dc420489a151c80164242b, type: 2}
-  mIndicatorHeight: 1

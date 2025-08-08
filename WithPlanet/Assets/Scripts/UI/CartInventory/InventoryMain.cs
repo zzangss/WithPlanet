@@ -95,7 +95,7 @@ public class InventoryMain : InventoryBase
 
     }
 
-    public void TryOpenInventory()
+    public void TryOpenCloseInventory()
     {
 
         if (!IsInventoryActive) 

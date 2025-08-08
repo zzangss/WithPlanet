@@ -6,18 +6,9 @@ using TMPro;
 [System.Flags]
 public enum ItemType  // 아이템 유형
 {
-    /// <summary>
-    /// NONE Type은 아이템을 습득하기위해 E키를 누른경우, 인벤토리에 들어오지 않는다.
-    /// 특별한 상호작용이 있는 오브젝트로 취급한다.
-    /// </summary>
-    NONE = 0b0, //0
-
-    //소모, 기타, 재료, 퀘스트아이템 등등
-    SKILL = 0b1, //1
-    Etc = 0b10, //2
-    Consumable = 0b100, //4
-    Ingredient = 0b1000, //8
-    Quest = 0b10000, //16
+    NONE = 0b0,
+    NORMAL = 0b1, //1
+    CORE = 0b10 //2
 }
 
 [CreateAssetMenu(fileName = "Item", menuName =  "Add Item/Item")]
@@ -40,36 +31,6 @@ public class Item : ScriptableObject
         get
         {
             return mCanOverlap;
-        }
-    }
-
-    [Header("사용(상호작용)이 가능한 아이템인가?")]
-    [SerializeField] private bool mIsInteractivity;
-    public bool IsInteractivity
-    {
-        get
-        {
-            return mIsInteractivity;
-        }
-    }
-
-    [Header("아이템을 사용하면 사라지는가?")]
-    [SerializeField] private bool mIsConsumable;
-    public bool IsConsumable
-    {
-        get
-        {
-            return mIsConsumable;
-        }
-    }
-
-    [Header("아이템을 사용시 쿨타임")]
-    [SerializeField] private float mItemCooltime = -1;
-    public float Cooltime
-    {
-        get
-        {
-            return mItemCooltime;
         }
     }
 

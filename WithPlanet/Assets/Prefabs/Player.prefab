@@ -213,8 +213,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7087475805599282417}
   - {fileID: 7875533732518809409}
+  - {fileID: 7087475805599282417}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7928039676036504166
@@ -250,6 +250,7 @@ MonoBehaviour:
   pickupRange: 2
   dropForce: 5
   playerMoveController: {fileID: 0}
+  inventoryMain: {fileID: 0}
   currentItem: {fileID: 0}
   itemHoldPoint: {fileID: 0}
   itemHoldingPoint: {fileID: 0}
@@ -316,6 +317,7 @@ MonoBehaviour:
   health: 50
   maxHealth: 100
   isInvincible: 0
+  knockbackUpForce: 3
 --- !u!65 &4581235454418398486
 BoxCollider:
   m_ObjectHideFlags: 0

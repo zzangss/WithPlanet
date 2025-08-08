@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5057aa2153175654fb2a25d05675ca97, type: 3}
-  m_Name: CakeChocBall
+  m_Name: Heart
   m_EditorClassIdentifier: 
   mItemID: 0
   mCanOverlap: 0
-  mItemType: -1
-  mName: ChocoBall
-  mItemImage: {fileID: 21300000, guid: 9e1f5e74528314a47a56f47519c8fa01, type: 3}
-  mItemValue: 10
-  mWorldPrefab: {fileID: 6544354269486059451, guid: 1b0ca0831f1604b47843b93577f11ffd, type: 3}
+  mItemType: 0
+  mName: 
+  mItemImage: {fileID: 0}
+  mItemValue: 0
+  mWorldPrefab: {fileID: 0}

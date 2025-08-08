@@ -175,47 +175,46 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     private void ChangeSlot()
     {
-        if (DragSlot.Instance.CurrentSlot.Item.Type >= ItemType.Etc)
+        
+        //쉬프트 모드 관계 없이 일어날 수 있는 경우
+        //새로운 슬롯과 이전 슬롯의 아이템ID가 같은경우 개수를 합친다.
+        if (mItem != null && mItem.ItemID == DragSlot.Instance.CurrentSlot.Item.ItemID)
         {
-            //쉬프트 모드 관계 없이 일어날 수 있는 경우
-            //새로운 슬롯과 이전 슬롯의 아이템ID가 같은경우 개수를 합친다.
-            if (mItem != null && mItem.ItemID == DragSlot.Instance.CurrentSlot.Item.ItemID)
-            {
-                int changedSlotCount;
-                if (DragSlot.Instance.IsShiftMode) 
-                { 
-                    changedSlotCount = (int)(DragSlot.Instance.CurrentSlot.mItemCount * 0.5f); 
-                }
-                else 
-                { 
-                    changedSlotCount = DragSlot.Instance.CurrentSlot.mItemCount; 
-                }
-
-                AddItem(changedSlotCount);
-                DragSlot.Instance.CurrentSlot.AddItem(-changedSlotCount);
-                return;
+            int changedSlotCount;
+            if (DragSlot.Instance.IsShiftMode) 
+            { 
+                changedSlotCount = (int)(DragSlot.Instance.CurrentSlot.mItemCount * 0.5f); 
+            }
+            else 
+            { 
+                changedSlotCount = DragSlot.Instance.CurrentSlot.mItemCount; 
             }
 
-            //쉬프트 모드인경우 개수를 반으로 나눈다.
-            if (DragSlot.Instance.IsShiftMode)
-            {
-                //changedSlotCount 개수만큼 더하고 뺄것이다 (+와 -의 차이가 0이어야 아이템이 복사, 유실되지 않는다.)
-                int changedSlotCount = (int)(DragSlot.Instance.CurrentSlot.mItemCount * 0.5f);
-
-                //(int)로의 형변환으로 인해 0이 되는 경우는 (int)(1 * 0.5f)이기에 단순히 새로운 슬롯으로 옮긴다.
-                if (changedSlotCount == 0)
-                {
-                    SetItem(DragSlot.Instance.CurrentSlot.Item, 1);
-                    DragSlot.Instance.CurrentSlot.ClearSlot();
-                    return;
-                }
-
-                //위 모든 경우가 아닌경우 새로운 슬롯에 새로운 아이템을 생성한다.
-                SetItem(DragSlot.Instance.CurrentSlot.Item, changedSlotCount);
-                DragSlot.Instance.CurrentSlot.AddItem(-changedSlotCount);
-                return;
-            }
+            AddItem(changedSlotCount);
+            DragSlot.Instance.CurrentSlot.AddItem(-changedSlotCount);
+            return;
         }
+
+        //쉬프트 모드인경우 개수를 반으로 나눈다.
+        if (DragSlot.Instance.IsShiftMode)
+        {
+            //changedSlotCount 개수만큼 더하고 뺄것이다 (+와 -의 차이가 0이어야 아이템이 복사, 유실되지 않는다.)
+            int changedSlotCount = (int)(DragSlot.Instance.CurrentSlot.mItemCount * 0.5f);
+
+            //(int)로의 형변환으로 인해 0이 되는 경우는 (int)(1 * 0.5f)이기에 단순히 새로운 슬롯으로 옮긴다.
+            if (changedSlotCount == 0)
+            {
+                SetItem(DragSlot.Instance.CurrentSlot.Item, 1);
+                DragSlot.Instance.CurrentSlot.ClearSlot();
+                return;
+            }
+
+            //위 모든 경우가 아닌경우 새로운 슬롯에 새로운 아이템을 생성한다.
+            SetItem(DragSlot.Instance.CurrentSlot.Item, changedSlotCount);
+            DragSlot.Instance.CurrentSlot.AddItem(-changedSlotCount);
+            return;
+        }
+        
 
         //슬롯 서로 교환하기
         Item tempItem = mItem;

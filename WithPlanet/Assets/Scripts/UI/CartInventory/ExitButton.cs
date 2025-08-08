@@ -23,7 +23,7 @@ public class ExitButton : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        mInventory.TryOpenInventory();
+        mInventory.TryOpenCloseInventory();
     }
 
 }

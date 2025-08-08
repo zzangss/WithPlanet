@@ -144,14 +144,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7204635147629579930}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1cf71a18876fbc428ddaadff33277e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 336d6e8f1200f8549843be249b8cf101, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Heart
-  itemIcon: {fileID: 0}
-  value: 100
-  itemType: 0
-  itemDescription: "\uC544\uC774\uD15C \uC124\uBA85"
+  mItem: {fileID: 11400000, guid: c50ab9818a895694899f49845d5b5d25, type: 2}
 --- !u!135 &3964030349043525332
 SphereCollider:
   m_ObjectHideFlags: 0

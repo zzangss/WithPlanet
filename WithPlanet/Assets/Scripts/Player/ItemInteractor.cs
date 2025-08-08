@@ -24,45 +24,42 @@ public class ItemInteractor : MonoBehaviour
     /// </summary>
     private void isPickableItem()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            //주울 수 있는 아이템이라면?
-            if (mCurrentItem.Item.Type > ItemType.NONE)
+            //현재 인벤토리 아이템 가져오기
+            InventorySlot[] allitems = mInventory.GetAllItems();
+
+            int count = 0;
+            for (; count < allitems.Length; ++count)
             {
-                //현재 인벤토리 아이템 가져오기
-                InventorySlot[] allitems = mInventory.GetAllItems();
-
-                int count = 0;
-                for (; count < allitems.Length; ++count)
-                {
-                    //현재 아이템 칸이 null이라면 주울 수 있는 상태
-                    if (allitems[count].Item == null) {
-                        mIsPickupActive = true;
-                        break; 
-                    }
-
-                    //현재 아이템칸이 null이 아니지만, 현재 아이템과 동일하면서 중첩이 가능한 아이템이라면 주울 수 있는 상태
-                    if (allitems[count].Item.ItemID == mCurrentItem.Item.ItemID && allitems[count].Item.CanOverlap)
-                    {
-                        mIsPickupActive = true; 
-                        break; 
-                    }
+                //현재 아이템 칸이 null이라면 주울 수 있는 상태
+                if (allitems[count].Item == null) {
+                    mIsPickupActive = true;
+                    break; 
                 }
 
-                //모든 칸이 null이 아니고, 중첩이 불가능하면 주울 수 없음
-                if (count == allitems.Length)
+                //현재 아이템칸이 null이 아니지만, 현재 아이템과 동일하면서 중첩이 가능한 아이템이라면 주울 수 있는 상태
+                if (allitems[count].Item.ItemID == mCurrentItem.Item.ItemID && allitems[count].Item.CanOverlap)
                 {
-                    mIsPickupActive = false;
-                    return; 
+                    mIsPickupActive = true; 
+                    break; 
                 }
-
-                //아이템 줍는 효과음 재생
-                // SoundManager.Instance.PlaySound2D("GrabItem " + SoundManager.Range(1, 3));
             }
 
-            TryPickUp();
-            ItemInfoDisappear();
+            //모든 칸이 null이 아니고, 중첩이 불가능하면 주울 수 없음
+            if (count == allitems.Length)
+            {
+                mIsPickupActive = false;
+                return; 
+            }
+
+            //아이템 줍는 효과음 재생
+            // SoundManager.Instance.PlaySound2D("GrabItem " + SoundManager.Range(1, 3));
         }
+
+        TryPickUp();
+        ItemInfoDisappear();
+        
     } 
 
     private void OnTriggerEnter(Collider other)
@@ -110,13 +107,8 @@ public class ItemInteractor : MonoBehaviour
     {
         if (mIsPickupActive)
         {
-            // mItemActionCustomFunc.InteractionItem(mCurrentItem.Item, mCurrentItem.gameObject); (이 글에서는 설명 X)
-
-            if (mCurrentItem.Item.Type != ItemType.NONE)
-            {
-                mInventory.AcquireItem(mCurrentItem.Item);
-                Destroy(mCurrentItem.gameObject);
-            }
+            mInventory.AcquireItem(mCurrentItem.Item);
+            Destroy(mCurrentItem.gameObject);
 
             ItemInfoDisappear();
         }
