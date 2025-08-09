@@ -3,50 +3,104 @@ using System.Collections;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public float health = 100f;
+    [Header("Health")]
     public float maxHealth = 100f;
-    public bool isInvincible = false;
+    public float health;
 
-    public float knockbackUpForce = 3f;
+    [Header("Invincibility")]
+    public bool isInvincible = false;
+    public float invincibilityDuration = 1.0f;
+
+    [Header("Knockback")]
+    public float upwardForce = 2f;
+
+    [Header("Visual Feedback")]
+    public Renderer playerRenderer;
+    public Color damageColor = Color.red;
+    public float flashDuration = 0.1f;
+
+    private Color originalColor;
+    private Rigidbody rb;
+
+    void Start()
+    {
+        health = maxHealth;
+        rb = GetComponent<Rigidbody>();
+
+        if (playerRenderer == null)
+            playerRenderer = GetComponentInChildren<Renderer>();
+
+        if (playerRenderer != null)
+            originalColor = playerRenderer.material.color;
+    }
 
     public void TakeDamage(float damage, Vector3 attackerPosition, float knockbackForce)
     {
         if (isInvincible) return;
 
-        float before = health;
         health -= damage;
-        Debug.Log($"피해: 체력 {before} → {health} (-{damage})");
+        Debug.Log($"피해: -{damage}, 남은 체력: {health}");
 
         if (health <= 0)
         {
-            health = 0;
-            Debug.Log("플레이어 사망");
+            Die();
+            return;
         }
 
-        StartCoroutine(Invincibility(1.0f));
-
         ApplyKnockback(attackerPosition, knockbackForce);
+        StartCoroutine(InvincibilityCoroutine());
     }
 
-    private void ApplyKnockback(Vector3 attackerPosition, float force)
+    private void ApplyKnockback(Vector3 attackerPosition, float knockbackForce)
     {
-        Rigidbody rb = GetComponent<Rigidbody>();
         if (rb == null) return;
 
-        Vector3 direction = (transform.position - attackerPosition).normalized;
-        direction.y = 0f;
+        Vector3 knockDirection = (transform.position - attackerPosition).normalized;
+        knockDirection.y = 0.2f;
+        knockDirection.Normalize();
 
-        rb.velocity = Vector3.zero;
-        rb.AddForce(Vector3.up * knockbackUpForce, ForceMode.Impulse);
-        rb.AddForce(direction * force, ForceMode.Impulse);
-       
+        Vector3 knockback = knockDirection * knockbackForce;
+        knockback.y = upwardForce;
+
+        rb.AddForce(knockback, ForceMode.Impulse);
     }
 
-    public IEnumerator Invincibility(float duration)
+    private IEnumerator InvincibilityCoroutine()
     {
         isInvincible = true;
-        yield return new WaitForSeconds(duration);
+        StartCoroutine(FlashEffect());
+        yield return new WaitForSeconds(invincibilityDuration);
         isInvincible = false;
-        
+    }
+
+    private IEnumerator FlashEffect()
+    {
+        if (playerRenderer == null) yield break;
+
+        float elapsed = 0f;
+
+        while (elapsed < invincibilityDuration)
+        {
+            playerRenderer.material.color = damageColor;
+            yield return new WaitForSeconds(flashDuration);
+
+            playerRenderer.material.color = originalColor;
+            yield return new WaitForSeconds(flashDuration);
+
+            elapsed += flashDuration * 2;
+        }
+
+        playerRenderer.material.color = originalColor;
+    }
+
+    private void Die()
+    {
+        Debug.Log("플레이어 사망");
+    }
+
+    public void Heal(float amount)
+    {
+        health = Mathf.Min(health + amount, maxHealth);
+        Debug.Log($"회복: +{amount}, 현재 체력: {health}");
     }
 }

@@ -10,6 +10,7 @@ TagManager:
   - HealingZone
   - Undefined
   - Wall
+  - Monster
   layers:
   - Default
   - TransparentFX
