@@ -11,9 +11,9 @@ public class PlayerMoveController : MonoBehaviour
     public bool isFlipped = false;
 
     //경사면 처리
-    private LayerMask groundMask=~0;
+    private LayerMask groundMask = ~0;
     private float groundCheckRadius = 0.28f;
-    private float groundCheckOffset = 0.2f;              
+    private float groundCheckOffset = 0.2f;
     private float extraGravity = 8f;
     private float maxSlopeAngle = 75f;
 
@@ -33,13 +33,13 @@ public class PlayerMoveController : MonoBehaviour
 
     void Update()
     {
-        if(PauseController.isPaused)
+        if (PauseController.isPaused)
         {
             // 일시정지 상태에서는 이동을 하지 않음
             rigid.velocity = Vector3.zero; // 속도를 0으로 설정하여 이동을 멈춤
             anim.SetFloat("Speed", 0f); // 애니메이션 속도도 0으로 설정
             moveDirection = Vector3.zero; // 이동 방향도 초기화
-             
+
             return;
         }
         // 이동 입력 처리
@@ -52,8 +52,8 @@ public class PlayerMoveController : MonoBehaviour
 
         anim.SetFloat("Speed", new Vector2(h, v).magnitude);
 
-      
-       
+
+
     }
 
     void FixedUpdate()
@@ -67,7 +67,7 @@ public class PlayerMoveController : MonoBehaviour
         rigid.angularVelocity = Vector3.zero; // 회전 속도 초기화
 
         //바닥체크&계산
-        Vector3 origin = transform.position+Vector3.up* groundCheckOffset;
+        Vector3 origin = transform.position + Vector3.up * groundCheckOffset;
         RaycastHit hit;
 
         if (Physics.SphereCast(origin, groundCheckRadius, Vector3.down,
@@ -77,10 +77,10 @@ public class PlayerMoveController : MonoBehaviour
             isGrounded = true;
             groundNormal = hit.normal;
         }
-        else 
-        { 
+        else
+        {
             isGrounded = false;
-            groundNormal = Vector3.up; 
+            groundNormal = Vector3.up;
         }
         //경사면 투영 이동
         Vector3 desiredVelocity = Vector3.ProjectOnPlane(moveDirection, groundNormal);
@@ -97,12 +97,12 @@ public class PlayerMoveController : MonoBehaviour
         velocity.z = desiredVelocity.z;
 
         //중력 작용
-        if(isGrounded)
+        if (isGrounded)
         {
             velocity += Vector3.down * extraGravity * Time.fixedDeltaTime;
-            
+
         }
-            
+
 
         rigid.velocity = velocity;
 
@@ -121,5 +121,5 @@ public class PlayerMoveController : MonoBehaviour
 
     }
 
-   
+
 }
