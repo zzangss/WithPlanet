@@ -19,6 +19,15 @@ public class PlayerMoveController : MonoBehaviour
 
     void Update()
     {
+        if(PauseController.isPaused)
+        {
+            // 일시정지 상태에서는 이동을 하지 않음
+            rigid.velocity = Vector3.zero; // 속도를 0으로 설정하여 이동을 멈춤
+            anim.SetFloat("Speed", 0f); // 애니메이션 속도도 0으로 설정
+            moveDirection = Vector3.zero; // 이동 방향도 초기화
+             
+            return;
+        }
         moveDirection.x = Input.GetAxisRaw("Horizontal");
         moveDirection.z = Input.GetAxisRaw("Vertical");
         moveDirection.Normalize();

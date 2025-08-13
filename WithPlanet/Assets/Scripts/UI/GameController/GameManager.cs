@@ -13,13 +13,13 @@ public class GameManager : MonoBehaviour
 
     public GameObject menuPanel;
     public GameObject GamePanel;
-    public GameObject SettingsPanel;
+    public GameObject PausePanel;
 
     void Start()
     {
         menuPanel.SetActive(true);
         GamePanel.SetActive(false);
-        SettingsPanel.SetActive(false);
+        PausePanel.SetActive(false);
     }
     public void GameStart()
     {
@@ -37,12 +37,14 @@ public class GameManager : MonoBehaviour
             if (GamePanel.activeSelf)
             {
                 GamePanel.SetActive(false);
-                SettingsPanel.SetActive(true);
+                PausePanel.SetActive(true);
+                PauseController.SetPause(true); // 일시정지 상태로 전환
             }
-            else if (SettingsPanel.activeSelf)
+            else if (PausePanel.activeSelf)
             {
-                SettingsPanel.SetActive(false);
+                PausePanel.SetActive(false);
                 GamePanel.SetActive(true);
+                PauseController.SetPause(false); // 일시정지 해제
             }
         }
     }
