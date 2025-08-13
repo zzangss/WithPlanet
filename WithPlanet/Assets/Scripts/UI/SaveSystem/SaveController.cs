@@ -18,13 +18,17 @@ public class SaveController : MonoBehaviour
     // Update is called once per frame
     public void SaveGame()
     {
+       
+
         SaveData saveData = new SaveData()
         {
             playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position
-
         };
         File.WriteAllText(saveLocation, JsonUtility.ToJson(saveData));
+        Debug.Log("게임세이브 완료");
     }
+
+   
 
     public void LoadGame()
     { 

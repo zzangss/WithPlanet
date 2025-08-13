@@ -13,21 +13,37 @@ public class GameManager : MonoBehaviour
 
     public GameObject menuPanel;
     public GameObject GamePanel;
+    public GameObject SettingsPanel;
+
     void Start()
     {
         menuPanel.SetActive(true);
         GamePanel.SetActive(false);
+        SettingsPanel.SetActive(false);
     }
     public void GameStart()
     {
-        Debug.Log("GameStart() ½ÇÇàµÊ");
         player.SetActive(true);
-        
         gameCam.SetActive(true);
 
         menuPanel.SetActive(false);
         GamePanel.SetActive(true);
+    }
 
-        
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (GamePanel.activeSelf)
+            {
+                GamePanel.SetActive(false);
+                SettingsPanel.SetActive(true);
+            }
+            else if (SettingsPanel.activeSelf)
+            {
+                SettingsPanel.SetActive(false);
+                GamePanel.SetActive(true);
+            }
+        }
     }
 }

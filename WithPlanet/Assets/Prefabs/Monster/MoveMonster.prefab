@@ -185,8 +185,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d565ae144cd8774ba3f086b86483a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 20
-  patrolDistance: 20
+  moveSpeed: 35
+  patrolDistance: 40
   direction: 1
 --- !u!1 &2139963160997006536
 GameObject:
