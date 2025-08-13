@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject menuCam;
+    
     public GameObject gameCam;
     public GameObject player;
     public int stage;
@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("GameStart() ½ÇÇàµÊ");
         player.SetActive(true);
-        menuCam.SetActive(false);
+        
         gameCam.SetActive(true);
 
         menuPanel.SetActive(false);
