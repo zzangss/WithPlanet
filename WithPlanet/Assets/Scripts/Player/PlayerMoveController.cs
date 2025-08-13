@@ -6,15 +6,29 @@ public class PlayerMoveController : MonoBehaviour
     private Animator anim;
     private SpriteRenderer spriter;
     private Vector3 moveDirection;
-    public float currentSpeed = 15f;
-    public float runSpeed = 20f; 
-    public bool isFlipped = false; 
+    public float runSpeed = 20f;
+    public float currentSpeed = 10f;
+    public bool isFlipped = false;
+
+    //경사면 처리
+    private LayerMask groundMask=~0;
+    private float groundCheckRadius = 0.28f;
+    private float groundCheckOffset = 0.2f;              
+    private float extraGravity = 8f;
+    private float maxSlopeAngle = 75f;
+
+    private bool isGrounded;
+    private Vector3 groundNormal = Vector3.up;
+
+
 
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         spriter = GetComponent<SpriteRenderer>();
+
+        rigid.constraints = RigidbodyConstraints.FreezeRotation;
     }
 
     void Update()
@@ -28,27 +42,71 @@ public class PlayerMoveController : MonoBehaviour
              
             return;
         }
-        moveDirection.x = Input.GetAxisRaw("Horizontal");
-        moveDirection.z = Input.GetAxisRaw("Vertical");
-        moveDirection.Normalize();
+        // 이동 입력 처리
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
 
         currentSpeed = Input.GetKey(KeyCode.LeftShift) ? runSpeed : 10f;
-        moveDirection *= currentSpeed;
+
+        moveDirection = new Vector3(h, 0, v).normalized * currentSpeed;
+
+        anim.SetFloat("Speed", new Vector2(h, v).magnitude);
+
+      
+       
     }
 
     void FixedUpdate()
     {
+        if (PauseController.isPaused)
+        {
+            rigid.velocity = Vector3.zero;
+            return;
+        }
+
         rigid.angularVelocity = Vector3.zero; // 회전 속도 초기화
 
-        if (moveDirection != Vector3.zero)
+        //바닥체크&계산
+        Vector3 origin = transform.position+Vector3.up* groundCheckOffset;
+        RaycastHit hit;
+
+        if (Physics.SphereCast(origin, groundCheckRadius, Vector3.down,
+                          out hit, groundCheckOffset + 0.45f,
+                          groundMask, QueryTriggerInteraction.Ignore))
         {
-            rigid.velocity = new Vector3(moveDirection.x, rigid.velocity.y, moveDirection.z);
+            isGrounded = true;
+            groundNormal = hit.normal;
         }
-        else
+        else 
+        { 
+            isGrounded = false;
+            groundNormal = Vector3.up; 
+        }
+        //경사면 투영 이동
+        Vector3 desiredVelocity = Vector3.ProjectOnPlane(moveDirection, groundNormal);
+
+        //경사 각도 제한
+        float slopeAngle = Vector3.Angle(groundNormal, Vector3.up);
+        if (slopeAngle > maxSlopeAngle)
         {
-            rigid.velocity = new Vector3(0, rigid.velocity.y, 0);
+            desiredVelocity = Vector3.ProjectOnPlane(desiredVelocity, Vector3.up);
         }
-        
+        //속도 적용
+        Vector3 velocity = rigid.velocity;
+        velocity.x = desiredVelocity.x;
+        velocity.z = desiredVelocity.z;
+
+        //중력 작용
+        if(isGrounded)
+        {
+            velocity += Vector3.down * extraGravity * Time.fixedDeltaTime;
+            
+        }
+            
+
+        rigid.velocity = velocity;
+
+
     }
 
     void LateUpdate()
