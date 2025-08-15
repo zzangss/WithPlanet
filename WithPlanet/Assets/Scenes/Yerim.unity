@@ -564,6 +564,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1041205175032058547, guid: e73926dc950802246b0cafe0044e3ba7, type: 3}
   m_PrefabInstance: {fileID: 2138774162}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1049641995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049641994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 775f087c496dd5940b59a9bf0924193e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mInventory: {fileID: 182545076}
 --- !u!1 &1083496857 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3165073140711079918, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
@@ -1497,7 +1510,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1041205175032058547, guid: e73926dc950802246b0cafe0044e3ba7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1049641995}
   m_SourcePrefab: {fileID: 100100000, guid: e73926dc950802246b0cafe0044e3ba7, type: 3}
 --- !u!1001 &2164086793672115620
 PrefabInstance:
@@ -1509,7 +1525,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 458855786331930990, guid: 273e13025feb9ef488452a36fd4865b9, type: 3}
       propertyPath: m_Name
-      value: Canvas
+      value: UI_Canvas
       objectReference: {fileID: 0}
     - target: {fileID: 1969986196782942045, guid: 273e13025feb9ef488452a36fd4865b9, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
