@@ -14,12 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mItemID: 3
   mCanOverlap: 1
-  mIsInteractivity: 1
-  mIsConsumable: 1
-  mItemCooltime: -1
-  mItemType: 30
+  mItemType: 2
   mName: 
   mItemImage: {fileID: 21300000, guid: 6a1ee443812c58e468e6c253d7e78877, type: 3}
   mItemValue: 5
-  mWorldPrefab: {fileID: 5237384622939617819, guid: a4a32e2789bde7248b27fbac4d373b33,
-    type: 3}
+  mWorldPrefab: {fileID: 5237384622939617819, guid: a4a32e2789bde7248b27fbac4d373b33, type: 3}
