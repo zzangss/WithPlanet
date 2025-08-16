@@ -26,13 +26,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 345510895820209579}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.21973298, y: -0, z: -0, w: 0.97556007}
-  m_LocalPosition: {x: 0.02, y: 25.6, z: -51.1}
+  m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
+  m_LocalPosition: {x: 0.02, y: 26.6, z: -43.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 744925815056624999}
-  m_LocalEulerAnglesHint: {x: 25.387, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 30, y: 0, z: 0}
 --- !u!20 &7672528309328575897
 Camera:
   m_ObjectHideFlags: 0
@@ -194,6 +194,7 @@ GameObject:
   - component: {fileID: 6067963839213535765}
   - component: {fileID: 1111415270077255805}
   - component: {fileID: 991181023815467338}
+  - component: {fileID: 820226813431751785}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -211,7 +212,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 46.90425, y: 27.107569, z: -3.9309027}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7087475805599282417}
@@ -230,8 +231,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73f96e0e241b1ec439f69a6229ec5c87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSpeed: 10
-  runSpeed: 15
+  runSpeed: 20
+  currentSpeed: 15
   isFlipped: 0
 --- !u!114 &8142123326536604588
 MonoBehaviour:
@@ -248,9 +249,11 @@ MonoBehaviour:
   moveToHoldDuration: 1
   holdingOffset: {x: 6, y: 2, z: 0.5}
   holdOffset: {x: 0, y: 16, z: 0.5}
-  pickupRange: 2
+  pickupRange: 8
   dropForce: 5
   playerMoveController: {fileID: 0}
+  inventoryMain: {fileID: 0}
+  hasItem: 0
   currentItem: {fileID: 0}
   itemHoldPoint: {fileID: 0}
   itemHoldingPoint: {fileID: 0}
@@ -383,7 +386,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: -1372424428, guid: f404b3a458657ee4f82ea99ddca5cb00, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -437,3 +440,16 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 12.527778
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &820226813431751785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041205175032058547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 775f087c496dd5940b59a9bf0924193e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mInventory: {fileID: 0}

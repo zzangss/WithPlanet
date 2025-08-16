@@ -13,6 +13,9 @@ public class PlayerItemManager : MonoBehaviour
     public PlayerMoveController playerMoveController; // 플레이어 이동 컨트롤러
     public InventoryMain inventoryMain; // 카트 인벤토리 
 
+   
+    public bool hasItem = false; // 아이템을 들고 있는지 여부
+
     public WorldItem currentItem = null; // 현재 플레이어가 들고 있는 아이템  
     public Transform itemHoldPoint; // 아이템을 들고 있을 위치
     public Transform itemHoldingPoint; // 아이템을 들고 있는 위치
@@ -66,6 +69,14 @@ public class PlayerItemManager : MonoBehaviour
                 }
             }
         }
+    }
+    public Vector3 getItemOffPosition()
+    {
+        if (currentItem != null)
+        {
+            return currentItem.transform.position;
+        }
+        return Vector3.zero;
     }
 
     private void TryPutItem()
@@ -149,7 +160,9 @@ public class PlayerItemManager : MonoBehaviour
             if (item != null)
             {
                 Debug.Log("아이템 줍기");
+
                 PickupItem(item);
+                hasItem = true; // 아이템을 들고 있는 상태로 변경
                 break;
             }
 
@@ -249,6 +262,7 @@ public class PlayerItemManager : MonoBehaviour
         StopAllCoroutines();
 
         currentItem.transform.SetParent(null);
+        hasItem = false; // 아이템을 들고 있지 않은 상태로 변경
 
         // 플레이어가 왼쪽(isFlipped == true)인지, 오른쪽인지 확인
         float directionX = playerMoveController != null && playerMoveController.isFlipped ? 1f : -1f;

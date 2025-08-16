@@ -21,7 +21,7 @@ TagManager:
   - ground
   - wall
   - player
-  - bullet
+  - Item
   - 
   - 
   - 

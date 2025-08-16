@@ -22,6 +22,10 @@ public class Item : ScriptableObject
         {
             return mItemID;
         }
+        set
+        {
+            mItemID = value;
+        }
     }
 
     [Header("아이템의 중첩이 가능한가?")]

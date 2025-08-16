@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5057aa2153175654fb2a25d05675ca97, type: 3}
-  m_Name: Item
+  m_Name: Jellies
   m_EditorClassIdentifier: 
-  mItemID: 0
-  mCanOverlap: 0
-  mIsInteractivity: 0
-  mIsConsumable: 0
-  mItemCooltime: -1
-  mItemType: 0
-  mName: "\uCD08\uCF54\uBCFC"
-  mItemImage: {fileID: 0}
+  mItemID: 3
+  mCanOverlap: 1
+  mItemType: 2
+  mName: 
+  mItemImage: {fileID: 21300000, guid: 6a1ee443812c58e468e6c253d7e78877, type: 3}
+  mItemValue: 5
+  mWorldPrefab: {fileID: 5237384622939617819, guid: a4a32e2789bde7248b27fbac4d373b33, type: 3}
