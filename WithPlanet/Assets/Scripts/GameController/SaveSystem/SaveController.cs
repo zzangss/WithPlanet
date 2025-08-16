@@ -7,30 +7,24 @@ public class SaveController : MonoBehaviour
 {
 
     private string saveLocation;
+    private PlayerItemManager pim;
 
     // Start is called before the first frame update
     void Start()
     {
         saveLocation = Path.Combine(Application.persistentDataPath, "savefile.json");
+        pim = FindObjectOfType<PlayerItemManager>();
         LoadGame();
     }
 
     // Update is called once per frame
     public void SaveGame()
     {
-        var player = GameObject.FindGameObjectWithTag("Player");
-        var pim = player.GetComponent<PlayerItemManager>();
-
-        var data = new SaveData
-        {
-            playerPosition = player.transform.position,
-            heldItemExists = pim.hasItem,
-            heldItemID = (pim.hasItem && pim.currentItem != null) ? pim.currentItem.Item.ItemID : 0
-        };
-
         SaveData saveData = new SaveData()
         {
-            playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position
+            playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position,
+            heldItemID = pim.hasItem ? pim.currentItem.Item.ItemID : -1, // 아이템이 있을 때만 ID  없으면 -1 저장
+
         };
         File.WriteAllText(saveLocation, JsonUtility.ToJson(saveData));
         Debug.Log("게임세이브 완료");
@@ -45,6 +39,7 @@ public class SaveController : MonoBehaviour
             SaveData saveData = JsonUtility.FromJson<SaveData>(File.ReadAllText(saveLocation));
             GameObject.FindGameObjectWithTag("Player").transform.position = saveData.playerPosition;
 
+            pim.setItem(saveData.heldItemID);
         }
         else
         {

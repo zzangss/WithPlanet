@@ -16,6 +16,8 @@ public class PlayerItemManager : MonoBehaviour
    
     public bool hasItem = false; // 아이템을 들고 있는지 여부
 
+    private ItemDictionary itemDictionary; // 아이템 사전 세이브시스템에서 필요
+
     public WorldItem currentItem = null; // 현재 플레이어가 들고 있는 아이템  
     public Transform itemHoldPoint; // 아이템을 들고 있을 위치
     public Transform itemHoldingPoint; // 아이템을 들고 있는 위치
@@ -25,12 +27,15 @@ public class PlayerItemManager : MonoBehaviour
     {
         playerAnimator = GetComponent<Animator>();
         playerMoveController = GetComponent<PlayerMoveController>(); 
+
         //아이템을 get할때의 위치 (기본 왼쪽으로 설정)
         GameObject holdingPos = new GameObject("ItemHoldingPosition");
         holdingPos.transform.SetParent(transform);
         holdingPos.transform.localPosition = holdingOffset; 
         itemHoldingPoint = holdingPos.transform;
 
+        //아이템 dictionary 가져오기
+        itemDictionary = FindObjectOfType<ItemDictionary>();
 
         // 아이템을 들 위치 생성
         GameObject holdPos = new GameObject("ItemHoldPosition");
@@ -70,13 +75,75 @@ public class PlayerItemManager : MonoBehaviour
             }
         }
     }
-    public Vector3 getItemOffPosition()
+
+   //아이템ID 알려주기
+   public int getItemID()
     {
-        if (currentItem != null)
+        if(currentItem!=null && currentItem.Item != null)
         {
-            return currentItem.transform.position;
+            return currentItem.Item.ItemID;
         }
-        return Vector3.zero;
+        
+        Debug.LogWarning("현재 아이템이 없습니다.");
+
+        return -1; // 아이템이 없을 경우 -1 반환
+    }
+
+    public void setItem(int itemID)
+    {
+        itemDictionary= FindObjectOfType<ItemDictionary>();
+
+        if(itemID<0)
+        {
+            ClearcurrentItem();
+            Debug.LogWarning("아이템을 들고있지 않았습니다.");
+            return;
+        }
+
+        //아이템 만들기
+        var prefab = itemDictionary.GetItemPrefab(itemID);
+
+        if (prefab == null)
+        {
+            Debug.LogError($"ID {itemID} 프리팹을 찾을 수 없습니다.");
+            return;
+        }
+        ClearcurrentItem();
+
+        // 1) 인스턴스 생성은 GameObject로 받기
+        var go = Instantiate(prefab, itemHoldPoint);
+        go.transform.localPosition = Vector3.zero;
+        go.transform.localRotation = Quaternion.identity;
+
+        // 2) 컴포넌트 꺼내서 currentItem에 대입
+        currentItem = go.GetComponent<WorldItem>();
+
+        // 물리 비활성화 (Item 스크립트의 Rigidbody 사용)
+        Rigidbody itemRb = currentItem.GetRigidbody();
+        if (itemRb != null)
+        {
+            itemRb.isKinematic = true; // 물리 엔진의 영향을 받지 않도록 설정
+            itemRb.useGravity = false; // 중력도 끄기
+        }
+
+        //플레이어 애니메이션
+        if (playerAnimator != null)
+        {
+            playerAnimator.SetBool("HasItem", true);
+        }
+
+    }
+
+    // 아이템 비우기
+    public void ClearcurrentItem()
+    {
+        if(currentItem != null)
+        {
+            Destroy(currentItem.gameObject);
+            currentItem = null;
+            hasItem = false; // 아이템을 들고 있지 않은 상태로 변경
+        }
+        
     }
 
     private void TryPutItem()
