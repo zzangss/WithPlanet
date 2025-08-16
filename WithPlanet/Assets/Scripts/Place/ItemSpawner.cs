@@ -13,8 +13,15 @@ public class ItemSpawner : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        
+    {   if (mPlayer == null)
+        {
+            mPlayer = GameObject.FindGameObjectWithTag("Player");
+            if (mPlayer == null)
+            {
+                Debug.LogWarning("Player GameObject not found. Please assign it in the inspector.");
+            }
+        }
+
     }
 
     public void DropItemToWorld(Item item, int itemCount)

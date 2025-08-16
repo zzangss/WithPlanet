@@ -100,6 +100,7 @@ public class InventoryMain : InventoryBase
 
         if (!IsInventoryActive) 
         {
+            
             OpenInventory(); // 인벤토리가 닫혀있으면 열기
         }
         else
@@ -110,6 +111,7 @@ public class InventoryMain : InventoryBase
 
     private void OpenInventory()
     {
+        Debug.Log("인벤토리 열기");
         mInventoryBase.SetActive(true); // InventoryBase의 mInventoryBase를 활성화
         IsInventoryActive = true; // 인벤토리 활성화 여부 업데이트
 

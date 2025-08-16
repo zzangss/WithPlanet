@@ -156,7 +156,7 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log($"{this.name}에마우스 올라옴");
+        //Debug.Log($"{this.name}에마우스 올라옴");
 
         if (mItem != null)
         {
@@ -167,7 +167,7 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     // 마우스가 슬롯에서 벗어났을 때
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log($"{this.name}에서 빠져나옴");
+        //Debug.Log($"{this.name}에서 빠져나옴");
 
         mValueImage.gameObject.SetActive(false);
     }
