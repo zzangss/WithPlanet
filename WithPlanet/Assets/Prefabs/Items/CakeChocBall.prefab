@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 2757593843124646069}
   - component: {fileID: 5035887948687904038}
   - component: {fileID: 6416240883588145874}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: CakeChocBall
-  m_TagString: Item
+  m_TagString: Cart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9e1f5e74528314a47a56f47519c8fa01, type: 3}
+  m_Sprite: {fileID: 978484566, guid: 36eea6b5705402c4caae182f6d7e861f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -102,12 +102,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.25, y: 1.11, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 25, y: 17.5, z: 9.94722}
+  m_Center: {x: 0, y: 0, z: 1.1997147}
 --- !u!54 &5035887948687904038
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -147,4 +147,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 336d6e8f1200f8549843be249b8cf101, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mItem: {fileID: 11400000, guid: e516f5d811dc420489a151c80164242b, type: 2}
+  mItem: {fileID: 0}

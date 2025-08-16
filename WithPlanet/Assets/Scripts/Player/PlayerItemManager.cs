@@ -155,14 +155,14 @@ public class PlayerItemManager : MonoBehaviour
         int count = 0;
         for (; count < allitems.Length; ++count)
         {
-            //현재 아이템 칸이 null이라면 주울 수 있는 상태
+            //현재 아이템 칸이 null이라면 카트에 넣을 수 있는 상태
             if (allitems[count].Item == null)
             {
                 isPutable = true;
                 break;
             }
 
-            //현재 아이템칸이 null이 아니지만, 현재 아이템과 동일하면서 중첩이 가능한 아이템이라면 주울 수 있는 상태
+            //현재 아이템칸이 null이 아니지만, 현재 아이템과 동일하면서 중첩이 가능한 아이템이라면 카트에 넣을 수 있는 상태
             if (allitems[count].Item.ItemID == currentItem.Item.ItemID && allitems[count].Item.CanOverlap)
             {
                 isPutable = true;
@@ -170,7 +170,7 @@ public class PlayerItemManager : MonoBehaviour
             }
         }
 
-        //모든 칸이 null이 아니고, 중첩이 불가능하면 주울 수 없음
+        //모든 칸이 null이 아니고, 중첩이 불가능하면 넣을 수 없음
         if (count == allitems.Length)
         {
             isPutable = false;
@@ -183,7 +183,7 @@ public class PlayerItemManager : MonoBehaviour
         {
             inventoryMain.AcquireItem(currentItem.Item);
 
-            //아이템 줍는 효과음 재생
+            //아이템 넣는 효과음 재생
             // SoundManager.Instance.PlaySound2D("GrabItem " + SoundManager.Range(1, 3));
 
             Destroy(currentItem.gameObject);

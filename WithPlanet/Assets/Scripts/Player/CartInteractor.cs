@@ -22,6 +22,7 @@ public class CartInteractor : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
+                Debug.Log("q 누름");
                 mInventory.TryOpenCloseInventory();
             }
             if (Input.GetKey(KeyCode.R))
@@ -40,8 +41,9 @@ public class CartInteractor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Cart"))
+        if(other.CompareTag("Player"))
         {
+            Debug.Log("카트 범위에 들어감");
             isOnCart = true;
             this.other = other;
         }
@@ -49,7 +51,7 @@ public class CartInteractor : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Cart"))
+        if (other.CompareTag("Player"))
         {
             isOnCart = false;
             this.other = null;
