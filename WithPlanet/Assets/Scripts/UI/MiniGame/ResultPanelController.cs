@@ -1,30 +1,28 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace Project.Minigames.ToxicCleanser
 {
     public class ResultPanelController : MonoBehaviour
     {
         [SerializeField] private GameObject panel;
-        [SerializeField] private TMP_Text titleText;
-        [SerializeField] private TMP_Text descText;
+        [SerializeField] private Image mImage;
         [SerializeField] private UnityEvent onExitClicked;
+        [SerializeField] private Sprite successImage;
+        [SerializeField] private Sprite failureImage;
 
-
-
-        public void ShowSuccess(string title = "¼º°ø!", string desc = "º¸¹° ÈùÆ®¸¦ È¹µæÇß½À´Ï´Ù.")
+        public void ShowSuccess(string title = "success!", string desc = "get hint")
         {
             panel.SetActive(true);
-            titleText.text = title;
-            descText.text = desc;
+            mImage.sprite = successImage; 
         }
 
-        public void ShowFail(string title = "½ÇÆÐ...", string desc = "¹Ì·ç³ª°¡ ±¤±â¿¡ ÈÛ½Î¿´½À´Ï´Ù.")
+        public void ShowFail(string title = "fail...", string desc = "miluna mad")
         {
             panel.SetActive(true);
-            titleText.text = title;
-            descText.text = desc;
+            mImage.sprite = failureImage;
         }
 
         public void OnClickExit() => onExitClicked?.Invoke();
