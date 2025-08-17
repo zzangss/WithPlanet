@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5057aa2153175654fb2a25d05675ca97, type: 3}
   m_Name: I_Rain
   m_EditorClassIdentifier: 
-  mItemID: 1
+  mItemID: 100
   mCanOverlap: 0
   mItemType: -1
   mName: "\uC7A5\uD654"
