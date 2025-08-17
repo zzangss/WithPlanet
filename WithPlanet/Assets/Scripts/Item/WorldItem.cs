@@ -7,6 +7,7 @@ public class WorldItem : MonoBehaviour
 {
     [Header("해당 오브젝트에 할당되는 아이템")]
     [SerializeField] private Item mItem;
+   
     public Item Item
     {
         get
@@ -14,6 +15,22 @@ public class WorldItem : MonoBehaviour
             return mItem; 
         }
     }
+
+    [Header("아이템 위치")]
+    [SerializeField] private ItemLocation mItemLocation = ItemLocation.World;
+
+    public ItemLocation itemLocation
+    {
+        get
+        {
+            return mItemLocation;
+        }
+        set
+        {
+            mItemLocation = value;
+        }
+    }
+
     private Rigidbody rb;
     private Collider itemCollider;
     void Awake()
@@ -25,6 +42,8 @@ public class WorldItem : MonoBehaviour
         // Rigidbody가 없으면 추가
         if (rb == null)
             rb = gameObject.AddComponent<Rigidbody>();
+
+        
     }
 
     private void Update()
@@ -51,5 +70,7 @@ public class WorldItem : MonoBehaviour
     {
         return itemCollider;
     }
+
+    
 }
 

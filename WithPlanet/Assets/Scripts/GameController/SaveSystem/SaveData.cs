@@ -9,7 +9,5 @@ public class SaveData
 {
     public Vector3 playerPosition;
     public int heldItemID; // hasItem==true일 때만 유효
-
-    // 월드에 놓인 아이템들
-    public List<WorldItemState> worldItems = new List<WorldItemState>();
+    public List<WorldItemData> worldItems; // 월드에 있는 아이템 목록
 }

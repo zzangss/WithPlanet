@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6428663123116617052}
   - component: {fileID: 3681845478680626877}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SpawnerManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,9 +25,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 720016786752204938}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14, y: 9.076412, z: 10.7}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -76.9, y: -25.1, z: -63.6}
+  m_LocalScale: {x: 100, y: 1, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -46,13 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnItems:
   - itemPrefab: {fileID: 7204635147629579930, guid: ef9b5a55f8aeb4849b878e60dba02243, type: 3}
-    count: 6
+    count: 10
     spawnProbability: 1
-  - itemPrefab: {fileID: 7204635147629579930, guid: ef9b5a55f8aeb4849b878e60dba02243, type: 3}
-    count: 6
-    spawnProbability: 1
-  - itemPrefab: {fileID: 7204635147629579930, guid: ef9b5a55f8aeb4849b878e60dba02243, type: 3}
-    count: 6
-    spawnProbability: 1
-  spawnAreaSize: {x: 180, y: 1, z: 200}
+  spawnAreaSize: {x: 150, y: 1, z: 230}
   minDistance: 2

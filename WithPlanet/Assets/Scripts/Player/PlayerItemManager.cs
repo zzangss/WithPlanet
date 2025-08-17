@@ -14,6 +14,7 @@ public class PlayerItemManager : MonoBehaviour
     public InventoryMain inventoryMain; // 카트 인벤토리 
 
    
+
     public bool hasItem = false; // 아이템을 들고 있는지 여부
 
     private ItemDictionary itemDictionary; // 아이템 사전 세이브시스템에서 필요
@@ -42,6 +43,8 @@ public class PlayerItemManager : MonoBehaviour
         holdPos.transform.SetParent(transform);
         holdPos.transform.localPosition = holdOffset;
         itemHoldPoint = holdPos.transform;
+
+        
     }
 
     void Update()
@@ -51,25 +54,36 @@ public class PlayerItemManager : MonoBehaviour
         {
             if (currentItem == null)
             {
+                Debug.Log("아이템 획득");
+                
                 TryPickupItem();
+               
             }
             else
             {
                 Collider[] nearbyObjects = Physics.OverlapSphere(transform.position, pickupRange);
+                bool isNearCart = false; //카트가 주변에 있는지 확인
 
-                int i;
-                for(i = 0; i<nearbyObjects.Length; i++)
+               
+                for( int i = 0; i<nearbyObjects.Length; i++)
                 {
 
                     if (nearbyObjects[i].CompareTag("Cart"))
                     {
                         Debug.Log("아이템 카트에 넣기");
+                       
                         TryPutItem();
+
+                        isNearCart = true; // 카트가 주변에 있음
+                        break; // 카트가 있으면 더 이상 확인할 필요 없음
                     }
 
                 }
-                if (i >= nearbyObjects.Length)
+                // 카트가 주변에 없으면 아이템을 버리기
+                if (!isNearCart)
                 {
+                    Debug.Log("아이템 버리기");
+                   
                     DropItem();
                 }
             }
@@ -89,6 +103,7 @@ public class PlayerItemManager : MonoBehaviour
         return -1; // 아이템이 없을 경우 -1 반환
     }
 
+    // 세이브시 아이템 설정
     public void setItem(int itemID)
     {
         itemDictionary= FindObjectOfType<ItemDictionary>();
@@ -96,7 +111,7 @@ public class PlayerItemManager : MonoBehaviour
         if(itemID<0)
         {
             ClearcurrentItem();
-            Debug.LogWarning("아이템을 들고있지 않았습니다.");
+            Debug.Log("아이템을 들고있지 않았습니다.");
             return;
         }
 
@@ -125,6 +140,9 @@ public class PlayerItemManager : MonoBehaviour
             itemRb.isKinematic = true; // 물리 엔진의 영향을 받지 않도록 설정
             itemRb.useGravity = false; // 중력도 끄기
         }
+
+        Debug.Log("아이템 획득");
+        currentItem.itemLocation = ItemLocation.PlayerHand; // 아이템 위치를 플레이어 손으로 설정
 
         //플레이어 애니메이션
         if (playerAnimator != null)
@@ -230,6 +248,7 @@ public class PlayerItemManager : MonoBehaviour
 
                 PickupItem(item);
                 hasItem = true; // 아이템을 들고 있는 상태로 변경
+                item.itemLocation = ItemLocation.PlayerHand; // 아이템 위치를 플레이어 손으로 설정
                 break;
             }
 
@@ -330,6 +349,7 @@ public class PlayerItemManager : MonoBehaviour
 
         currentItem.transform.SetParent(null);
         hasItem = false; // 아이템을 들고 있지 않은 상태로 변경
+        currentItem.itemLocation = ItemLocation.World; // 아이템 위치를 월드로 설정
 
         // 플레이어가 왼쪽(isFlipped == true)인지, 오른쪽인지 확인
         float directionX = playerMoveController != null && playerMoveController.isFlipped ? 1f : -1f;

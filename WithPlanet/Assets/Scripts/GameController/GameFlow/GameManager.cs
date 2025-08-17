@@ -14,38 +14,62 @@ public class GameManager : MonoBehaviour
     public GameObject menuPanel;
     public GameObject GamePanel;
     public GameObject PausePanel;
+    public GameObject savePanel;
 
     void Start()
     {
         menuPanel.SetActive(true);
         GamePanel.SetActive(false);
         PausePanel.SetActive(false);
+        savePanel.SetActive(false);
     }
     public void GameStart()
     {
         player.SetActive(true);
         gameCam.SetActive(true);
-
+        savePanel.SetActive(false);
         menuPanel.SetActive(false);
         GamePanel.SetActive(true);
+    }
+
+    //세이브파일 열기
+    public void SaveFileOpen()
+    {
+        menuPanel.SetActive(false);
+        savePanel.SetActive(true);
+    }
+
+    //세이브파일 닫기
+    public void SaveFileClose()
+    {
+        savePanel.SetActive(false);
+        menuPanel.SetActive(true);
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            //게임중일 때
             if (GamePanel.activeSelf)
             {
                 GamePanel.SetActive(false);
                 PausePanel.SetActive(true);
                 PauseController.SetPause(true); // 일시정지 상태로 전환
             }
+            //게임중 멈춤일 때
             else if (PausePanel.activeSelf)
             {
                 PausePanel.SetActive(false);
                 GamePanel.SetActive(true);
                 PauseController.SetPause(false); // 일시정지 해제
             }
+            //메뉴일 때 세이브 -> 메뉴
+            else if( !menuPanel.activeSelf && savePanel.activeSelf)
+            {
+                SaveFileClose();
+            }
+            
         }
     }
 }
