@@ -12,7 +12,7 @@ namespace Project.Minigames.ToxicCleanser
 
         public IEnumerator StartCountdown(int n)
         {
-            countdownOverlay.SetActive(false);
+            countdownOverlay.SetActive(true);
             yield return StartCoroutine(CountdownRoutine(n));
         }
 

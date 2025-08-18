@@ -43,7 +43,7 @@ namespace Project.Minigames.ToxicCleanser
             rect.GetWorldCorners(meWorld);
 
             // 완전히 위로 사라진 경우(하단 y가 뷰포트 상단 y보다 높음)
-            if (meWorld[2].y > vpWorld[2].y + 50f)
+            if (meWorld[2].y > vpWorld[2].y)
             {
                 OnMissed?.Invoke(this);
                 initialized = false; // 중복 호출 방지

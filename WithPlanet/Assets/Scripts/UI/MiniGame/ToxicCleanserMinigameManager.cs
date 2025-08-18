@@ -24,21 +24,36 @@ namespace Project.Minigames.ToxicCleanser
         [Header("UI")]
         [SerializeField] private CountdownController countdownOverlay; // 3-2-1 + Blur
         [SerializeField] private TMP_Text timerText;
+        [SerializeField] private RectTransform timeLine;
         [SerializeField] private HeartsView heartsView;
         [SerializeField] private ResultPanelController resultPanel;
         [SerializeField] private Button exitButton; // 언제든 종료(X)
         [SerializeField] private CanvasGroup fadeOverlay;
 
+        [SerializeField] private Canvas uiCanvas;          // UI Canvas
+
         private int hearts;
         private float timeLeft;
-        private int removedToxic;
-        private int spawnedToxic = 0;
+        public int removedToxic;
+        public int spawnedToxic = 0;
+        private float timelineFullWidth;
 
         private readonly List<CommentItem> liveItems = new();
 
         private void Start()
         {
             exitButton.onClick.AddListener(ExitToMain);
+
+            if (timeLine != null)
+            {
+                timeLine.anchorMin = new Vector2(0f, 0.5f);
+                timeLine.anchorMax = new Vector2(0f, 0.5f);
+                timeLine.pivot = new Vector2(0f, 0.5f);
+                timelineFullWidth = timeLine.rect.width;           // 시작 폭 저장
+                                                                   // 혹시 레이아웃에 의해 0이 될 수 있으니 안전하게 한 번 초기화
+                if (timelineFullWidth <= 0f) timelineFullWidth = timeLine.sizeDelta.x;
+            }
+
             StartCoroutine(RunGameLoop());
         }
 
@@ -75,11 +90,27 @@ namespace Project.Minigames.ToxicCleanser
             {
                 timeLeft -= Time.deltaTime;
                 timerText.text = FormatTime(Mathf.Max(0f, timeLeft));
+
+                // 비율(1 → 0)
+                float ratio = Mathf.Clamp01(timeLeft / config.totalDurationSec);
+
+                // 목표 폭
+                float targetWidth = timelineFullWidth * ratio;
+
+                // 부드럽게 보간(Lerp). 직선감 원하면 MoveTowards로 바꿔도 됨.
+                Vector2 sz = timeLine.sizeDelta;
+                sz.x = Mathf.Lerp(sz.x, targetWidth, Time.deltaTime * 10f);
+                timeLine.sizeDelta = sz;
+
                 yield return null;
             }
 
             // 6. 종료 판정
             bool success = (timeLeft <= 0f) && (removedToxic >= spawnedToxic) && (hearts > 0);
+            if (success)
+            {
+                Debug.Log("End");
+            }
             EndGame(success);
         }
 
@@ -165,13 +196,73 @@ namespace Project.Minigames.ToxicCleanser
         /// </summary>
         private void HandleMissed(CommentItem item)
         {
-            if (item.isToxic)
+            if (item == null) return;
+
+            // 화면 안인데 Miss 콜백이 오면 오탐이므로 무시
+            if (IsVisibleInViewport(item, padding: 0f))
             {
-                LoseHeart();
+                //Debug.Log(
+               //     $"[MISS-IGNORED] still visible. name='{item.name}', toxic={item.isToxic}, " +
+               //     $"worldPos={item.transform.position}, t={Time.time:F2}s");
+                return;
             }
-            pool.Release(item);
+            else if (item.isToxic)
+            {
+                Debug.Log(
+                    $"[MISS] name='{item.name}', toxic=True, worldPos={item.transform.position}, " +
+                    $"t={Time.time:F2}s, hearts(before)={hearts}");
+                LoseHeart(); // 기존 메서드 사용
+            }
+
+            else
+            {
+                Debug.Log(
+                    $"[MISS-NO-PENALTY] name='{item.name}', toxic=False, worldPos={item.transform.position}, t={Time.time:F2}s");
+            }
+
+            // 정리: 구독 해제 → 목록 제거 → 풀 반환 (순서 주의)
+            try { item.OnMissed -= HandleMissed; } catch { }
             liveItems.Remove(item);
+            pool.Release(item);
         }
+
+        private bool IsVisibleInViewport(CommentItem item, float padding = 12f)
+        {
+            if (item == null || viewport == null) return true; // 판단 불가 시 보수적으로 '보임'
+            var rt = item.GetComponent<RectTransform>();
+            if (rt == null) return true;
+
+            Camera cam = null;
+
+            Rect itemRect = GetScreenRect(rt, cam);
+            Rect viewRect = GetScreenRect(viewport, cam);
+
+            // 살짝 여유 패딩(+/-)을 줘서 경계선에서의 오탐 방지
+            viewRect.xMin -= padding; viewRect.yMin -= padding;
+            viewRect.xMax += padding; viewRect.yMax += padding;
+
+            return itemRect.Overlaps(viewRect, true);
+        }
+
+        private static Rect GetScreenRect(RectTransform rt, Camera cam)
+        {
+            Vector3[] w = new Vector3[4];
+            rt.GetWorldCorners(w);
+            // 월드 → 스크린
+            Vector2 s0 = RectTransformUtility.WorldToScreenPoint(cam, w[0]);
+            Vector2 s1 = RectTransformUtility.WorldToScreenPoint(cam, w[1]);
+            Vector2 s2 = RectTransformUtility.WorldToScreenPoint(cam, w[2]);
+            Vector2 s3 = RectTransformUtility.WorldToScreenPoint(cam, w[3]);
+
+            float xmin = Mathf.Min(Mathf.Min(s0.x, s1.x), Mathf.Min(s2.x, s3.x));
+            float xmax = Mathf.Max(Mathf.Max(s0.x, s1.x), Mathf.Max(s2.x, s3.x));
+            float ymin = Mathf.Min(Mathf.Min(s0.y, s1.y), Mathf.Min(s2.y, s3.y));
+            float ymax = Mathf.Max(Mathf.Max(s0.y, s1.y), Mathf.Max(s2.y, s3.y));
+
+            return Rect.MinMaxRect(xmin, ymin, xmax, ymax);
+        }
+
+
 
         private void LoseHeart()
         {
@@ -181,6 +272,7 @@ namespace Project.Minigames.ToxicCleanser
             {
                 // 즉시 종료
                 StopAllCoroutines();
+                Debug.Log("하트 전부 잃음");
                 EndGame(false);
             }
         }

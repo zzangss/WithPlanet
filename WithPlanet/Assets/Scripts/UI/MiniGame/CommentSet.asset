@@ -13,21 +13,13 @@ MonoBehaviour:
   m_Name: CommentSet
   m_EditorClassIdentifier: 
   comments:
-  - text: fuck you
+  - text: bad
     isToxic: 1
-  - text: 'you are so good
-
-      sfsfee
-
-      s
-
-      fssf
-
-      sfesfsfesfesf'
+  - text: good
     isToxic: 0
-  - text: hi!
+  - text: good
     isToxic: 0
-  - text: fucck you
+  - text: bad
     isToxic: 1
   toxicSpawnRatio: 0.3
   scrollSpeed: 250
