@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameManagerUI : MonoBehaviour
+public class UIManager : MonoBehaviour
 {
     
     public GameObject gameCam;

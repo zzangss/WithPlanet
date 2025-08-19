@@ -9,6 +9,8 @@ public class SaveController : MonoBehaviour
     private string saveLocation;
     private PlayerItemManager pim;
     private ItemSpawner itemSpawner;
+    private InventoryMain inventoryMain;
+    private ItemDictionary itemdic;
 
     // Start is called before the first frame update
     void Start()
@@ -16,7 +18,8 @@ public class SaveController : MonoBehaviour
         saveLocation = Path.Combine(Application.persistentDataPath, "savefile.json");
         pim = FindObjectOfType<PlayerItemManager>();
         itemSpawner = FindObjectOfType<ItemSpawner>();
-        
+        inventoryMain = FindObjectOfType<InventoryMain>();
+        itemdic = FindObjectOfType<ItemDictionary>();
     }
 
     // Update is called once per frame
@@ -46,7 +49,33 @@ public class SaveController : MonoBehaviour
                 saveData.worldItems.Add(itemData);
             }
         }
-        
+
+        //카트 위치 저장
+        saveData.cartPosition = GameObject.FindGameObjectWithTag("Cart").transform.position;
+
+        //카트 아이템 저장
+        saveData.cartItems = new List<CartItemData>();
+
+        if (inventoryMain != null)
+        {
+            InventorySlot[] allSlots = inventoryMain.GetAllItems();
+            for (int i = 0; i < allSlots.Length; i++)
+            {
+                if (allSlots[i].Item != null)
+                {
+                    CartItemData itemData = new CartItemData
+                    {
+                        itemID = allSlots[i].Item.ItemID,
+                        itemCount = allSlots[i].mItemCount,
+                        slotIndex = i // 현재 슬롯의 인덱스를 저장
+                    };
+                    saveData.cartItems.Add(itemData);
+                }
+            }
+        }
+
+
+
         File.WriteAllText(saveLocation, JsonUtility.ToJson(saveData));
         Debug.Log("게임세이브 완료");
     }
@@ -75,6 +104,28 @@ public class SaveController : MonoBehaviour
                 {
                     itemSpawner.spawnItemToWorld(itemData.itemID, itemData.position);
                 }
+            }
+            // 카트 위치 불러오기
+            GameObject.FindGameObjectWithTag("Cart").transform.position = saveData.cartPosition;
+
+            // 카트 아이템 불러오기
+            if (saveData.cartItems != null && saveData.cartItems.Count > 0 && inventoryMain != null)
+            {
+                inventoryMain.ClearAllSlots();
+
+                foreach (var itemData in saveData.cartItems)
+                {
+                    GameObject itemPrefab =itemdic.GetItemPrefab(itemData.itemID);
+                    Item item = itemPrefab.GetComponent<WorldItem>().Item;
+
+                  
+                    if (item !=null)
+                    {
+                        inventoryMain.SetItemSlot(itemData.slotIndex, item, itemData.itemCount);
+                    }
+                    
+                }
+
             }
         }
         else
