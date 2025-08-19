@@ -23,8 +23,7 @@ namespace Project.Minigames.ToxicCleanser
 
         [Header("UI")]
         [SerializeField] private CountdownController countdownOverlay; // 3-2-1 + Blur
-        [SerializeField] private TMP_Text timerText;
-        [SerializeField] private RectTransform timeLine;
+        [SerializeField] private TimelineView timeline;
         [SerializeField] private HeartsView heartsView;
         [SerializeField] private ResultPanelController resultPanel;
         [SerializeField] private Button exitButton; // 언제든 종료(X)
@@ -36,23 +35,12 @@ namespace Project.Minigames.ToxicCleanser
         private float timeLeft;
         public int removedToxic;
         public int spawnedToxic = 0;
-        private float timelineFullWidth;
 
         private readonly List<CommentItem> liveItems = new();
 
         private void Start()
         {
             exitButton.onClick.AddListener(ExitToMain);
-
-            if (timeLine != null)
-            {
-                timeLine.anchorMin = new Vector2(0f, 0.5f);
-                timeLine.anchorMax = new Vector2(0f, 0.5f);
-                timeLine.pivot = new Vector2(0f, 0.5f);
-                timelineFullWidth = timeLine.rect.width;           // 시작 폭 저장
-                                                                   // 혹시 레이아웃에 의해 0이 될 수 있으니 안전하게 한 번 초기화
-                if (timelineFullWidth <= 0f) timelineFullWidth = timeLine.sizeDelta.x;
-            }
 
             StartCoroutine(RunGameLoop());
         }
@@ -65,11 +53,10 @@ namespace Project.Minigames.ToxicCleanser
             spawnedToxic = 0;
             removedToxic = 0;
             heartsView.SetHearts(hearts, config.hearts);
-            timerText.text = FormatTime(timeLeft);
             stream.SetSpeed(0f); // 카운트다운 동안 스크롤 정지
 
             // 스크롤 위치를 맨 위로 고정(초기 미스 방지)
-            scrollRect.verticalNormalizedPosition = 1f;
+            //scrollRect.verticalNormalizedPosition = 1f;
 
             // 유저 입력으로 스크롤 못 하게 잠금(자동 스크롤만 허용)
             scrollRect.vertical = false;
@@ -86,27 +73,19 @@ namespace Project.Minigames.ToxicCleanser
             stream.SetSpeed(config.scrollSpeed);
 
             // 5. 타이머 감소
-            while (timeLeft > 0f && hearts > 0)
+            while (timeLeft >= 0f && hearts > 0)
             {
+                // 남은 시간 줄이기 
                 timeLeft -= Time.deltaTime;
-                timerText.text = FormatTime(Mathf.Max(0f, timeLeft));
-
-                // 비율(1 → 0)
-                float ratio = Mathf.Clamp01(timeLeft / config.totalDurationSec);
-
-                // 목표 폭
-                float targetWidth = timelineFullWidth * ratio;
-
-                // 부드럽게 보간(Lerp). 직선감 원하면 MoveTowards로 바꿔도 됨.
-                Vector2 sz = timeLine.sizeDelta;
-                sz.x = Mathf.Lerp(sz.x, targetWidth, Time.deltaTime * 10f);
-                timeLine.sizeDelta = sz;
+                
+                // 남은시간 타임라인에 반영하기 
+                timeline.decreaseTime(timeLeft, config.totalDurationSec);
 
                 yield return null;
             }
 
             // 6. 종료 판정
-            bool success = (timeLeft <= 0f) && (removedToxic >= spawnedToxic) && (hearts > 0);
+            bool success = (timeLeft <= 0f) && (hearts > 0);
             if (success)
             {
                 Debug.Log("End");
@@ -123,7 +102,7 @@ namespace Project.Minigames.ToxicCleanser
                 return;
 
             // 1. 댓글 프리팹 높이 측정
-            float itemHeight = 140f; // 기본값
+            float itemHeight = 100f; // 기본값
             if (pool.PeekPrefab() != null)
             {
                 RectTransform rt = pool.PeekPrefab().GetComponent<RectTransform>();
@@ -277,6 +256,10 @@ namespace Project.Minigames.ToxicCleanser
             }
         }
 
+
+        /// <summary>
+        /// 게임 종료 로직 
+        /// </summary>
         private void EndGame(bool success)
         {
             // 스트림 정지
@@ -299,11 +282,6 @@ namespace Project.Minigames.ToxicCleanser
             }
         }
 
-        private string FormatTime(float t)
-        {
-            int sec = Mathf.CeilToInt(t);
-            return $"{sec:D2}s";
-        }
 
         // 언제든 종료(X)
         public void ExitToMain()

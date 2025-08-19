@@ -23,5 +23,5 @@ MonoBehaviour:
     isToxic: 1
   toxicSpawnRatio: 0.3
   scrollSpeed: 250
-  totalDurationSec: 50
+  totalDurationSec: 10
   hearts: 4
