@@ -14,12 +14,9 @@ public class RandomSpawner : MonoBehaviour
 
     private List<Vector3> spawnedPositions = new List<Vector3>();
 
-    void Start()
-    {
-        SpawnItems();
-    }
+    
 
-    void SpawnItems()
+    public void SpawnItems()
     {
         foreach (var item in spawnItems)
         {

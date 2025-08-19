@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
+public class GameManagerUI : MonoBehaviour
 {
     
     public GameObject gameCam;
@@ -16,20 +16,30 @@ public class GameManager : MonoBehaviour
     public GameObject PausePanel;
     public GameObject savePanel;
 
+
     void Start()
     {
-        menuPanel.SetActive(true);
-        GamePanel.SetActive(false);
-        PausePanel.SetActive(false);
-        savePanel.SetActive(false);
-    }
+        MenuOpen();
+     }
+
     public void GameStart()
     {
+        PauseController.SetPause(false); // 일시정지 해제
+
         player.SetActive(true);
         gameCam.SetActive(true);
         savePanel.SetActive(false);
         menuPanel.SetActive(false);
         GamePanel.SetActive(true);
+    }
+    //메뉴열기
+    public void MenuOpen()
+    {
+        PauseController.SetPause(true); // 일시정지 상태로 전환
+        menuPanel.SetActive(true);
+        GamePanel.SetActive(false);
+        PausePanel.SetActive(false);
+        savePanel.SetActive(false);
     }
 
     //세이브파일 열기

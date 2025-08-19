@@ -16,7 +16,7 @@ public class SaveController : MonoBehaviour
         saveLocation = Path.Combine(Application.persistentDataPath, "savefile.json");
         pim = FindObjectOfType<PlayerItemManager>();
         itemSpawner = FindObjectOfType<ItemSpawner>();
-        LoadGame();
+        
     }
 
     // Update is called once per frame
