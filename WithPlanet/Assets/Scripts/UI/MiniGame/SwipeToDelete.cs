@@ -64,6 +64,13 @@ namespace Project.Minigames.ToxicCleanser
             }
         }
 
+        public void ForceSpringBack()
+        {
+            StopAllCoroutines();
+            StartCoroutine(SpringBack());
+        }
+
+
         private System.Collections.IEnumerator SpringBack()
         {
             Vector2 p0 = rect.anchoredPosition;

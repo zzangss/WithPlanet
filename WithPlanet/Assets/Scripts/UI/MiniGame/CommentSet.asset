@@ -12,16 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b788e43ef9bea724a926a52bf584ee78, type: 3}
   m_Name: CommentSet
   m_EditorClassIdentifier: 
-  comments:
-  - text: bad
-    isToxic: 1
-  - text: good
+  untoxicComments:
+  - text: good1
+    profile: {fileID: 0}
     isToxic: 0
-  - text: good
+  - text: good2
+    profile: {fileID: 0}
     isToxic: 0
+  - text: good3
+    profile: {fileID: 0}
+    isToxic: 0
+  - text: good4
+    profile: {fileID: 0}
+    isToxic: 0
+  toxicComments:
   - text: bad
+    profile: {fileID: 0}
     isToxic: 1
   toxicSpawnRatio: 0.3
-  scrollSpeed: 250
-  totalDurationSec: 10
+  scrollSpeed: 150
+  totalDurationSec: 30
   hearts: 4

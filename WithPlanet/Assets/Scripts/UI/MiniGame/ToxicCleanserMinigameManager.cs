@@ -55,9 +55,6 @@ namespace Project.Minigames.ToxicCleanser
             heartsView.SetHearts(hearts, config.hearts);
             stream.SetSpeed(0f); // 카운트다운 동안 스크롤 정지
 
-            // 스크롤 위치를 맨 위로 고정(초기 미스 방지)
-            //scrollRect.verticalNormalizedPosition = 1f;
-
             // 유저 입력으로 스크롤 못 하게 잠금(자동 스크롤만 허용)
             scrollRect.vertical = false;
             scrollRect.horizontal = false;
@@ -98,8 +95,6 @@ namespace Project.Minigames.ToxicCleanser
         /// </summary>
         private void SpawnAllForDuration()
         {
-            if (config.comments == null || config.comments.Count == 0)
-                return;
 
             // 1. 댓글 프리팹 높이 측정
             float itemHeight = 100f; // 기본값
@@ -127,15 +122,25 @@ namespace Project.Minigames.ToxicCleanser
             // 6. 댓글 생성
             for (int i = 0; i < neededCount; i++)
             {
-                int idx = UnityEngine.Random.Range(0, config.comments.Count);
-                CommentData c = config.comments[idx];
+                CommentData c;
+                int ratio = UnityEngine.Random.Range(0, 10);
+                if(ratio < config.toxicSpawnRatio * 10)
+                {
+                    int idx = UnityEngine.Random.Range(0, config.toxicComments.Count);
+                    c = config.toxicComments[idx];
+                }
+                else
+                {
+                    int idx = UnityEngine.Random.Range(0, config.untoxicComments.Count);
+                    c = config.untoxicComments[idx];
+                }
 
-                var item = pool.Get();
-                var rt = (RectTransform)item.transform;
+                CommentItem item = pool.Get();
+                RectTransform rt = (RectTransform)item.transform;
                 rt.SetParent(content, false);
 
                 item.Init(c.text, c.isToxic, viewport);
-                var swipe = item.GetComponent<SwipeToDelete>();
+                SwipeToDelete swipe = item.GetComponent<SwipeToDelete>();
                 swipe.OnSwipeDelete = HandleSwipeDelete;
                 item.OnMissed = HandleMissed;
 
@@ -160,12 +165,16 @@ namespace Project.Minigames.ToxicCleanser
             if (!item.isToxic)
             {
                 LoseHeart();
-                item.FadeOut(0.05f, () => { pool.Release(item); liveItems.Remove(item); });
+
+                item.setText("removed comment");
+                item.ResetPosition();
                 return;
             }
 
             removedToxic++;
-            item.FadeOut(0.05f, () => { pool.Release(item); liveItems.Remove(item); });
+            item.isToxic = false;
+            item.setText("removed comment");
+            item.ResetPosition();
         }
 
         /// <summary>
@@ -178,14 +187,7 @@ namespace Project.Minigames.ToxicCleanser
             if (item == null) return;
 
             // 화면 안인데 Miss 콜백이 오면 오탐이므로 무시
-            if (IsVisibleInViewport(item, padding: 0f))
-            {
-                //Debug.Log(
-               //     $"[MISS-IGNORED] still visible. name='{item.name}', toxic={item.isToxic}, " +
-               //     $"worldPos={item.transform.position}, t={Time.time:F2}s");
-                return;
-            }
-            else if (item.isToxic)
+            if (item.isToxic)
             {
                 Debug.Log(
                     $"[MISS] name='{item.name}', toxic=True, worldPos={item.transform.position}, " +
@@ -201,46 +203,7 @@ namespace Project.Minigames.ToxicCleanser
 
             // 정리: 구독 해제 → 목록 제거 → 풀 반환 (순서 주의)
             try { item.OnMissed -= HandleMissed; } catch { }
-            liveItems.Remove(item);
-            pool.Release(item);
         }
-
-        private bool IsVisibleInViewport(CommentItem item, float padding = 12f)
-        {
-            if (item == null || viewport == null) return true; // 판단 불가 시 보수적으로 '보임'
-            var rt = item.GetComponent<RectTransform>();
-            if (rt == null) return true;
-
-            Camera cam = null;
-
-            Rect itemRect = GetScreenRect(rt, cam);
-            Rect viewRect = GetScreenRect(viewport, cam);
-
-            // 살짝 여유 패딩(+/-)을 줘서 경계선에서의 오탐 방지
-            viewRect.xMin -= padding; viewRect.yMin -= padding;
-            viewRect.xMax += padding; viewRect.yMax += padding;
-
-            return itemRect.Overlaps(viewRect, true);
-        }
-
-        private static Rect GetScreenRect(RectTransform rt, Camera cam)
-        {
-            Vector3[] w = new Vector3[4];
-            rt.GetWorldCorners(w);
-            // 월드 → 스크린
-            Vector2 s0 = RectTransformUtility.WorldToScreenPoint(cam, w[0]);
-            Vector2 s1 = RectTransformUtility.WorldToScreenPoint(cam, w[1]);
-            Vector2 s2 = RectTransformUtility.WorldToScreenPoint(cam, w[2]);
-            Vector2 s3 = RectTransformUtility.WorldToScreenPoint(cam, w[3]);
-
-            float xmin = Mathf.Min(Mathf.Min(s0.x, s1.x), Mathf.Min(s2.x, s3.x));
-            float xmax = Mathf.Max(Mathf.Max(s0.x, s1.x), Mathf.Max(s2.x, s3.x));
-            float ymin = Mathf.Min(Mathf.Min(s0.y, s1.y), Mathf.Min(s2.y, s3.y));
-            float ymax = Mathf.Max(Mathf.Max(s0.y, s1.y), Mathf.Max(s2.y, s3.y));
-
-            return Rect.MinMaxRect(xmin, ymin, xmax, ymax);
-        }
-
 
 
         private void LoseHeart()

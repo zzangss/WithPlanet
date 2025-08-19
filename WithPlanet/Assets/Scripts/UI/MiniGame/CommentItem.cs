@@ -1,13 +1,15 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Project.Minigames.ToxicCleanser
 {
     public class CommentItem : MonoBehaviour
     {
         [Header("UI")]
-        [SerializeField] private TMP_Text body;
+        [SerializeField] private TMP_Text body; 
+        [SerializeField] private Image bg;
         [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private RectTransform rect;
 
@@ -43,7 +45,7 @@ namespace Project.Minigames.ToxicCleanser
             rect.GetWorldCorners(meWorld);
 
             // 완전히 위로 사라진 경우(하단 y가 뷰포트 상단 y보다 높음)
-            if (meWorld[2].y > vpWorld[2].y)
+            if (meWorld[0].y > vpWorld[2].y)
             {
                 OnMissed?.Invoke(this);
                 initialized = false; // 중복 호출 방지
@@ -69,6 +71,27 @@ namespace Project.Minigames.ToxicCleanser
             }
             onComplete?.Invoke();
         }
+
+        public void MarkMissedVisual()
+        {
+            bg.color = Color.red;
+        }
+
+        public void setText(string text)
+        {
+            body.text = text;
+        }
+
+        // CommentItem.cs (또는 별도 스크립트에)
+        public void ResetPosition()
+        {
+            var swipe = GetComponent<SwipeToDelete>();
+            if (swipe != null)
+            {
+                swipe.ForceSpringBack();
+            }
+        }
+
 
     }
 }
