@@ -127,4 +127,29 @@ public class InventoryMain : InventoryBase
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
+
+    //인벤토리 세이브 시스템 함수 - 슬롯에 아이템을 설정하는 함수
+    public void SetItemSlot(int slotIndex, Item item, int count)
+    {
+        if (slotIndex < 0 || slotIndex >= mSlots.Length)
+        {
+            Debug.LogError("Invalid slot index: " + slotIndex);
+            return;
+        }
+        if (item == null)
+        {
+            Debug.LogError("Item is null for slot index: " + slotIndex);
+            return;
+        }
+        mSlots[slotIndex].SetItem(item, count);
+    }
+
+    public void ClearAllSlots()
+    {
+        foreach (var slot in mSlots)
+        {
+            slot.ClearSlot();
+        }
+    }
+
 }
