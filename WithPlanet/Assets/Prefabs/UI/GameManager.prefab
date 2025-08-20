@@ -1,5 +1,49 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &150820416679586026
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6496274807240654143}
+  - component: {fileID: 314211147450118726}
+  m_Layer: 0
+  m_Name: SaveManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6496274807240654143
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 150820416679586026}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7473454046979046493}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &314211147450118726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 150820416679586026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2ad9c379b2e4e94e85d3b2e22513fae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2821176831654080159
 GameObject:
   m_ObjectHideFlags: 0
@@ -44,14 +88,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 521b1814dc5079e45a1c4ea98528a6e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameCam: {fileID: 0}
-  player: {fileID: 0}
-  stage: 0
-  playTime: 0
   menuPanel: {fileID: 0}
-  GamePanel: {fileID: 0}
-  PausePanel: {fileID: 0}
+  gamePanel: {fileID: 0}
+  pausePanel: {fileID: 0}
   savePanel: {fileID: 0}
+  gameManagerSystem: {fileID: 6521129917702168381}
 --- !u!1 &3165073140711079918
 GameObject:
   m_ObjectHideFlags: 0
@@ -61,7 +102,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7473454046979046493}
-  - component: {fileID: 2269313084339399181}
   - component: {fileID: 1723916155784240977}
   - component: {fileID: 6521129917702168381}
   m_Layer: 0
@@ -87,20 +127,9 @@ Transform:
   - {fileID: 5880128422957318613}
   - {fileID: 3729114568863700227}
   - {fileID: 5944965465975863408}
+  - {fileID: 6496274807240654143}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2269313084339399181
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3165073140711079918}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2ad9c379b2e4e94e85d3b2e22513fae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1723916155784240977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,10 +156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stage: 0
   playTime: 0
-  randomSpawner: {fileID: 0}
-  saveController: {fileID: 0}
-  itemDictionary: {fileID: 0}
-  playerItemManager: {fileID: 0}
+  saveController: {fileID: 314211147450118726}
 --- !u!1 &7365684172544923535
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,6 +215,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ItemSpawner
       objectReference: {fileID: 0}
+    - target: {fileID: 3580024293617328025, guid: 34bec5725b2d5804f91cc72cb6a1f4d6, type: 3}
+      propertyPath: itemDictionary
+      value: 
+      objectReference: {fileID: 6613000676763848780}
     - target: {fileID: 8565942319680580539, guid: 34bec5725b2d5804f91cc72cb6a1f4d6, type: 3}
       propertyPath: m_LocalPosition.x
       value: -215.4568

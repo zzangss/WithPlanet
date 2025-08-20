@@ -11,6 +11,7 @@ public class SaveController : MonoBehaviour
     private ItemSpawner itemSpawner;
     private InventoryMain inventoryMain;
     private ItemDictionary itemdic;
+    private RandomSpawner randomSpawner;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +21,7 @@ public class SaveController : MonoBehaviour
         itemSpawner = FindObjectOfType<ItemSpawner>();
         inventoryMain = FindObjectOfType<InventoryMain>();
         itemdic = FindObjectOfType<ItemDictionary>();
+        randomSpawner = FindObjectOfType<RandomSpawner>();
     }
 
     // Update is called once per frame
@@ -149,5 +151,33 @@ public class SaveController : MonoBehaviour
         {
             Debug.Log("삭제할 세이브 파일이 없습니다.");
         }
+    }
+
+    // 저장 파일의 존재 여부를 반환하는 함수
+    public bool HasSaveFile()
+    {
+        return File.Exists(saveLocation);
+    }
+
+    // 월드 초기화
+    public void initializeWorld()
+    {
+       
+        // 플레이어 아이템 초기화
+        pim.setItem(-1); // -1로 설정하여 아이템 없음 상태로 초기화
+
+        // 월드 아이템 초기화
+        itemSpawner.clearWorld();
+        
+        // 카트 아이템 초기화
+        if (inventoryMain != null)
+        {
+            inventoryMain.ClearAllSlots();
+        }
+
+        //월드 아이템 새로 생성
+        randomSpawner.SpawnItems();
+
+        Debug.Log("게임이 초기화되었습니다.");
     }
 }

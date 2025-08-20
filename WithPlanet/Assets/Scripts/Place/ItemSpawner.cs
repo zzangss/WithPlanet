@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class ItemSpawner : MonoBehaviour
 {
+
     [SerializeField] private GameObject mPlayer;
+
     [SerializeField] private ItemDictionary itemDictionary;
+
 
     // Start is called before the first frame update
     void Start()
@@ -14,8 +17,10 @@ public class ItemSpawner : MonoBehaviour
         {
             mPlayer = GameObject.FindGameObjectWithTag("Player");
             itemDictionary = FindObjectOfType<ItemDictionary>();
+
             if (itemDictionary == null)
             {
+                
                 Debug.LogWarning("ItemDictionary not found in the scene. Please ensure it is present.");
             }
             if (mPlayer == null)
@@ -24,7 +29,7 @@ public class ItemSpawner : MonoBehaviour
             }
         }
 
-        itemDictionary = FindObjectOfType<ItemDictionary>();
+        
     }
 
     // Update is called once per frame
@@ -32,6 +37,8 @@ public class ItemSpawner : MonoBehaviour
     {  
 
     }
+
+
 
     public void DropItemToWorld(Item item, int itemCount)
     {
@@ -99,7 +106,7 @@ public class ItemSpawner : MonoBehaviour
         WorldItem[] worlditems = FindObjectsOfType<WorldItem>();
         if (worlditems.Length == 0)
         {
-            Debug.LogWarning("월드 아이템이 없습니다.");
+            Debug.LogWarning("월드 아이템이 없습니다. 아이템을 제거하지 않습니다");
             return;
         }
       
