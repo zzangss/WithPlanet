@@ -31,6 +31,11 @@ public class SaveController : MonoBehaviour
         //플레이어 위치 저장
         saveData.playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
 
+        //플레이어 체력 저장
+        PlayerHealth playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
+
+
+        //아이템 처리
         //플레이어 아이템 저장
         saveData.heldItemID = pim.hasItem ? pim.currentItem.Item.ItemID : -1; //아이템 있을떄만 아이템 ID 저장, 없으면 -1
 
@@ -94,6 +99,11 @@ public class SaveController : MonoBehaviour
             //플레이어 위치 불러오기
             GameObject.FindGameObjectWithTag("Player").transform.position = saveData.playerPosition;
 
+            //플레이어 체력 불러오기
+            PlayerHealth playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
+
+
+            //아이템 처리
             //플레이어 아이템 불러오기
             pim.setItem(saveData.heldItemID);
 
