@@ -15,6 +15,10 @@ public class CameraController : MonoBehaviour
     [Tooltip("대상으로부터 카메라가 떨어져 있을 상대적인 위치입니다.")]
     public Vector3 offset = new Vector3(10f, 12f, -10f);
 
+    [Tooltip("마우스 클릭 시 카메라가 회전할 각도입니다.")]
+    public float rotationAngle = 45.0f; // 한 번에 회전할 각도를 설정하는 변수
+
+
     void Start()
     {
         // 인스펙터에서 타겟이 설정되지 않았다면 "Player" 태그를 가진 오브젝트를 찾습니다.
@@ -38,6 +42,16 @@ public class CameraController : MonoBehaviour
     {
         // 추적할 대상이 없으면 아무것도 하지 않습니다.
         if (target == null) return;
+
+        // 마우스 오른쪽 버튼을 '클릭하는 순간'에만 실행됩니다.
+        if (Input.GetMouseButtonDown(1)) // 1은 마우스 오른쪽 버튼입니다.
+        {
+            // Y축(수직축)을 중심으로 설정된 rotationAngle만큼 회전값을 계산합니다.
+            Quaternion rotation = Quaternion.Euler(0, rotationAngle, 0);
+
+            // 계산된 회전값을 현재 offset에 적용하여, offset 자체를 회전시킵니다.
+            offset = rotation * offset;
+        }
 
         // 1. 카메라가 있어야 할 목표 위치를 계산합니다.
         Vector3 desiredPosition = target.position + offset;
