@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5342566561473073245}
   - component: {fileID: 8752178389148365484}
   - component: {fileID: 6204936734866462451}
-  - component: {fileID: 3873857647261045690}
+  - component: {fileID: 9094453656664612653}
   m_Layer: 9
   m_Name: I_RainBoots
   m_TagString: Item
@@ -172,7 +172,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mItem: {fileID: 11400000, guid: c8ea9c7beb483d24aa87b67758fc6efa, type: 2}
   mItemLocation: 0
---- !u!114 &3873857647261045690
+--- !u!114 &9094453656664612653
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -184,3 +184,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a506fc84387b9e74394a6c8aacefe9e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetCamera: {fileID: 0}

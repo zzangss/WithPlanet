@@ -1,65 +1,111 @@
 using UnityEngine;
 
-/// <summary>
-/// 2.5D 게임에서 대상을 부드럽게 따라가는 카메라입니다.
-/// 카메라는 에디터에서 설정된 고정된 회전값을 유지합니다.
-/// </summary>
+// 이 스크립트는 2.5D 게임에서 플레이어를 부드럽게 따라가는 카메라를 만듭니다.
+// 마우스 클릭으로 카메라를 회전시키고, 플레이어의 위치에 따라 부드럽게 따라갑니다.
 public class CameraController : MonoBehaviour
 {
-    [Tooltip("카메라가 따라갈 대상(플레이어의 루트 오브젝트)입니다.")]
+    [Header("Target Settings")]
+    [Tooltip("추적할 대상(플레이어)입니다.")]
     public Transform target;
 
-    [Tooltip("카메라가 대상을 따라가는 부드러움의 정도입니다. 높을수록 빠르게 반응합니다.")]
-    public float smoothSpeed = 5f;
+    [Header("Movement Settings")]
+    [Tooltip("카메라가 얼마나 부드럽게 따라갈지 설정합니다. 값이 낮을수록 더 부드럽습니다.")]
+    public float smoothSpeed = 0.125f;
 
-    [Tooltip("대상으로부터 카메라가 떨어져 있을 상대적인 위치입니다.")]
-    public Vector3 offset = new Vector3(10f, 12f, -10f);
+    [Header("Camera Offset Controls")]
+    [Tooltip("카메라의 좌우(X) 위치를 조절합니다.")]
+    [Range(-30f, 30f)]
+    public float offsetX = 0f;
 
-    [Tooltip("마우스 클릭 시 카메라가 회전할 각도입니다.")]
-    public float rotationAngle = 45.0f; // 한 번에 회전할 각도를 설정하는 변수
+    [Tooltip("카메라의 높이(Y)를 조절합니다.")]
+    [Range(0f, 30f)]
+    public float offsetY = 10f;
 
+    [Tooltip("카메라의 앞뒤(Z) 위치를 조절합니다.")]
+    [Range(-30f, 0f)]
+    public float offsetZ = -10f;
+
+    [Header("Rotation Settings")]
+    [Tooltip("마우스 클릭 시 카메라가 한 번에 회전할 각도입니다.")]
+    public float rotationAngle = 45.0f;
+
+    // 카메라의 오프셋(offset)입니다. 플레이어와의 상대적인 위치를 결정합니다.
+    private Vector3 offset;
+
+    // 플레이어 이동 방향 계산을 위해 카메라의 수평 방향을 저장합니다.
+    public Vector3 PlanarForward { get; private set; }
 
     void Start()
     {
-        // 인스펙터에서 타겟이 설정되지 않았다면 "Player" 태그를 가진 오브젝트를 찾습니다.
+        // 타겟이 설정되지 않았다면 "Player" 태그로 찾습니다.
         if (target == null)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             if (player != null)
             {
                 target = player.transform;
-                Debug.Log("'Player' 태그를 가진 대상을 찾아 타겟으로 설정했습니다.");
-            }
-            else
-            {
-                Debug.LogError("카메라가 추적할 대상을 찾을 수 없습니다. 'Player' 태그를 확인하거나 Target을 직접 할당해주세요.");
             }
         }
+
+        // 초기 오프셋 값을 설정합니다.
+        offset = new Vector3(offsetX, offsetY, offsetZ);
     }
 
-    // 모든 Update 로직이 끝난 후 호출되어 떨림(Jitter) 현상을 방지합니다.
+    // LateUpdate는 모든 Update()가 호출된 후 실행되어 떨림 현상을 방지합니다.
     void LateUpdate()
     {
-        // 추적할 대상이 없으면 아무것도 하지 않습니다.
-        if (target == null) return;
-
-        // 마우스 오른쪽 버튼을 '클릭하는 순간'에만 실행됩니다.
-        if (Input.GetMouseButtonDown(1)) // 1은 마우스 오른쪽 버튼입니다.
+        if (target == null)
         {
-            // Y축(수직축)을 중심으로 설정된 rotationAngle만큼 회전값을 계산합니다.
-            Quaternion rotation = Quaternion.Euler(0, rotationAngle, 0);
-
-            // 계산된 회전값을 현재 offset에 적용하여, offset 자체를 회전시킵니다.
-            offset = rotation * offset;
+            Debug.LogWarning("Camera target is not set!");
+            return;
         }
 
-        // 1. 카메라가 있어야 할 목표 위치를 계산합니다.
+        // ===== 카메라 회전 처리 (수정된 부분) =====
+        HandleRotation();
+
+        // 1. 목표 위치 계산: 플레이어 위치 + 회전이 적용된 오프셋
         Vector3 desiredPosition = target.position + offset;
 
-        // 2. 현재 위치에서 목표 위치로 부드럽게 이동합니다. (프레임 속도와 무관하게)
-        Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
-
-        // 3. 계산된 위치로 카메라의 위치를 업데이트합니다.
+        // 2. 부드러운 이동: 현재 위치에서 목표 위치로 부드럽게 보간
+        Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
         transform.position = smoothedPosition;
+
+        // 3. 항상 타겟 바라보기
+        transform.LookAt(target);
+
+        // 4. 플레이어 이동을 위한 수평 방향 벡터 계산
+        // 카메라의 전방 벡터에서 y값을 0으로 만들어 수평 방향만 남깁니다.
+        Vector3 planarForward = transform.forward;
+        planarForward.y = 0f;
+        PlanarForward = planarForward.normalized;
+    }
+
+    /// <summary>
+    /// 마우스 입력에 따라 카메라의 오프셋을 회전시킵니다.
+    /// </summary>
+    void HandleRotation()
+    {
+        float angleToRotate = 0f;
+
+        // 마우스 오른쪽 버튼 클릭 시: 시계 방향 회전
+        if (Input.GetMouseButtonDown(1)) // 1 = 오른쪽 버튼
+        {
+            angleToRotate = rotationAngle;
+        }
+        // 마우스 왼쪽 버튼 클릭 시: 반시계 방향 회전
+        else if (Input.GetMouseButtonDown(0)) // 0 = 왼쪽 버튼
+        {
+            angleToRotate = -rotationAngle;
+        }
+
+        // 회전이 필요한 경우에만 계산을 수행합니다.
+        if (angleToRotate != 0f)
+        {
+            // Y축을 기준으로 회전(Quaternion)을 생성합니다.
+            Quaternion rotation = Quaternion.Euler(0, angleToRotate, 0);
+
+            // 현재 오프셋에 회전을 적용하여 새로운 오프셋을 계산합니다.
+            offset = rotation * offset;
+        }
     }
 }

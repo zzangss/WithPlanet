@@ -115,8 +115,8 @@ public class PlayerMoveController : MonoBehaviour
 
         if (moveDirection.x != 0)
         {
-            spriter.flipX = moveDirection.x > 0;
-            isFlipped = moveDirection.x > 0;
+            spriter.flipX = moveDirection.x < 0;
+            isFlipped = moveDirection.x < 0;
         }
 
     }
