@@ -12,6 +12,7 @@ public class GameManagerSystem : MonoBehaviour
 
     // 관리할 시스템 스크립트 참조 
     [SerializeField] private SaveController saveController;
+    
 
 
     private void Awake()
@@ -28,9 +29,19 @@ public class GameManagerSystem : MonoBehaviour
         }
     }
 
+  
+
     private void Start()
     {
         saveController = FindObjectOfType<SaveController>();
+        
+    }
+
+    void Update()
+    {
+        // 게임 상태 업데이트 (예: 플레이 시간 증가)
+        playTime += Time.deltaTime;
+        //  stage를 1씩 증가시키는 로직 (나중에 추가)
 
     }
 

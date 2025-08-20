@@ -218,6 +218,8 @@ public class PlayerItemManager : MonoBehaviour
                 playerAnimator.SetBool("HasItem", false);
             }
 
+            hasItem = false; // 아이템을 들고 있지 않은 상태로 변경
+
 
             currentItem = null;
 

@@ -9,6 +9,7 @@ public class UI_GameManager : MonoBehaviour
     public GameObject gamePanel;
     public GameObject pausePanel;
     public GameObject savePanel;
+    public GameObject inventoryPanel;
 
     [SerializeField] private GameManagerSystem gameManagerSystem;
     
@@ -46,14 +47,7 @@ public class UI_GameManager : MonoBehaviour
         PauseController.SetPause(true); // 메뉴가 열리면 게임 일시정지
     }
 
-    public void OpenPausePanel()
-    {
-        menuPanel.SetActive(false);
-        gamePanel.SetActive(false);
-        pausePanel.SetActive(true);
-        savePanel.SetActive(false);
-        PauseController.SetPause(true); // 일시정지 패널이 열리면 게임 일시정지
-    }
+
 
     public void OpenSavePanel()
     {
@@ -63,6 +57,17 @@ public class UI_GameManager : MonoBehaviour
         savePanel.SetActive(true);
     }
 
+    public void OpenPausePanel()
+    {
+        menuPanel.SetActive(false);
+        gamePanel.SetActive(false);
+        pausePanel.SetActive(true);
+        savePanel.SetActive(false);
+        PauseController.SetPause(true); // 일시정지 패널이 열리면 게임 일시정지
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
     public void StartGamePanel()
     {
         menuPanel.SetActive(false);
@@ -70,8 +75,22 @@ public class UI_GameManager : MonoBehaviour
         pausePanel.SetActive(false);
         savePanel.SetActive(false);
         PauseController.SetPause(false); // 게임 패널이 열리면 일시정지 해제
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
+    public void OpenInventoryPanel()
+    {
+        inventoryPanel.SetActive(!inventoryPanel.activeSelf); // 인벤토리 패널 토글
+        if (inventoryPanel.activeSelf)
+        {
+            inventoryPanel.SetActive(false);
+        }
+        else
+        {
+            inventoryPanel.SetActive(true);
+        }
+    }
     //UI 버튼 연결 
 
     //게임시작
@@ -130,5 +149,7 @@ public class UI_GameManager : MonoBehaviour
                 OpenMenuPanel();
             }
         }
+
+       
     }
 }
