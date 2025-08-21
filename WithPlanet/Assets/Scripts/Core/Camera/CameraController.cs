@@ -35,6 +35,8 @@ public class CameraController : MonoBehaviour
     // 플레이어 이동 방향 계산을 위해 카메라의 수평 방향을 저장합니다.
     public Vector3 PlanarForward { get; private set; }
 
+    //게임 멈춤 확인
+   
     void Start()
     {
         // 타겟이 설정되지 않았다면 "Player" 태그로 찾습니다.
@@ -49,11 +51,20 @@ public class CameraController : MonoBehaviour
 
         // 초기 오프셋 값을 설정합니다.
         offset = new Vector3(offsetX, offsetY, offsetZ);
+
+       
+       
     }
 
     // LateUpdate는 모든 Update()가 호출된 후 실행되어 떨림 현상을 방지합니다.
     void LateUpdate()
     {
+        // 게임이 일시정지 상태인 경우 카메라 업데이트를 건너뜁니다.
+        if (PauseController.isPaused)
+        {
+            return;
+        }
+
         if (target == null)
         {
             Debug.LogWarning("Camera target is not set!");

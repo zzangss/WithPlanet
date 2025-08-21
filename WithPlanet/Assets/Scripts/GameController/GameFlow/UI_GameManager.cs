@@ -93,6 +93,13 @@ public class UI_GameManager : MonoBehaviour
     }
     //UI 버튼 연결 
 
+    //새게임시작
+    public void StartNewGame()
+    {
+        gameManagerSystem.StartNewGame(); // 새 게임 시작
+        StartGamePanel();
+    }
+
     //게임시작
     public void StartGame()
     {

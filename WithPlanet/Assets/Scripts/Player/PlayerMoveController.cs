@@ -20,6 +20,9 @@ public class PlayerMoveController : MonoBehaviour
     private bool isGrounded;
     private Vector3 groundNormal = Vector3.up;
 
+    //회전처리
+    public CameraController gameCamera;
+    float h;//회전 입력 받기
 
 
     void Start()
@@ -29,8 +32,13 @@ public class PlayerMoveController : MonoBehaviour
         spriter = GetComponent<SpriteRenderer>();
 
         rigid.constraints = RigidbodyConstraints.FreezeRotation;
-    }
 
+        //카메라 찾기
+        if (gameCamera == null)
+        {
+            gameCamera = Camera.main.GetComponent<CameraController>();
+        }
+    }
     void Update()
     {
         if (PauseController.isPaused)
@@ -43,15 +51,22 @@ public class PlayerMoveController : MonoBehaviour
             return;
         }
         // 이동 입력 처리
-        float h = Input.GetAxisRaw("Horizontal");
+        h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 
         currentSpeed = Input.GetKey(KeyCode.LeftShift) ? runSpeed : 10f;
 
-        moveDirection = new Vector3(h, 0, v).normalized * currentSpeed;
+        //이동 방향을 카메라 각에 맞춰 계산
+        if (gameCamera != null)
+        {
+            Vector3 camForward = gameCamera.PlanarForward;
+            Vector3 camRight = new Vector3(camForward.z, 0, -camForward.x);
+            Vector3 relativeDirection = (camForward * v) + (camRight * h);
+
+            moveDirection = relativeDirection.normalized * currentSpeed;
+        }
 
         anim.SetFloat("Speed", new Vector2(h, v).magnitude);
-
 
 
     }
@@ -113,13 +128,16 @@ public class PlayerMoveController : MonoBehaviour
     {
         anim.SetFloat("Speed", moveDirection.magnitude);
 
-        if (moveDirection.x != 0)
+        //플레이어의 이동 방향에 따라 스프라이트를 뒤집기
+        if (h != 0)
         {
-            spriter.flipX = moveDirection.x < 0;
-            isFlipped = moveDirection.x < 0;
+            spriter.flipX = h < 0;
+            isFlipped = h < 0;
         }
+
 
     }
 
 
 }
+
