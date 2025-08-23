@@ -116,9 +116,9 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         if (!EventSystem.current.IsPointerOverGameObject())
         {
-            Debug.Log("UI 바깥으로 드롭함 → 아이템 버리기 또는 필드에 생성");
+            Debug.Log("UI 바깥으로 드롭함 → 필드에 생성");
 
-            // 예: 아이템을 월드에 생성하기
+            // 아이템을 월드에 생성하기
             ItemSpawner itemSpawner = FindObjectOfType<ItemSpawner>();
             itemSpawner.DropItemToWorld(mItem, mItemCount);
 

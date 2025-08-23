@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 
 
 public class PlayerAction : MonoBehaviour
@@ -7,7 +8,7 @@ public class PlayerAction : MonoBehaviour
     //매니저 연결 
     public PlayerMoveController playerMoveController; // 플레이어 이동 컨트롤러
     public InventoryMain inventoryMain; // 카트 인벤토리 
-    public GameManager gameManager;
+    public DialogueManager dialogueManager;
 
     //NPC 대화 UI 관리
     private GameObject scanObject = null;
@@ -58,6 +59,17 @@ public class PlayerAction : MonoBehaviour
         // 스페이스바로 아이템 획득/버리기
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            if (isNearNPC && scanObject != null)
+            {
+                Debug.Log($"NPC set: {scanObject.name}");
+                ObjData scanObjData = scanObject.GetComponent<ObjData>();
+                dialogueManager.Action(scanObjData.type);
+            }
+            else if (dialogueManager.CurrentStage == State.Opening)
+            {
+                dialogueManager.Action(Type.Boss);
+            }
+
             if (currentItem == null)
             {
                 TryPickupItem();
@@ -77,11 +89,6 @@ public class PlayerAction : MonoBehaviour
                 }
             }
 
-            if (isNearNPC && scanObject != null)
-            {
-                Debug.Log($"NPC set: {scanObject.name}");
-                gameManager.Action(scanObject);
-            }
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {

@@ -10,7 +10,7 @@ public class Billboard : MonoBehaviour
         // 카메라가 할당되지 않았다면 경고를 표시하고 기본 카메라를 찾습니다.
         if (targetCamera == null)
         {
-            Debug.LogWarning("Billboard 스크립트에 Target Camera가 할당되지 않았습니다. Camera.main을 사용합니다.", this.gameObject);
+            //Debug.LogWarning("Billboard 스크립트에 Target Camera가 할당되지 않았습니다. Camera.main을 사용합니다.", this.gameObject);
             targetCamera = Camera.main;
         }
     }

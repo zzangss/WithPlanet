@@ -21,7 +21,7 @@ public class InventoryMain : InventoryBase
     // Update is called once per frame
     void Update()
     {
-        mTotalValue.text = CalTotalItemValue().ToString();
+        mTotalValue.text = CalTotalItemValue().ToString() + "$";
     }
 
     private int CalTotalItemValue()

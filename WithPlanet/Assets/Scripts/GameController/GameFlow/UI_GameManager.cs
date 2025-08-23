@@ -10,6 +10,7 @@ public class UI_GameManager : MonoBehaviour
     public GameObject pausePanel;
     public GameObject savePanel;
     public GameObject inventoryPanel;
+    public DialogueManager dialogueManager;
 
     [SerializeField] private GameManagerSystem gameManagerSystem;
     
@@ -97,6 +98,8 @@ public class UI_GameManager : MonoBehaviour
     public void StartNewGame()
     {
         gameManagerSystem.StartNewGame(); // 새 게임 시작
+        dialogueManager.StartTutorial();
+        PauseController.SetPause(true);
         StartGamePanel();
     }
 

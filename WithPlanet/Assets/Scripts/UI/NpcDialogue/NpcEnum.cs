@@ -13,10 +13,9 @@ public enum Type
 
 public enum State
 {
-    Default = 0,    // 오브젝트
-    Talk = 1,   // 처음 만났을 때 하는 대사
-    Hint = 2,   // ###를 nextQuestNPC로 변경
-    Quest = 3,  // Quest대사는 끝나고 퀘스트가 주어짐
+    Opening = 0,       // 게임 시작 직후 Boss가 설명하는 오프닝
+    PreMinigame = 1,   // 미니게임 시작 전
+    PostMinigame = 2   // 미니게임 종료 후
 }
 
 public enum Face
