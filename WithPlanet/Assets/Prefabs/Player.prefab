@@ -27,7 +27,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 562014220123494736}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -162}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -36,7 +36,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 545.7333, y: 261.58002}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 345.3333, y: 194}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &7321252919449149959
@@ -200,9 +200,10 @@ GameObject:
   - component: {fileID: 939591383053990479}
   - component: {fileID: 8761763268015608417}
   - component: {fileID: 7043099365232620276}
-  - component: {fileID: 4581235454418398486}
   - component: {fileID: 6067963839213535765}
   - component: {fileID: 6812993262407692381}
+  - component: {fileID: 5669320169496240096}
+  - component: {fileID: 954326417236111043}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -242,6 +243,7 @@ MonoBehaviour:
   runSpeed: 20
   currentSpeed: 15
   isFlipped: 0
+  gameCamera: {fileID: 0}
 --- !u!114 &8142123326536604588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,27 +335,6 @@ MonoBehaviour:
   playerRenderer: {fileID: 0}
   damageColor: {r: 1, g: 0.39308167, b: 0.6200969, a: 1}
   flashDuration: 0.1
---- !u!65 &4581235454418398486
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1041205175032058547}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 17, y: 27, z: 3}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!212 &6067963839213535765
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -418,6 +399,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a506fc84387b9e74394a6c8aacefe9e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetCamera: {fileID: 0}
+--- !u!135 &5669320169496240096
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041205175032058547}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 12.527778
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &954326417236111043
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041205175032058547}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 16.666666, y: 25.055555, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5816868857606637131
 GameObject:
   m_ObjectHideFlags: 0
@@ -444,16 +468,16 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5816868857606637131}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: -0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 0.55, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2164095071951251391}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -269.8, y: -98.7}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 1, y: 57.5}
+  m_SizeDelta: {x: 55.4, y: 52.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3203288320333945178
 CanvasRenderer:
@@ -476,7 +500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
