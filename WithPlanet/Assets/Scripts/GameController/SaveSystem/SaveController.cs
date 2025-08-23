@@ -14,7 +14,7 @@ public class SaveController : MonoBehaviour
     private RandomSpawner randomSpawner;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         saveLocation = Path.Combine(Application.persistentDataPath, "savefile.json");
         pim = FindObjectOfType<PlayerItemManager>();

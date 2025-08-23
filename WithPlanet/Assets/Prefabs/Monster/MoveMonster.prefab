@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6081491950584274878}
   - component: {fileID: 8227520999942533334}
   - component: {fileID: 7880832000153133065}
+  - component: {fileID: 1731034623841571702}
   m_Layer: 0
   m_Name: MoveMonster
   m_TagString: Monster
@@ -32,7 +33,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 22, y: 54.4, z: 29.7}
-  m_LocalScale: {x: 15, y: 15, z: 1}
+  m_LocalScale: {x: 6, y: 6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3769564021550901482}
@@ -78,7 +79,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 3
   m_Sprite: {fileID: -493647738, guid: 3bcb7877229a5334da528f2f0872b5c3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -151,7 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
-  knockbackForce: 130
+  knockbackForce: 10
 --- !u!65 &8227520999942533334
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -186,8 +187,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 35
-  patrolDistance: 40
+  patrolDistance: 70
   direction: 1
+--- !u!114 &1731034623841571702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 480214760761914481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a506fc84387b9e74394a6c8aacefe9e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetCamera: {fileID: 0}
 --- !u!1 &2139963160997006536
 GameObject:
   m_ObjectHideFlags: 0

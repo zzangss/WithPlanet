@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6756402878174323892}
   - component: {fileID: 3661358731514046746}
   - component: {fileID: 6533963851844498980}
+  - component: {fileID: -1537273351386692480}
   m_Layer: 0
   m_Name: RandomMobeMonster
   m_TagString: Monster
@@ -32,7 +33,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 64.767876, y: 54, z: 30.994492}
-  m_LocalScale: {x: 15, y: 15, z: 1}
+  m_LocalScale: {x: 8, y: 8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 48563945848918145}
@@ -99,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
-  knockbackForce: 130
+  knockbackForce: 10
 --- !u!65 &6756402878174323892
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -161,7 +162,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 3
   m_Sprite: {fileID: -2092964637, guid: 4104ee12b4d54f54b91b3ba875787837, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
@@ -185,12 +186,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63945a4a8caa6ad4094e7958db9a1095, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
-  patrolDistance: 15
+  moveSpeed: 12
+  patrolDistance: 100
   minMoveTime: 1
   maxMoveTime: 3
   minStopTime: 0.5
   maxStopTime: 2
+--- !u!114 &-1537273351386692480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6422671498392968956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a506fc84387b9e74394a6c8aacefe9e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetCamera: {fileID: 0}
 --- !u!1 &8142190114842151545
 GameObject:
   m_ObjectHideFlags: 0
