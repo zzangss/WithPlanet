@@ -7,7 +7,7 @@ public class SaveController : MonoBehaviour
 {
 
     private string saveLocation;
-    private PlayerItemManager pim;
+    private PlayerAction pim;
     private ItemSpawner itemSpawner;
     private InventoryMain inventoryMain;
     private ItemDictionary itemdic;
@@ -17,7 +17,7 @@ public class SaveController : MonoBehaviour
     void Awake()
     {
         saveLocation = Path.Combine(Application.persistentDataPath, "savefile.json");
-        pim = FindObjectOfType<PlayerItemManager>();
+        pim = FindObjectOfType<PlayerAction>();
         itemSpawner = FindObjectOfType<ItemSpawner>();
         inventoryMain = FindObjectOfType<InventoryMain>();
         itemdic = FindObjectOfType<ItemDictionary>();
