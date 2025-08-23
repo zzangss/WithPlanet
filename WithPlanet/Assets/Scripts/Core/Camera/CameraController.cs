@@ -27,7 +27,7 @@ public class CameraController : MonoBehaviour
 
     [Header("Rotation Settings")]
     [Tooltip("마우스 클릭 시 카메라가 한 번에 회전할 각도입니다.")]
-    public float rotationAngle = 45.0f;
+    public float rotationAngle = 90f;
 
     // 카메라의 오프셋(offset)입니다. 플레이어와의 상대적인 위치를 결정합니다.
     private Vector3 offset;
@@ -99,12 +99,12 @@ public class CameraController : MonoBehaviour
         float angleToRotate = 0f;
 
         // 마우스 오른쪽 버튼 클릭 시: 시계 방향 회전
-        if (Input.GetMouseButtonDown(1)) // 1 = 오른쪽 버튼
+        if (Input.GetMouseButtonDown(1) && Input.GetKey(KeyCode.R)) // 1 = 오른쪽 버튼
         {
             angleToRotate = rotationAngle;
         }
         // 마우스 왼쪽 버튼 클릭 시: 반시계 방향 회전
-        else if (Input.GetMouseButtonDown(0)) // 0 = 왼쪽 버튼
+        else if (Input.GetMouseButtonDown(0) && Input.GetKey(KeyCode.R)) // 0 = 왼쪽 버튼
         {
             angleToRotate = -rotationAngle;
         }
