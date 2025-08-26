@@ -11,6 +11,8 @@ TagManager:
   - Undefined
   - Wall
   - Monster
+  - NPC
+  - Minigame
   layers:
   - Default
   - TransparentFX

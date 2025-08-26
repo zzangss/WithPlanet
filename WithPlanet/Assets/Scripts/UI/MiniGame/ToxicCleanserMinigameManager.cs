@@ -26,7 +26,8 @@ namespace Project.Minigames.ToxicCleanser
         [SerializeField] private TimelineView timeline;
         [SerializeField] private HeartsView heartsView;
         [SerializeField] private ResultPanelController resultPanel;
-        [SerializeField] private Button exitButton; // 언제든 종료(X)
+        [SerializeField] private Button exitButton; 
+        [SerializeField] private Button resultExitButton;
         [SerializeField] private CanvasGroup fadeOverlay;
 
         [SerializeField] private Canvas uiCanvas;          // UI Canvas
@@ -38,10 +39,14 @@ namespace Project.Minigames.ToxicCleanser
 
         private readonly List<CommentItem> liveItems = new();
 
+
         private void Start()
         {
             exitButton.onClick.AddListener(ExitToMain);
+            resultExitButton.onClick.AddListener(ExitToMain);
 
+            Cursor.lockState = CursorLockMode.None; 
+            Cursor.visible = true;
             StartCoroutine(RunGameLoop());
         }
 
@@ -88,6 +93,7 @@ namespace Project.Minigames.ToxicCleanser
                 Debug.Log("End");
             }
             EndGame(success);
+
         }
 
         /// <summary>
@@ -243,6 +249,7 @@ namespace Project.Minigames.ToxicCleanser
                 resultPanel.ShowFail();
                 OnMinigameFail?.Invoke();
             }
+            
         }
 
 

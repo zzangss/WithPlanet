@@ -71,10 +71,6 @@ public class TalkManager : MonoBehaviour
         {
             [State.PreMinigame] = new[]
             {
-                "I never seen you before, how did you get here?",
-                "I don't care what you're here for, I don't have time for you. \nThere are too many negative comments posted with my content, I have to fix them so I can manage with you, OK?",
-                "Or¡¦ maybe, you can help me with it?",
-                "Yes! it will helps a lot. \nYou have to delete all the negative comments under the video. \nAre you ready? Click the screen to start.",
                 "Oh, don¡¯t panic. I just need some help¡¦ ",
                 "I knew that you came here for those collectibles.\nBut if you want to know which collectible is valuable, you must help the owner of this planet, MILUNA. ",
                 "MILUNA have got in trouble with the career as a popular influencer. You need to help MILUNA get through this rough period.",
@@ -82,7 +78,7 @@ public class TalkManager : MonoBehaviour
             },
             [State.PostMinigame] = new[]
             {
-                "Oh, You did it!"
+                "Oh, You did it!(box)"
             }
         };
     }

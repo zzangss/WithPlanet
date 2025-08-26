@@ -7,7 +7,6 @@ using TMPro;
 
 public class InventoryMain : InventoryBase
 {
-
     public static bool IsInventoryActive = false; //인벤토리 활성화 여부
     [SerializeField] private TMP_Text mTotalValue;
 
@@ -97,10 +96,8 @@ public class InventoryMain : InventoryBase
 
     public void TryOpenCloseInventory()
     {
-
         if (!IsInventoryActive) 
         {
-            
             OpenInventory(); // 인벤토리가 닫혀있으면 열기
         }
         else
@@ -151,5 +148,4 @@ public class InventoryMain : InventoryBase
             slot.ClearSlot();
         }
     }
-
 }

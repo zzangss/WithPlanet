@@ -6,6 +6,5 @@ using UnityEngine.UI;
 public class ObjData : MonoBehaviour
 {
     public Type type;
-    public bool isNpc;
     public Sprite portrait;
 }

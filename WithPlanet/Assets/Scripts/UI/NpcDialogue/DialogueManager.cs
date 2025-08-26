@@ -23,7 +23,7 @@ public class DialogueManager : MonoBehaviour
     public bool isAction = false;
     public int talkIndex = 0;
 
-    // 전역 대화 단계 플래그
+    // 전역 대화 단계 
     public State CurrentStage { get; private set; } = State.Opening;
     private bool openingPlayed = false;
     private bool minigameFinished = false;
@@ -33,7 +33,6 @@ public class DialogueManager : MonoBehaviour
 
     private void OnEnable()
     {
-        // 미니게임 결과 이벤트 구독(가지고 계신 매니저가 있다면)
         ToxicCleanserMinigameManager.OnMinigameSuccess += HandleMinigameSuccess;
         ToxicCleanserMinigameManager.OnMinigameFail += HandleMinigameFail;
     }
@@ -52,7 +51,6 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            // 혹시 오프닝을 스킵한다면, 미니게임 전 단계로 전환
             SetStage(State.PreMinigame);
         }
     }
@@ -141,6 +139,6 @@ public class DialogueManager : MonoBehaviour
     {
         minigameFinished = true;
         minigameSuccess = false;
-        SetStage(State.PostMinigame);
+        SetStage(State.PreMinigame);
     }
 }

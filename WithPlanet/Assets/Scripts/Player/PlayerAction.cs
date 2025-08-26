@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using Unity.VisualScripting;
-
+using Project.Minigames.ToxicCleanser;
 
 public class PlayerAction : MonoBehaviour
 {
@@ -9,6 +9,10 @@ public class PlayerAction : MonoBehaviour
     public PlayerMoveController playerMoveController; // 플레이어 이동 컨트롤러
     public InventoryMain inventoryMain; // 카트 인벤토리 
     public DialogueManager dialogueManager;
+    public MinigameLauncher minigameLauncher;
+
+    //minigame 실행 관리
+    private bool isNearMini = false;
 
     //NPC 대화 UI 관리
     private GameObject scanObject = null;
@@ -70,6 +74,11 @@ public class PlayerAction : MonoBehaviour
                 dialogueManager.Action(Type.Boss);
             }
 
+            if (isNearMini)
+            {
+                minigameLauncher.Launch();
+            }
+
             if (currentItem == null)
             {
                 TryPickupItem();
@@ -117,6 +126,11 @@ public class PlayerAction : MonoBehaviour
                 scanObject = other.gameObject;
                 Debug.Log($"NPC set: {scanObject.name}");
             }
+            if (other.CompareTag("Minigame"))
+            {
+                isNearMini = true;
+                scanObject = other.gameObject;
+            }
 
         }
     }
@@ -133,6 +147,11 @@ public class PlayerAction : MonoBehaviour
             if (other.CompareTag("NPC"))
             {
                 isNearNPC = false;
+                scanObject = null;
+            }
+            if (other.CompareTag("Minigame"))
+            {
+                isNearMini = false;
                 scanObject = null;
             }
         }
