@@ -203,6 +203,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1165170601}
     - target: {fileID: 9012690942064185501, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
+      propertyPath: settingPanel
+      value: 
+      objectReference: {fileID: 1827676089}
+    - target: {fileID: 9012690942064185501, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
       propertyPath: inventoryPanel
       value: 
       objectReference: {fileID: 0}
@@ -2934,6 +2938,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e3617651787a7443b814bdfb14aee04, type: 3}
+--- !u!1 &1827676089 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7976741063809036163, guid: 273e13025feb9ef488452a36fd4865b9, type: 3}
+  m_PrefabInstance: {fileID: 2164086793672115620}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1875438973 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6613000676763848780, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
@@ -4282,6 +4291,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI_Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 689210235548491399, guid: 273e13025feb9ef488452a36fd4865b9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 369129000}
+    - target: {fileID: 689210235548491399, guid: 273e13025feb9ef488452a36fd4865b9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenSettingPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 689210235548491399, guid: 273e13025feb9ef488452a36fd4865b9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UI_GameManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 689210235548491399, guid: 273e13025feb9ef488452a36fd4865b9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1067179346234567871, guid: 273e13025feb9ef488452a36fd4865b9, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0.5
@@ -4318,6 +4343,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 369129000}
+    - target: {fileID: 3849780819134009560, guid: 273e13025feb9ef488452a36fd4865b9, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4111612357080549919, guid: 273e13025feb9ef488452a36fd4865b9, type: 3}
       propertyPath: m_fontSize
       value: 40
@@ -4398,6 +4427,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 369129000}
+    - target: {fileID: 4961113174056884037, guid: 273e13025feb9ef488452a36fd4865b9, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5309012142284378083, guid: 273e13025feb9ef488452a36fd4865b9, type: 3}
       propertyPath: m_SizeDelta.x
       value: -200
@@ -4441,6 +4474,10 @@ PrefabInstance:
     - target: {fileID: 5548576783931227947, guid: 273e13025feb9ef488452a36fd4865b9, type: 3}
       propertyPath: m_RaycastTarget
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5652173697537143650, guid: 273e13025feb9ef488452a36fd4865b9, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5730438881245001387, guid: 273e13025feb9ef488452a36fd4865b9, type: 3}
       propertyPath: m_Controller
@@ -4538,6 +4575,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 369129000}
+    - target: {fileID: 6922458176748331221, guid: 273e13025feb9ef488452a36fd4865b9, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7976741063809036163, guid: 273e13025feb9ef488452a36fd4865b9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
