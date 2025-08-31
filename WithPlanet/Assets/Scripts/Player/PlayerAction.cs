@@ -54,8 +54,6 @@ public class PlayerAction : MonoBehaviour
         holdPos.transform.SetParent(transform);
         holdPos.transform.localPosition = holdOffset;
         itemHoldPoint = holdPos.transform;
-
-        
     }
 
     void Update()
@@ -93,17 +91,16 @@ public class PlayerAction : MonoBehaviour
                 else
                 {
                     Debug.Log("아이템 버리기");
-
                     DropItem();
                 }
             }
-
         }
+
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            // 카트가 주변에 없으면 아이템을 버리기
             if (isNearCart)
             {
+                Debug.Log("카트 주변 q 누르기");
                 inventoryMain.TryOpenCloseInventory();
             }
         }

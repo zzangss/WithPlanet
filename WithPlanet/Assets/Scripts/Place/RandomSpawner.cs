@@ -38,7 +38,7 @@ public class RandomSpawner : MonoBehaviour
                 if (randomPos.HasValue)
                 {
                     // 위치를 찾았으면 아이템을 생성하고 위치를 기록
-                    Instantiate(item.itemPrefab, randomPos.Value, Quaternion.identity);
+                    Instantiate(item.itemPrefab, randomPos.Value, item.itemPrefab.transform.rotation);
                     spawnedPositions.Add(randomPos.Value);
                 }
                 else

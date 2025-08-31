@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 6756402878174323892}
   - component: {fileID: 3661358731514046746}
   - component: {fileID: 6533963851844498980}
-  - component: {fileID: -1537273351386692480}
   m_Layer: 0
   m_Name: RandomMobeMonster
   m_TagString: Monster
@@ -31,14 +30,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6422671498392968956}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.35355338, y: 0.35355338, z: -0.1464466, w: 0.8535535}
   m_LocalPosition: {x: 64.767876, y: 54, z: 30.994492}
   m_LocalScale: {x: 8, y: 8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 48563945848918145}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: 45, z: 0}
 --- !u!54 &2234580302042391824
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -192,19 +191,6 @@ MonoBehaviour:
   maxMoveTime: 3
   minStopTime: 0.5
   maxStopTime: 2
---- !u!114 &-1537273351386692480
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6422671498392968956}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a506fc84387b9e74394a6c8aacefe9e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetCamera: {fileID: 0}
 --- !u!1 &8142190114842151545
 GameObject:
   m_ObjectHideFlags: 0
