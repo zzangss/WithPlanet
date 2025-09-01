@@ -7,6 +7,7 @@ namespace Project.Minigames.ToxicCleanser
     public class MinigameLauncher : Singleton<MinigameLauncher>
     {
         [SerializeField] private string sceneName = "Minigame_ToxicCleanser_Scene";
+        public static bool isMiniRunning = false;
 
         private void OnEnable()
         {
@@ -23,7 +24,10 @@ namespace Project.Minigames.ToxicCleanser
         public void Launch()
         {
             if (!string.IsNullOrEmpty(sceneName))
+            {
+                isMiniRunning = true;
                 SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
+            }
         }
 
         private void HandleSuccess()

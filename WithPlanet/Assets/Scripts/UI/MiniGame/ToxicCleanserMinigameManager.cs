@@ -249,13 +249,13 @@ namespace Project.Minigames.ToxicCleanser
                 resultPanel.ShowFail();
                 OnMinigameFail?.Invoke();
             }
-            
         }
 
 
         // 언제든 종료(X)
         public void ExitToMain()
         {
+            MinigameLauncher.isMiniRunning = false;
             StartCoroutine(ExitToMainRoutine());
         }
 
