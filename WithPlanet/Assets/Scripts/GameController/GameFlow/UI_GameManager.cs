@@ -11,10 +11,9 @@ public class UI_GameManager : MonoBehaviour
     public GameObject savePanel;
     public GameObject inventoryPanel;
     public DialogueManager dialogueManager;
-    public GameObject settingPanel;
 
     [SerializeField] private GameManagerSystem gameManagerSystem;
-
+    
 
 
     private void Awake()
@@ -22,7 +21,6 @@ public class UI_GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); //씬이 바뀌어도 오브젝트가 파괴되지 않도록 설정
         }
         else
         {
@@ -31,7 +29,7 @@ public class UI_GameManager : MonoBehaviour
 
         // 게임 매니저 시스템 초기화
         gameManagerSystem = FindObjectOfType<GameManagerSystem>();
-
+      
     }
 
     void Start()
@@ -41,52 +39,47 @@ public class UI_GameManager : MonoBehaviour
     }
 
     // UI 패널을 열고 닫는 함수들
-
-    // 메뉴 패널 열기
     public void OpenMenuPanel()
     {
-        closeAllPanels();
         menuPanel.SetActive(true);
-
+        gamePanel.SetActive(false);
+        pausePanel.SetActive(false);
+        savePanel.SetActive(false);
         PauseController.SetPause(true); // 메뉴가 열리면 게임 일시정지
     }
 
 
 
-
-    // 저장 패널 열기
     public void OpenSavePanel()
     {
-        closeAllPanels();
+        menuPanel.SetActive(false);
+        gamePanel.SetActive(false);
+        pausePanel.SetActive(false);
         savePanel.SetActive(true);
     }
 
-
-    // 일시정지 패널 열기
     public void OpenPausePanel()
     {
-        closeAllPanels();
+        menuPanel.SetActive(false);
+        gamePanel.SetActive(false);
         pausePanel.SetActive(true);
-
+        savePanel.SetActive(false);
         PauseController.SetPause(true); // 일시정지 패널이 열리면 게임 일시정지
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
 
-    // 게임 패널 열기
     public void StartGamePanel()
     {
-        closeAllPanels();
+        menuPanel.SetActive(false);
         gamePanel.SetActive(true);
-
+        pausePanel.SetActive(false);
+        savePanel.SetActive(false);
         PauseController.SetPause(false); // 게임 패널이 열리면 일시정지 해제
-
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
-    // 인벤토리 패널 열기
     public void OpenInventoryPanel()
     {
         inventoryPanel.SetActive(!inventoryPanel.activeSelf); // 인벤토리 패널 토글
@@ -99,18 +92,6 @@ public class UI_GameManager : MonoBehaviour
             inventoryPanel.SetActive(true);
         }
     }
-
-    // 설정 패널 열기
-    public void OpenSettingPanel()
-    {
-        closeAllPanels();
-        settingPanel.SetActive(true);
-        PauseController.SetPause(true);
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-    }
-
-
     //UI 버튼 연결 
 
     //새게임시작
@@ -154,23 +135,9 @@ public class UI_GameManager : MonoBehaviour
         OpenMenuPanel(); // 메뉴 패널 열기
     }
 
-    //설정으로 이동
-    public void UI_OnSettings()
-    {
-        OpenSettingPanel(); // 설정 패널 열기
-    }
 
 
-    public void closeAllPanels()
-    {
-        menuPanel.SetActive(false);
-        gamePanel.SetActive(false);
-        pausePanel.SetActive(false);
-        savePanel.SetActive(false);
-        settingPanel.SetActive(false);
-    }
-
-    // ESC 키 입력 처리
+    public 
 
     void Update()
     {
@@ -190,12 +157,6 @@ public class UI_GameManager : MonoBehaviour
             else if (savePanel.activeSelf)
             {
                 OpenMenuPanel();
-            }
-
-            else if (settingPanel.activeSelf)
-            {
-
-                OpenPausePanel();
             }
         }
 
