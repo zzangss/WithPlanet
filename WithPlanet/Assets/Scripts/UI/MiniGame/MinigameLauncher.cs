@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 namespace Project.Minigames.ToxicCleanser
 {
-    public class MinigameLauncher : MonoBehaviour
+    public class MinigameLauncher : Singleton<MinigameLauncher>
     {
         [SerializeField] private string sceneName = "Minigame_ToxicCleanser_Scene";
 

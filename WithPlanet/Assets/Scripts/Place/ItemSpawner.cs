@@ -4,11 +4,8 @@ using UnityEngine;
 
 public class ItemSpawner : MonoBehaviour
 {
-
     [SerializeField] private GameObject mPlayer;
-
     [SerializeField] private ItemDictionary itemDictionary;
-
 
     // Start is called before the first frame update
     void Start()
@@ -20,7 +17,6 @@ public class ItemSpawner : MonoBehaviour
 
             if (itemDictionary == null)
             {
-                
                 Debug.LogWarning("ItemDictionary not found in the scene. Please ensure it is present.");
             }
             if (mPlayer == null)
@@ -28,17 +24,7 @@ public class ItemSpawner : MonoBehaviour
                 Debug.LogWarning("Player GameObject not found. Please assign it in the inspector.");
             }
         }
-
-        
     }
-
-    // Update is called once per frame
-    void Update()
-    {  
-
-    }
-
-
 
     public void DropItemToWorld(Item item, int itemCount)
     {
@@ -57,7 +43,7 @@ public class ItemSpawner : MonoBehaviour
 
 
         Vector3 eulerAngles = new Vector3(30f, 0f, 0f);
-        Quaternion rotation = Quaternion.Euler(eulerAngles);
+        Quaternion rotation = Quaternion.Euler(45f, 45f, 0f);
         for (int i = 0; i < itemCount; i++)
         {
             Vector3 randomOffset = new Vector3(Random.Range(-0.3f, 0.3f), 0f, Random.Range(-0.3f, 0.3f));
@@ -95,7 +81,7 @@ public class ItemSpawner : MonoBehaviour
             Debug.LogWarning($"[SpawnItemToWorld] 아이템 ID {ItemID}에 해당하는 프리팹을 찾을 수 없습니다.");
             return;
         }
-        Quaternion rotation = Quaternion.Euler(0f, 0f, 0f);
+        Quaternion rotation = Quaternion.Euler(45f, 45f, 0f);
         Instantiate(prefab, position, rotation);
     }
 

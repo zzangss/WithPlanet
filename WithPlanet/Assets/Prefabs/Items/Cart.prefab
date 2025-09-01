@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1974738711216967671}
   - component: {fileID: 7343633493294211600}
   - component: {fileID: 5035887948687904038}
-  - component: {fileID: 436136756958436800}
+  - component: {fileID: 9070794314608329321}
   m_Layer: 0
   m_Name: Cart
   m_TagString: Cart
@@ -108,12 +108,12 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &436136756958436800
+--- !u!135 &9070794314608329321
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -132,5 +132,5 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1.311132
-  m_Center: {x: 0, y: 0, z: 0.09484434}
+  m_Radius: 1.1811953
+  m_Center: {x: 0.020901442, y: -2.2023246e-10, z: 2.2023246e-10}

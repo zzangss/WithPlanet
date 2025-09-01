@@ -31,6 +31,7 @@ public class WorldItem : MonoBehaviour
         }
     }
 
+
     private Rigidbody rb;
     private Collider itemCollider;
     void Awake()

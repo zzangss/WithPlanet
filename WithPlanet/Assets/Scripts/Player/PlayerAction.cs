@@ -1,7 +1,8 @@
-using UnityEngine;
+using Project.Minigames.ToxicCleanser;
 using System.Collections;
 using Unity.VisualScripting;
-using Project.Minigames.ToxicCleanser;
+using UnityEngine;
+using static UnityEditor.Progress;
 
 public class PlayerAction : MonoBehaviour
 {
@@ -192,7 +193,7 @@ public class PlayerAction : MonoBehaviour
         // 1) 인스턴스 생성은 GameObject로 받기
         var go = Instantiate(prefab, itemHoldPoint);
         go.transform.localPosition = Vector3.zero;
-        go.transform.localRotation = Quaternion.identity;
+        go.transform.localRotation = Quaternion.Euler(45f, 45f, 0f);
 
         // 2) 컴포넌트 꺼내서 currentItem에 대입
         currentItem = go.GetComponent<WorldItem>();
@@ -341,7 +342,7 @@ public class PlayerAction : MonoBehaviour
         //아이템을 플레이어의 손으로 이동
         worldItem.transform.SetParent(itemHoldingPoint);
         worldItem.transform.localPosition = Vector3.zero;
-        worldItem.transform.localRotation = Quaternion.identity;
+        worldItem.transform.localRotation = Quaternion.Euler(45f, 45f, 0f);
 
         // 물리 비활성화 (Item 스크립트의 Rigidbody 사용)
         Rigidbody itemRb = worldItem.GetRigidbody();
@@ -384,7 +385,7 @@ public class PlayerAction : MonoBehaviour
         Vector3 startPos = item.transform.localPosition;
         Quaternion startRot = item.transform.localRotation;
         Vector3 targetPos = Vector3.zero;
-        Quaternion targetRot = Quaternion.identity;
+        Quaternion targetRot = Quaternion.Euler(45f, 45f, 0f);
 
         float elapsedTime = 0f;
         while (elapsedTime < moveToHoldDuration)
@@ -424,6 +425,7 @@ public class PlayerAction : MonoBehaviour
         Vector3 dropOffset = new Vector3(directionX * 9f, 0.5f, 0f);
         Vector3 dropPosition = transform.position + dropOffset;
         currentItem.transform.position = dropPosition;
+        currentItem.transform.rotation = Quaternion.Euler(45f, 45f, 0f);
 
         Vector3 dropDirection = new Vector3(directionX, 0.5f, 0f).normalized;
 

@@ -20,11 +20,18 @@ public class PlayerMoveController : MonoBehaviour
     private LayerMask groundMask = ~0;
     private float groundCheckRadius = 0.28f;
     private float groundCheckOffset = 0.2f;
-    private float extraGravity = 8f; // 슬립 방지용 중력
-    private float maxSlopeAngle = 75f; // 해당 각도보다 가파르면 이동 불가 
+    [SerializeField] private float maxSlopeAngle = 40f; // 해당 각도보다 가파르면 이동 불가 
+
+
+    [Header("중력/접지 스냅")]
+    [SerializeField] private float extraGravity = 20f;           // 공중 가속-추가중력
+    [SerializeField] private float groundStickForce = 25f;       // 지면일 때 바닥으로 눌러주는 가속
+    [SerializeField] private float snapProbeDistance = 0.9f;     // 막 떠났을 때 아래로 탐침 거리
+    [SerializeField] private float coyoteTime = 0.1f;           // 막 떨어진 뒤 스냅 허용 시간
 
     private bool isGrounded;
     private Vector3 groundNormal = Vector3.up;
+    private float lastGroundedTime;
 
     void Start()
     {
@@ -33,6 +40,9 @@ public class PlayerMoveController : MonoBehaviour
         spriter = GetComponent<SpriteRenderer>();
 
         rigid.constraints = RigidbodyConstraints.FreezeRotation;
+        // 빠른이동 시 충돌 감지 
+        rigid.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+        rigid.interpolation = RigidbodyInterpolation.Interpolate;
     }
 
     void Update()
@@ -60,53 +70,74 @@ public class PlayerMoveController : MonoBehaviour
 
     void FixedUpdate()
     {
-        // 게임 일시정지 
         if (PauseController.isPaused)
         {
             rigid.velocity = Vector3.zero;
             return;
         }
 
-        // 회전 속도 초기화
-        rigid.angularVelocity = Vector3.zero; 
+        // 회전속도 초기화(물리로 도는 것 방지)
+        rigid.angularVelocity = Vector3.zero;
 
-        //바닥체크&계산
-        Vector3 origin = transform.position + Vector3.up * groundCheckOffset;
-        RaycastHit hit;
+        // 1) 접지 체크 + 노멀
+        bool groundedNow = CheckGrounded(out RaycastHit groundHit);
 
-        if (Physics.SphereCast(origin, groundCheckRadius, Vector3.down,
-                          out hit, groundCheckOffset + 0.45f,
-                          groundMask, QueryTriggerInteraction.Ignore))
-        {
-            isGrounded = true;
-            groundNormal = hit.normal;
-        }
-        else
-        {
-            isGrounded = false;
-            groundNormal = Vector3.up;
-        }
-        //경사면 투영 이동
-        Vector3 desiredVelocity = Vector3.ProjectOnPlane(moveDirection, groundNormal);
+        if (groundedNow) lastGroundedTime = Time.time;
 
-        //경사 각도 제한
+        // 2) 목표 속도: 경사 접선에 투영
+        Vector3 desiredVelocity = ProjectOnGround(moveDirection, groundNormal);
+
+        // 2-1) 너무 가파른 경사면이면 수평 성분만 남기기
         float slopeAngle = Vector3.Angle(groundNormal, Vector3.up);
         if (slopeAngle > maxSlopeAngle)
         {
-            desiredVelocity = Vector3.ProjectOnPlane(desiredVelocity, Vector3.up);
+            desiredVelocity = Vector3.ProjectOnPlane(desiredVelocity, Vector3.up); // 사실상 경사 무시
         }
-        //속도 적용
-        Vector3 velocity = rigid.velocity;
-        velocity.x = desiredVelocity.x;
-        velocity.z = desiredVelocity.z;
 
-        //중력 작용
-        if (isGrounded)
+        // 현재 속도에 x/z만 덮어쓰기
+        Vector3 v3 = rigid.velocity;
+        v3.x = desiredVelocity.x;
+        v3.z = desiredVelocity.z;
+
+        // 3) 접지 스냅 + 추가 중력
+        if (groundedNow)
         {
-            velocity += Vector3.down * extraGravity * Time.fixedDeltaTime;
+            // 지면 위라면: 하강 성분은 0 또는 하강만 유지
+            v3.y = Mathf.Min(v3.y, 0f);
+
+            // 바닥으로 살짝 눌러 접지 유지(가속)
+            rigid.AddForce(-groundNormal * groundStickForce, ForceMode.Acceleration);
+        }
+        else
+        {
+            // 방금까지는 붙어있었는데 한 프레임 떠버린 경우: 아래로 SphereCast 하여 붙이기
+            if (Time.time - lastGroundedTime <= coyoteTime && v3.y <= 0f)
+            {
+                Vector3 origin = transform.position + Vector3.up * groundCheckOffset;
+                if (Physics.SphereCast(origin, groundCheckRadius, Vector3.down, out RaycastHit snapHit, snapProbeDistance, groundMask, QueryTriggerInteraction.Ignore))
+                {
+                    float a = Vector3.Angle(snapHit.normal, Vector3.up);
+                    if (a <= maxSlopeAngle)
+                    {
+                        // 살짝 내리꽂아 붙이기
+                        transform.position = snapHit.point + snapHit.normal * groundCheckRadius;
+                        groundNormal = snapHit.normal;
+                        groundedNow = true;
+                        // 속도는 경사 접선으로 정리
+                        v3 = ProjectOnGround(v3, groundNormal);
+                        v3.y = Mathf.Min(v3.y, 0f);
+                    }
+                }
+            }
+
+            // 공중일 때는 추가 중력(가속)으로 빨리 내려오게
+            rigid.AddForce(Vector3.down * extraGravity, ForceMode.Acceleration);
         }
 
-        rigid.velocity = velocity;
+        rigid.velocity = v3;
+
+        // 최종 플래그 저장
+        isGrounded = groundedNow;
     }
 
     void LateUpdate()
@@ -120,5 +151,28 @@ public class PlayerMoveController : MonoBehaviour
             isFlipped = h > 0;
         }
     }
+
+    private bool CheckGrounded(out RaycastHit hit)
+    {
+        Vector3 origin = transform.position + Vector3.up * groundCheckOffset;
+
+        if (Physics.SphereCast(origin, groundCheckRadius, Vector3.down,
+                               out hit, groundCheckOffset + 0.55f,
+                               groundMask, QueryTriggerInteraction.Ignore))
+        {
+            groundNormal = hit.normal;
+            float angle = Vector3.Angle(groundNormal, Vector3.up);
+            return angle <= maxSlopeAngle + 5f; // 판정은 약간 관대하게(+5° 버퍼)
+        }
+
+        groundNormal = Vector3.up;
+        return false;
+    }
+
+    private static Vector3 ProjectOnGround(Vector3 v, Vector3 groundN)
+    {
+        return Vector3.ProjectOnPlane(v, groundN);
+    }
+
 }
 
