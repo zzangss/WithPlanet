@@ -5,7 +5,7 @@ using TMPro;
 using Project.Minigames.ToxicCleanser;
 using UnityEngine.UI;
 
-public class DialogueManager : MonoBehaviour
+public class DialogueManager : Singleton<DialogueManager>
 {
     [Header("Refs")]
     [SerializeField] private TalkManager talkManager;
