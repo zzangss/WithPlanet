@@ -86,6 +86,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Inventory
       objectReference: {fileID: 0}
+    - target: {fileID: 2757158395721999431, guid: 8da0b4d065c1a4642a2db4de52d6e5c3, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 800
+      objectReference: {fileID: 0}
     - target: {fileID: 3330110068533963482, guid: 8da0b4d065c1a4642a2db4de52d6e5c3, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -336,11 +340,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6172773080889775278, guid: 8da0b4d065c1a4642a2db4de52d6e5c3, type: 3}
       propertyPath: m_Size
-      value: 0.9157842
+      value: 0.9157841
       objectReference: {fileID: 0}
     - target: {fileID: 6172773080889775278, guid: 8da0b4d065c1a4642a2db4de52d6e5c3, type: 3}
       propertyPath: m_Value
-      value: 0.9999991
+      value: 0.9999982
       objectReference: {fileID: 0}
     - target: {fileID: 6417141332608967167, guid: 8da0b4d065c1a4642a2db4de52d6e5c3, type: 3}
       propertyPath: m_AnchorMax.y

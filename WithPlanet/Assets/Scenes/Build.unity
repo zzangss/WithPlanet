@@ -4757,6 +4757,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3439224118916159452, guid: 9cd60001db6d2ae41852d7761ea15dab, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 2138774163}
     - target: {fileID: 6094404602538989041, guid: 9cd60001db6d2ae41852d7761ea15dab, type: 3}
       propertyPath: m_Name
       value: navigateMonster

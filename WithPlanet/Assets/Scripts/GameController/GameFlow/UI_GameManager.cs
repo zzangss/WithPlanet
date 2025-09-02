@@ -14,8 +14,6 @@ public class UI_GameManager : MonoBehaviour
 
     [SerializeField] private GameManagerSystem gameManagerSystem;
     
-
-
     private void Awake()
     {
         if (Instance == null)
@@ -29,7 +27,6 @@ public class UI_GameManager : MonoBehaviour
 
         // 게임 매니저 시스템 초기화
         gameManagerSystem = FindObjectOfType<GameManagerSystem>();
-      
     }
 
     void Start()
@@ -47,8 +44,6 @@ public class UI_GameManager : MonoBehaviour
         savePanel.SetActive(false);
         PauseController.SetPause(true); // 메뉴가 열리면 게임 일시정지
     }
-
-
 
     public void OpenSavePanel()
     {
@@ -98,9 +93,9 @@ public class UI_GameManager : MonoBehaviour
     public void StartNewGame()
     {
         gameManagerSystem.StartNewGame(); // 새 게임 시작
-        dialogueManager.StartTutorial();
         PauseController.SetPause(true);
         StartGamePanel();
+        dialogueManager.StartTutorial();
     }
 
     //게임시작
@@ -126,7 +121,6 @@ public class UI_GameManager : MonoBehaviour
     public void DeleteSaveFile()
     {
       gameManagerSystem.DeleteSaveFile(); // 세이브 파일 삭제
-      
     }
 
     //메뉴로 돌아가기
@@ -134,10 +128,6 @@ public class UI_GameManager : MonoBehaviour
     {
         OpenMenuPanel(); // 메뉴 패널 열기
     }
-
-
-
-    public 
 
     void Update()
     {
@@ -159,7 +149,5 @@ public class UI_GameManager : MonoBehaviour
                 OpenMenuPanel();
             }
         }
-
-       
     }
 }
