@@ -13,7 +13,7 @@ public class UI_GameManager : MonoBehaviour
     public DialogueManager dialogueManager;
 
     [SerializeField] private GameManagerSystem gameManagerSystem;
-    
+    [SerializeField] private SaveSlotSelector saveSlotSelector;
 
 
     private void Awake()
@@ -29,7 +29,10 @@ public class UI_GameManager : MonoBehaviour
 
         // 게임 매니저 시스템 초기화
         gameManagerSystem = FindObjectOfType<GameManagerSystem>();
-      
+
+        // 세이브 슬롯 선택기 초기화
+        saveSlotSelector = FindObjectOfType<SaveSlotSelector>();
+
     }
 
     void Start()
@@ -94,26 +97,38 @@ public class UI_GameManager : MonoBehaviour
     }
     //UI 버튼 연결 
 
-    //새게임시작
+    //새 게임 시작
     public void StartNewGame()
     {
-        gameManagerSystem.StartNewGame(); // 새 게임 시작
-        dialogueManager.StartTutorial();
-        PauseController.SetPause(true);
-        StartGamePanel();
+        gameManagerSystem.NewGameLoad(); // 새 게임 시작
+        StartGamePanel(); // 게임 패널 열기
     }
 
-    //게임시작
-    public void StartGame()
+    //게임 시작 (사용자가 선택한 슬롯에 따라)
+    public void StartSelectedGame()
     {
-        gameManagerSystem.LoadGame(); // 게임 시작 시 저장된 게임 불러오기
-        StartGamePanel();
+        int selectedSlot = saveSlotSelector.GetSelectedSlot();
+
+        if (selectedSlot != -1)
+        {
+            // 선택된 슬롯이 있을 경우에만 게임 불러오기
+            gameManagerSystem.LoadGame(selectedSlot);
+            StartGamePanel();
+        }
+        else
+        {
+            // 슬롯이 선택되지 않았을 경우 경고 메시지 표시
+            Debug.Log("게임을 시작하려면 먼저 슬롯을 선택하세요!");
+        }
     }
 
-    //게임저장
+    // 슬롯 버튼에 연결
+
+    // 게임 저장 
     public void SaveGame()
     {
-        gameManagerSystem.SaveGame(); // 게임 저장
+        gameManagerSystem.SaveGame();
+        // 저장 후 UI 갱신 로직 필요 (예: 파일 생성 날짜 표시)
     }
 
     //게임종료
@@ -122,12 +137,13 @@ public class UI_GameManager : MonoBehaviour
         gameManagerSystem.QuitGame(); // 게임 종료
     }
 
-    //세이브파일 삭제
-    public void DeleteSaveFile()
+    // 세이브 파일 삭제 (슬롯 번호로 삭제하기)
+    public void OnDeleteButtonClicked(int slotIndex)
     {
-      gameManagerSystem.DeleteSaveFile(); // 세이브 파일 삭제
-      
+        gameManagerSystem.DeleteSaveFile(slotIndex);
+        // 삭제 후 UI 갱신 로직 필요
     }
+
 
     //메뉴로 돌아가기
     public void ReturnToMenu()
