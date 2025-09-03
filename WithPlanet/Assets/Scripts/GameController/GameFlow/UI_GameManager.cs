@@ -4,7 +4,7 @@ public class UI_GameManager : MonoBehaviour
 {
     public static UI_GameManager Instance;
 
-    // UI ÆÐ³Î ÂüÁ¶
+    // UI ï¿½Ð³ï¿½ ï¿½ï¿½ï¿½ï¿½
     public GameObject menuPanel;
     public GameObject gamePanel;
     public GameObject pausePanel;
@@ -13,7 +13,7 @@ public class UI_GameManager : MonoBehaviour
     public DialogueManager dialogueManager;
 
     [SerializeField] private GameManagerSystem gameManagerSystem;
-    
+    [SerializeField] private SaveSlotSelector saveSlotSelector;
     private void Awake()
     {
         if (Instance == null)
@@ -25,24 +25,25 @@ public class UI_GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        // °ÔÀÓ ¸Å´ÏÀú ½Ã½ºÅÛ ÃÊ±âÈ­
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½Å´ï¿½ï¿½ï¿½ ï¿½Ã½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
         gameManagerSystem = FindObjectOfType<GameManagerSystem>();
+        saveSlotSelector = FindObjectOfType<SaveSlotSelector>();
     }
 
     void Start()
     {
-        // °ÔÀÓ ½ÃÀÛ ½Ã ¸Þ´º ÆÐ³Î ¿­±â
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Þ´ï¿½ ï¿½Ð³ï¿½ ï¿½ï¿½ï¿½ï¿½
         OpenMenuPanel();
     }
 
-    // UI ÆÐ³ÎÀ» ¿­°í ´Ý´Â ÇÔ¼öµé
+    // UI ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ý´ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½
     public void OpenMenuPanel()
     {
         menuPanel.SetActive(true);
         gamePanel.SetActive(false);
         pausePanel.SetActive(false);
         savePanel.SetActive(false);
-        PauseController.SetPause(true); // ¸Þ´º°¡ ¿­¸®¸é °ÔÀÓ ÀÏ½ÃÁ¤Áö
+        PauseController.SetPause(true); // ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï½ï¿½ï¿½ï¿½ï¿½ï¿½
     }
 
     public void OpenSavePanel()
@@ -59,7 +60,7 @@ public class UI_GameManager : MonoBehaviour
         gamePanel.SetActive(false);
         pausePanel.SetActive(true);
         savePanel.SetActive(false);
-        PauseController.SetPause(true); // ÀÏ½ÃÁ¤Áö ÆÐ³ÎÀÌ ¿­¸®¸é °ÔÀÓ ÀÏ½ÃÁ¤Áö
+        PauseController.SetPause(true); // ï¿½Ï½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï½ï¿½ï¿½ï¿½ï¿½ï¿½
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -70,14 +71,14 @@ public class UI_GameManager : MonoBehaviour
         gamePanel.SetActive(true);
         pausePanel.SetActive(false);
         savePanel.SetActive(false);
-        PauseController.SetPause(false); // °ÔÀÓ ÆÐ³ÎÀÌ ¿­¸®¸é ÀÏ½ÃÁ¤Áö ÇØÁ¦
+        PauseController.SetPause(false); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
 
     public void OpenInventoryPanel()
     {
-        inventoryPanel.SetActive(!inventoryPanel.activeSelf); // ÀÎº¥Åä¸® ÆÐ³Î Åä±Û
+        inventoryPanel.SetActive(!inventoryPanel.activeSelf); // ï¿½Îºï¿½ï¿½ä¸® ï¿½Ð³ï¿½ ï¿½ï¿½ï¿½
         if (inventoryPanel.activeSelf)
         {
             inventoryPanel.SetActive(false);
@@ -87,63 +88,84 @@ public class UI_GameManager : MonoBehaviour
             inventoryPanel.SetActive(true);
         }
     }
-    //UI ¹öÆ° ¿¬°á 
+    //UI ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ 
 
-    //»õ°ÔÀÓ½ÃÀÛ
+    //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void StartNewGame()
     {
-        gameManagerSystem.StartNewGame(); // »õ °ÔÀÓ ½ÃÀÛ
-        PauseController.SetPause(true);
+        gameManagerSystem.CreateNewSlot();
+        dialogueManager.StartTutorial();
+        PauseController.SetPause(false);
         StartGamePanel();
         dialogueManager.StartTutorial();
     }
 
-    //°ÔÀÓ½ÃÀÛ
-    public void StartGame()
+    // "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½" ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ (ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½)
+    public void StartSelectedGame()
     {
-        gameManagerSystem.LoadGame(); // °ÔÀÓ ½ÃÀÛ ½Ã ÀúÀåµÈ °ÔÀÓ ºÒ·¯¿À±â
-        StartGamePanel();
+        int selectedSlot = saveSlotSelector.GetSelectedSlot();
+
+        if (selectedSlot > 0)
+        {
+            gameManagerSystem.LoadGame(selectedSlot);
+            StartGamePanel();
+        }
+        else
+        {
+            Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½!");
+        }
     }
 
-    //°ÔÀÓÀúÀå
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
     public void SaveGame()
     {
-        gameManagerSystem.SaveGame(); // °ÔÀÓ ÀúÀå
+        gameManagerSystem.SaveGame();
+        
     }
 
-    //°ÔÀÓÁ¾·á
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     public void ExitGame()
     {
-        gameManagerSystem.QuitGame(); // °ÔÀÓ Á¾·á
+        gameManagerSystem.QuitGame(); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 
-    //¼¼ÀÌºêÆÄÀÏ »èÁ¦
-    public void DeleteSaveFile()
+    // ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½)
+    public void OnDeleteButtonClicked()
     {
-      gameManagerSystem.DeleteSaveFile(); // ¼¼ÀÌºê ÆÄÀÏ »èÁ¦
+        int selectedSlot = saveSlotSelector.GetSelectedSlot();
+        {
+            gameManagerSystem.DeleteSaveFile(selectedSlot);
+        }
     }
 
-    //¸Þ´º·Î µ¹¾Æ°¡±â
+
+    //ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½
     public void ReturnToMenu()
     {
-        OpenMenuPanel(); // ¸Þ´º ÆÐ³Î ¿­±â
+        OpenMenuPanel(); // ï¿½Þ´ï¿½ ï¿½Ð³ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
+
+
+
+    public 
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            // °ÔÀÓ ÁßÀÏ ¶§
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
             if (gamePanel.activeSelf)
             {
                 OpenPausePanel();
             }
-            // °ÔÀÓ Áß ¸ØÃãÀÏ ¶§
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
             else if (pausePanel.activeSelf)
             {
                 StartGamePanel();
             }
-            // ¸Þ´ºÀÏ ¶§ ¼¼ÀÌºê -> ¸Þ´º·Î µ¹¾Æ°¡±â
+            // ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ -> ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½
             else if (savePanel.activeSelf)
             {
                 OpenMenuPanel();

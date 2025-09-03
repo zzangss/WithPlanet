@@ -2,21 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System;
 
 public class SaveController : MonoBehaviour
 {
-
-    private string saveLocation;
     private PlayerAction pim;
     private ItemSpawner itemSpawner;
     private InventoryMain inventoryMain;
     private ItemDictionary itemdic;
     private RandomSpawner randomSpawner;
 
-    // Start is called before the first frame update
     void Awake()
     {
-        saveLocation = Path.Combine(Application.persistentDataPath, "savefile.json");
         pim = FindObjectOfType<PlayerAction>();
         itemSpawner = FindObjectOfType<ItemSpawner>();
         inventoryMain = FindObjectOfType<InventoryMain>();
@@ -24,26 +21,35 @@ public class SaveController : MonoBehaviour
         randomSpawner = FindObjectOfType<RandomSpawner>();
     }
 
-    // Update is called once per frame
-    public void SaveGame()
+    // 슬롯 번호에 따라 다른 세이브 파일 경로를 반환하는 함수
+    // 0번 슬롯은 초기 상태 파일, 1~3번은 사용자 세이브 파일
+    private string GetSavePath(int slotIndex)
     {
+        if (slotIndex == 0)
+        {
+            return Path.Combine(Application.persistentDataPath, "initialstate.json");
+        }
+        else
+        {
+            return Path.Combine(Application.persistentDataPath, $"savefile_{slotIndex}.json");
+        }
+    }
+
+    // 게임 저장 함수 (슬롯 번호 지정)
+    public void SaveGame(int slotIndex,float currentPlayTime)
+    {
+        string saveLocation = GetSavePath(slotIndex);
         SaveData saveData = new SaveData();
-        //플레이어 위치 저장
+
+        // 플레이어 위치 저장
         saveData.playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
-
-        //플레이어 체력 저장
         PlayerHealth playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
+        saveData.playerHealth = playerHealth.health;
+        saveData.heldItemID = pim.hasItem ? pim.currentItem.Item.ItemID : -1;
 
-
-        //아이템 처리
-        //플레이어 아이템 저장
-        saveData.heldItemID = pim.hasItem ? pim.currentItem.Item.ItemID : -1; //아이템 있을떄만 아이템 ID 저장, 없으면 -1
-
-        //월드 아이템 저장
+        // 월드 아이템 저장
         saveData.worldItems = new List<WorldItemData>();
-
         WorldItem[] allWorldItems = FindObjectsOfType<WorldItem>();
-
         foreach (var worldItem in allWorldItems)
         {
             if (worldItem.itemLocation == ItemLocation.World)
@@ -57,12 +63,11 @@ public class SaveController : MonoBehaviour
             }
         }
 
-        //카트 위치 저장
+        // 카트 위치 저장
         saveData.cartPosition = GameObject.FindGameObjectWithTag("Cart").transform.position;
 
-        //카트 아이템 저장
+        // 카트 아이템 저장
         saveData.cartItems = new List<CartItemData>();
-
         if (inventoryMain != null)
         {
             InventorySlot[] allSlots = inventoryMain.GetAllItems();
@@ -74,44 +79,46 @@ public class SaveController : MonoBehaviour
                     {
                         itemID = allSlots[i].Item.ItemID,
                         itemCount = allSlots[i].mItemCount,
-                        slotIndex = i // 현재 슬롯의 인덱스를 저장
+                        slotIndex = i
                     };
                     saveData.cartItems.Add(itemData);
                 }
             }
         }
 
-
+        // 플레이 시간과 저장 날짜 저장
+        saveData.playTime = currentPlayTime; 
+        saveData.lastSavedDate = DateTime.Now.ToString("yyyy.MM.dd HH:mm");
 
         File.WriteAllText(saveLocation, JsonUtility.ToJson(saveData));
-        Debug.Log("게임세이브 완료");
+        Debug.Log($"슬롯 {slotIndex}에 게임 저장 완료. 플레이 시간: {saveData.playTime}, 날짜: {saveData.lastSavedDate}");
     }
 
-
-
-    public void LoadGame()
+    // 게임 불러오기 함수 (슬롯 번호 지정)
+    public void LoadGame(int slotIndex)
     {
+        string saveLocation = GetSavePath(slotIndex);
         if (File.Exists(saveLocation))
         {
-            
-            SaveData saveData = JsonUtility.FromJson<SaveData>(File.ReadAllText(saveLocation));
 
-            //플레이어 위치 불러오기
-            GameObject.FindGameObjectWithTag("Player").transform.position = saveData.playerPosition;
-
-            //플레이어 체력 불러오기
-            PlayerHealth playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
+            string json = File.ReadAllText(saveLocation);
+            SaveData saveData = JsonUtility.FromJson<SaveData>(json);
 
 
-            //아이템 처리
-            //플레이어 아이템 불러오기
+            // 플레이어 정보 불러오기
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            player.transform.position = saveData.playerPosition;
+            PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+            playerHealth.health = saveData.playerHealth;
             pim.setItem(saveData.heldItemID);
 
-            //월드 아이템 불러오기
-            if (saveData.worldItems != null && saveData.worldItems.Count > 0)
+            // 월드 아이템 불러오기
+            if (itemSpawner != null)
             {
                 itemSpawner.clearWorld();
-
+            }
+            if (saveData.worldItems != null && saveData.worldItems.Count > 0)
+            {
                 foreach (var itemData in saveData.worldItems)
                 {
                     itemSpawner.spawnItemToWorld(itemData.itemID, itemData.position);
@@ -121,73 +128,99 @@ public class SaveController : MonoBehaviour
             GameObject.FindGameObjectWithTag("Cart").transform.position = saveData.cartPosition;
 
             // 카트 아이템 불러오기
-            if (saveData.cartItems != null && saveData.cartItems.Count > 0 && inventoryMain != null)
+            if (inventoryMain != null)
             {
                 inventoryMain.ClearAllSlots();
-
-                foreach (var itemData in saveData.cartItems)
+                if (saveData.cartItems != null && saveData.cartItems.Count > 0)
                 {
-                    GameObject itemPrefab =itemdic.GetItemPrefab(itemData.itemID);
-                    Item item = itemPrefab.GetComponent<WorldItem>().Item;
-
-                  
-                    if (item !=null)
+                    foreach (var itemData in saveData.cartItems)
                     {
-                        inventoryMain.SetItemSlot(itemData.slotIndex, item, itemData.itemCount);
+                        GameObject itemPrefab = itemdic.GetItemPrefab(itemData.itemID);
+                        if (itemPrefab != null)
+                        {
+                            Item item = itemPrefab.GetComponent<WorldItem>().Item;
+                            if (item != null)
+                            {
+                                inventoryMain.SetItemSlot(itemData.slotIndex, item, itemData.itemCount);
+                            }
+                        }
                     }
-                    
                 }
-
             }
+
+            // 플레이 시간과 저장 날짜 불러오기
+            GameManagerSystem.Instance.playTime = saveData.playTime;
+
+            Debug.Log($"슬롯 {slotIndex}에서 게임 불러오기 완료. 플레이 시간: {saveData.playTime}, 날짜: {saveData.lastSavedDate}");
         }
         else
         {
-            Debug.Log("현재 세이브파일이 존재하지않습니다.");
-            //SaveGame();
+            Debug.Log($"슬롯 {slotIndex}에 세이브파일이 존재하지않습니다.");
         }
-
     }
+    
 
-    //세이브 파일 삭제
-    public void DeleteSaveFile()
+    // 세이브 파일 삭제 (슬롯 번호 지정)
+    public void DeleteSaveFile(int slotIndex)
     {
+        string saveLocation = GetSavePath(slotIndex);
         if (File.Exists(saveLocation))
         {
             File.Delete(saveLocation);
-            Debug.Log("세이브 파일이 삭제되었습니다.");
-            LoadGame();
+            Debug.Log($"슬롯 {slotIndex}의 세이브 파일이 삭제되었습니다.");
         }
         else
         {
-            Debug.Log("삭제할 세이브 파일이 없습니다.");
+            Debug.Log($"슬롯 {slotIndex}에는 삭제할 세이브 파일이 없습니다.");
         }
     }
 
-    // 저장 파일의 존재 여부를 반환하는 함수
-    public bool HasSaveFile()
+    // 저장 파일의 존재 여부를 반환하는 함수 (슬롯 번호 지정)
+    public bool HasSaveFile(int slotIndex)
     {
-        return File.Exists(saveLocation);
+        return File.Exists(GetSavePath(slotIndex));
     }
 
-    // 월드 초기화
+    //슬롯의 플레이 시간 반환
+    public float GetPlayTime(int slotIndex)
+    {
+        string saveLocation = GetSavePath(slotIndex);
+        if (File.Exists(saveLocation))
+        {
+            SaveData saveData = JsonUtility.FromJson<SaveData>(File.ReadAllText(saveLocation));
+            return saveData.playTime;
+        }
+        return 0f;
+    }
+
+    // 슬롯의 마지막 저장 날짜를 반환하는 함수
+    public string GetLastSavedDate(int slotIndex)
+    {
+        string saveLocation = GetSavePath(slotIndex);
+        if (File.Exists(saveLocation))
+        {
+            SaveData saveData = JsonUtility.FromJson<SaveData>(File.ReadAllText(saveLocation));
+            return saveData.lastSavedDate;
+        }
+        return "N/A";
+    }
+
+
+    // 월드 초기화 (월드 아이템만 바꾸기. 나머지는 초기 상태 그대로 저장)
     public void initializeWorld()
     {
        
-        // 플레이어 아이템 초기화
-        pim.setItem(-1); // -1로 설정하여 아이템 없음 상태로 초기화
-
-        // 월드 아이템 초기화
-        itemSpawner.clearWorld();
-        
-        // 카트 아이템 초기화
-        if (inventoryMain != null)
+        //  월드 아이템 초기화
+        if (itemSpawner != null)
         {
-            inventoryMain.ClearAllSlots();
+            itemSpawner.clearWorld();
         }
 
-        //월드 아이템 새로 생성
-        randomSpawner.SpawnItems();
-
-        Debug.Log("게임이 초기화되었습니다.");
+        // 5. 월드 아이템 새로 생성
+        if (randomSpawner != null)
+        {
+            randomSpawner.SpawnItems();
+        }
+        Debug.Log("게임 월드 초기화");
     }
 }

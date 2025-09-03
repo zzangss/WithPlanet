@@ -3,94 +3,151 @@ using System.IO;
 
 public class GameManagerSystem : MonoBehaviour
 {
-    // ½Ì±ÛÅæ ÆÐÅÏÀ» À§ÇÑ Á¤Àû ÀÎ½ºÅÏ½º
+    // ï¿½Ì±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Î½ï¿½ï¿½Ï½ï¿½
     public static GameManagerSystem Instance;
 
-    // °ÔÀÓ »óÅÂ º¯¼ö
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public int stage;
     public float playTime;
 
-    // °ü¸®ÇÒ ½Ã½ºÅÛ ½ºÅ©¸³Æ® ÂüÁ¶ 
+    // ï¿½ï¿½ï¿½Ìºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public bool hasSaveFile;
+
+    //ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½
+    private int currentSaveSlot = 0;
+
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ 
     [SerializeField] private SaveController saveController;
 
     private void Awake()
     {
-        // ½Ì±ÛÅæ ÆÐÅÏÀ¸·Î GameManagerSystem ÀÎ½ºÅÏ½º°¡ ÇÏ³ª¸¸ Á¸ÀçÇÏµµ·Ï º¸Àå
+        // ï¿½Ì±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ GameManagerSystem ï¿½Î½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // ¾ÀÀÌ ¹Ù²î¾îµµ ÆÄ±«µÇÁö ¾Ê°Ô ¼³Á¤
+            DontDestroyOnLoad(gameObject); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½îµµ ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
         else
         {
-            Destroy(gameObject); // ÀÌ¹Ì Á¸ÀçÇÏ´Â °æ¿ì Áßº¹ »ý¼º ¹æÁö
+            Destroy(gameObject); // ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ ï¿½ßºï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
     }
 
     private void Start()
     {
         saveController = FindObjectOfType<SaveController>();
+        if (!saveController.HasSaveFile(0))
+        }
+            InitialSave();
+        {
+        UpdateHasSaveFileStatus();
     }
 
     void Update()
     {
-        // °ÔÀÓ »óÅÂ ¾÷µ¥ÀÌÆ® (¿¹: ÇÃ·¹ÀÌ ½Ã°£ Áõ°¡)
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® (ï¿½ï¿½: ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½)
         playTime += Time.deltaTime;
-        //  stage¸¦ 1¾¿ Áõ°¡½ÃÅ°´Â ·ÎÁ÷ (³ªÁß¿¡ Ãß°¡)
+        //  stageï¿½ï¿½ 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½ß°ï¿½)
     }
 
-    // »õ °ÔÀÓÀ» ½ÃÀÛÇÏ´Â ÇÔ¼ö
-    public void StartNewGame()
+    // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½
+    public void CreateNewSlot()
     {
-        Debug.Log("»õ °ÔÀÓ ½ÃÀÛ");
-
-        // ±âÁ¸ ¼¼ÀÌºê ÆÄÀÏ »èÁ¦
-        saveController.DeleteSaveFile();
-
-        //ÃÊ±âÈ­ ÀÛ¾÷ 
-        saveController.initializeWorld();
-    }
-
-    // °ÔÀÓÀ» ºÒ·¯¿À´Â ÇÔ¼ö
-    public void LoadGame()
-    {
-        Debug.Log("ÀúÀåµÈ °ÔÀÓ ºÒ·¯¿À±â");
-
-        // ÀúÀå ÆÄÀÏÀÌ ÀÖ´ÂÁö È®ÀÎ
-        if (saveController.HasSaveFile())
+        // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½
+        int newSlot = -1;
+        for (int i = 1; i <= 3; i++)
         {
-            // ÀúÀåµÈ µ¥ÀÌÅÍ ·Îµå
-            saveController.LoadGame();
+            if (!saveController.HasSaveFile(i))
+            {
+                newSlot = i;
+                break; // ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ Ã¹ ï¿½ï¿½Â° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ï¿½ï¿½ ï¿½Ýºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            }
+        }
+
+        if (newSlot != -1)
+        {
+            Debug.Log($"ï¿½ï¿½ï¿½ï¿½ {newSlot}ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.");
+
+            // ï¿½Ê±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ 0)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ò·ï¿½ï¿½Í¼ï¿½
+            saveController.LoadGame(0);
+
+            // ï¿½ï¿½ï¿½å¸¦ ï¿½Ê±ï¿½È­ï¿½Ï°ï¿½
+            saveController.initializeWorld();
+
+            SaveGame(newSlot);
+            currentSaveSlot = newSlot;
+            UpdateHasSaveFileStatus();
         }
         else
         {
-            Debug.Log("ÀúÀåµÈ ÆÄÀÏÀÌ ¾ø½À´Ï´Ù. »õ °ÔÀÓÀ» ½ÃÀÛÇÕ´Ï´Ù.");
-            StartNewGame();
+            Debug.Log("ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ Ã¡ï¿½ï¿½ï¿½Ï´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½Õ´Ï´ï¿½.");
         }
     }
 
-    //°ÔÀÓ ÀúÀåÇÔ¼ö
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½)
+    public void LoadGame(int slotIndex)
+    {
+        Debug.Log($"ï¿½ï¿½ï¿½ï¿½ {slotIndex}ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½");
+        saveController.LoadGame(slotIndex);
+
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
+        currentSaveSlot = slotIndex;
+        UpdateHasSaveFileStatus();
+    }
+
+
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½)
+    public void SaveGame(int slotIndex)
+    {
+        
+        Debug.Log($"ï¿½ï¿½ï¿½ï¿½ {slotIndex}ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
+        saveController.SaveGame(slotIndex,playTime);
+    }
+
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ 
     public void SaveGame()
     {
-        Debug.Log("°ÔÀÓ ÀúÀå Áß...");
-        // ÇöÀç °ÔÀÓ »óÅÂ ÀúÀå
-        saveController.SaveGame();
+        Debug.Log($"ï¿½ï¿½ï¿½ï¿½ {currentSaveSlot}ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
+        if(currentSaveSlot != 0)
+        {
+            saveController.SaveGame(currentSaveSlot, playTime);
+        }
+        
     }
 
-    // °ÔÀÓ Á¾·á ÇÔ¼ö 
+    // ï¿½Ê±ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¹Ý¿ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½)
+    public void InitialSave()
+    {
+        Debug.Log("ï¿½Ê±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
+        saveController.SaveGame(0,0f); // 0ï¿½ï¿½ ï¿½ï¿½ï¿½Ô¿ï¿½ ï¿½ï¿½ï¿½ï¿½
+    }
+
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
     public void QuitGame()
     {
-        Debug.Log("°ÔÀÓ Á¾·á");
-        // °ÔÀÓ Á¾·á Ã³¸®
+        Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
         Application.Quit();
-
-        // ¿¡µðÅÍ¿¡¼­ ½ÇÇà ÁßÀÎ °æ¿ì
     }
 
-   //ÀúÀåÆÄÀÏ »èÁ¦
-    public void DeleteSaveFile()
+    // ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½)
+    public void DeleteSaveFile(int slotIndex)
     {
-        Debug.Log("ÀúÀå ÆÄÀÏ »èÁ¦");
-        saveController.DeleteSaveFile();
+        Debug.Log($"ï¿½ï¿½ï¿½ï¿½ {slotIndex}ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
+        saveController.DeleteSaveFile(slotIndex);
+        UpdateHasSaveFileStatus();
+    }
+
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½Ôµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¸ï¿½ È®ï¿½ï¿½ï¿½Ï°ï¿½ hasSaveFile ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½Õ´Ï´ï¿½.
+    private void UpdateHasSaveFileStatus()
+    {
+        hasSaveFile = false;
+        for (int i = 1; i <= 3; i++)
+        {
+            if (saveController.HasSaveFile(i))
+            {
+                hasSaveFile = true;
+                break;
+            }
+        }
     }
 }

@@ -176,7 +176,16 @@ public class PlayerAction : MonoBehaviour
         if(itemID<0)
         {
             ClearcurrentItem();
-            Debug.Log("아이템을 들고있지 않았습니다.");
+           // Debug.Log("아이템을 들고있지 않았습니다.");
+           hasItem = false; // 아이템을 들고 있지 않은 상태로 변경
+
+            //플레이어 애니메이션
+            if (playerAnimator != null)
+            {
+                playerAnimator.SetBool("HasItem", false);
+            }
+
+
             return;
         }
 
@@ -188,6 +197,7 @@ public class PlayerAction : MonoBehaviour
             Debug.LogError($"ID {itemID} 프리팹을 찾을 수 없습니다.");
             return;
         }
+
         ClearcurrentItem();
 
         // 1) 인스턴스 생성은 GameObject로 받기
