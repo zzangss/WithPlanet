@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5057aa2153175654fb2a25d05675ca97, type: 3}
-  m_Name: I_B.candy
+  m_Name: I_B.Candy2
   m_EditorClassIdentifier: 
   mItemID: 1
-  mCanOverlap: 0
-  mItemType: -1
-  mName: "\uD30C\uB780\uC0AC\uD0D5"
+  mCanOverlap: 1
+  mItemType: 2
+  mName: Candy2
   mItemImage: {fileID: 21300000, guid: ac88e2476164f2d43ba1bf1b224c8fde, type: 3}
-  mItemValue: 10
+  mItemValue: 100
   mWorldPrefab: {fileID: 7910678848578004965, guid: 700a40468c944ae43a7f81b317bb7068, type: 3}

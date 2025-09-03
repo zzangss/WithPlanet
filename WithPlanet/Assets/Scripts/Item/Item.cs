@@ -8,7 +8,8 @@ public enum ItemType  // 아이템 유형
 {
     NONE = 0b0,
     NORMAL = 0b1, //1
-    CORE = 0b10 //2
+    OHTER = 0b10, //2
+    CORE = 0b11 //3
 }
 
 [CreateAssetMenu(fileName = "Item", menuName =  "Add Item/Item")]

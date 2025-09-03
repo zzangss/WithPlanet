@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: I_RainbowItem
   m_EditorClassIdentifier: 
   mItemID: 13
-  mCanOverlap: 0
-  mItemType: -1
+  mCanOverlap: 1
+  mItemType: 1
   mName: "\uBB34\uC9C0\uAC1C\uB864\uB9AC\uD31D"
   mItemImage: {fileID: 21300000, guid: f17e5824ac5072f4bb96e4ac68f1b7c2, type: 3}
-  mItemValue: 10
+  mItemValue: 300
   mWorldPrefab: {fileID: 7910678848578004965, guid: c5aa1ee66d2c4d8478b1bb543e3ce090, type: 3}

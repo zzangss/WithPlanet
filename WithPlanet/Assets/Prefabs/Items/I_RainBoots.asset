@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5057aa2153175654fb2a25d05675ca97, type: 3}
-  m_Name: I_Rain
+  m_Name: I_RainBoots
   m_EditorClassIdentifier: 
   mItemID: 12
   mCanOverlap: 0
-  mItemType: -1
+  mItemType: 2
   mName: "\uC7A5\uD654"
   mItemImage: {fileID: 21300000, guid: 3b39c71fd1a687047a4e5e75bb409f61, type: 3}
-  mItemValue: 10
+  mItemValue: 500
   mWorldPrefab: {fileID: 7910678848578004965, guid: 40ea73a34ad92ef4ba57c512bd779b78, type: 3}

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: IC_Chocomouse
   m_EditorClassIdentifier: 
   mItemID: 16
-  mCanOverlap: 0
-  mItemType: -1
+  mCanOverlap: 1
+  mItemType: 2
   mName: "\uCD08\uCF54\uB9C8\uC6B0\uC2A4"
   mItemImage: {fileID: 21300000, guid: 28d644f4a6aa7314a8a4ad34ecad2794, type: 3}
-  mItemValue: 10
+  mItemValue: 150
   mWorldPrefab: {fileID: 7910678848578004965, guid: 2f6b5d66f1976a847a5258a03529ee35, type: 3}

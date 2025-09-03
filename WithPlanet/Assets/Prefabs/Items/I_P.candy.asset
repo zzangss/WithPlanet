@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: I_P.candy
   m_EditorClassIdentifier: 
   mItemID: 10
-  mCanOverlap: 0
-  mItemType: -1
+  mCanOverlap: 1
+  mItemType: 1
   mName: "\uBD84\uD64D\uC0AC\uD0D5"
   mItemImage: {fileID: 21300000, guid: c99a56ef0e50e7c4d88a1877ac1362d2, type: 3}
-  mItemValue: 10
+  mItemValue: 100
   mWorldPrefab: {fileID: 7910678848578004965, guid: b532d3dde3ed8284b9bb7accf4c42a7d, type: 3}

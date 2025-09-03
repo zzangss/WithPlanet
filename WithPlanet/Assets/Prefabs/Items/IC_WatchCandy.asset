@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mItemID: 21
   mCanOverlap: 0
-  mItemType: -1
+  mItemType: 2
   mName: "\uD53C\uC790"
   mItemImage: {fileID: 21300000, guid: 93353d88095a03a4096c0782e2460b00, type: 3}
-  mItemValue: 10
+  mItemValue: 200
   mWorldPrefab: {fileID: 7910678848578004965, guid: 382b0ee2601d096458450fe8c8a230eb, type: 3}
