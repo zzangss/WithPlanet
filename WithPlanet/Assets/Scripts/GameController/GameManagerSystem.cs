@@ -45,6 +45,9 @@ public class GameManagerSystem : MonoBehaviour
         {
             InitialSave();
         }
+
+        //초기 시작 시 hasSaveFile 상태 확인
+        UpdateHasSaveFileStatus();
     }
 
     void Update()
@@ -56,14 +59,42 @@ public class GameManagerSystem : MonoBehaviour
     }
 
     // 새 게임을 시작하는 함수
-    public void NewGameLoad()
+    public void CreateNewSlot()
     {
-        Debug.Log("새 게임 시작");
+        // 사용 가능한 새 슬롯 찾기
+        int newSlot = -1;
+        for (int i = 1; i <= 3; i++)
+        {
+            if (!saveController.HasSaveFile(i))
+            {
+                newSlot = i;
+                break; // 비어있는 첫 번째 슬롯을 찾으면 반복문 종료
+            }
+        }
 
-        saveController.LoadGame(0); // 0번 슬롯 (초기 상태) 불러오기
-        saveController.initializeWorld(); // 월드 아이템만 초기화
+        if (newSlot != -1)
+        {
+            Debug.Log($"슬롯 {newSlot}에 새 게임을 시작합니다.");
 
-        currentSaveSlot = 1; // 현재 슬롯을 첫번째 슬롯으로 설정
+            // 초기 상태 파일(슬롯 0)의 데이터를 불러와서
+            saveController.LoadGame(0);
+
+            // 월드를 초기화하고
+            saveController.initializeWorld();
+
+            // 새로운 슬롯에 현재 게임 상태를 저장합니다.
+            SaveGame(newSlot);
+
+            // 현재 플레이 중인 슬롯을 새 슬롯으로 설정
+            currentSaveSlot = newSlot;
+
+            // hasSaveFile 상태 업데이트
+            UpdateHasSaveFileStatus();
+        }
+        else
+        {
+            Debug.Log("세이브 슬롯이 모두 꽉 찼습니다. 기존 슬롯을 삭제해야 합니다.");
+        }
     }
 
     // 게임을 불러오는 함수 (슬롯 번호 지정)
@@ -74,15 +105,25 @@ public class GameManagerSystem : MonoBehaviour
 
         // 현재 플레이 중인 슬롯 번호를 저장합니다.
         currentSaveSlot = slotIndex;
+        UpdateHasSaveFileStatus();
     }
 
+
     // 게임 저장 함수 (슬롯 번호 지정)
+    public void SaveGame(int slotIndex)
+    {
+        
+        Debug.Log($"슬롯 {slotIndex}에 게임 저장");
+        saveController.SaveGame(slotIndex,playTime);
+    }
+
+    // 진행중인 게임 저장 함수 
     public void SaveGame()
     {
         Debug.Log($"슬롯 {currentSaveSlot}에 게임 저장");
         if(currentSaveSlot != 0)
         {
-            saveController.SaveGame(currentSaveSlot);
+            saveController.SaveGame(currentSaveSlot, playTime);
         }
         
     }
@@ -91,7 +132,7 @@ public class GameManagerSystem : MonoBehaviour
     public void InitialSave()
     {
         Debug.Log("초기 상태 파일 생성");
-        saveController.SaveGame(0); // 0번 슬롯에 저장
+        saveController.SaveGame(0,0f); // 0번 슬롯에 저장
     }
 
     // 게임 종료 함수
@@ -106,5 +147,20 @@ public class GameManagerSystem : MonoBehaviour
     {
         Debug.Log($"슬롯 {slotIndex}의 세이브 파일 삭제");
         saveController.DeleteSaveFile(slotIndex);
+        UpdateHasSaveFileStatus();
+    }
+
+    // 현재 세이브 슬롯들의 존재 여부를 확인하고 hasSaveFile 변수를 업데이트합니다.
+    private void UpdateHasSaveFileStatus()
+    {
+        hasSaveFile = false;
+        for (int i = 1; i <= 3; i++)
+        {
+            if (saveController.HasSaveFile(i))
+            {
+                hasSaveFile = true;
+                break;
+            }
+        }
     }
 }

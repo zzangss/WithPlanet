@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System;
 
 public class SaveController : MonoBehaviour
 {
@@ -35,7 +36,7 @@ public class SaveController : MonoBehaviour
     }
 
     // 게임 저장 함수 (슬롯 번호 지정)
-    public void SaveGame(int slotIndex)
+    public void SaveGame(int slotIndex,float currentPlayTime)
     {
         string saveLocation = GetSavePath(slotIndex);
         SaveData saveData = new SaveData();
@@ -84,8 +85,13 @@ public class SaveController : MonoBehaviour
                 }
             }
         }
+
+        // 플레이 시간과 저장 날짜 저장
+        saveData.playTime = currentPlayTime; 
+        saveData.lastSavedDate = DateTime.Now.ToString("yyyy.MM.dd HH:mm");
+
         File.WriteAllText(saveLocation, JsonUtility.ToJson(saveData));
-        Debug.Log($"슬롯 {slotIndex}에 게임세이브 완료");
+        Debug.Log($"슬롯 {slotIndex}에 게임 저장 완료. 플레이 시간: {saveData.playTime}, 날짜: {saveData.lastSavedDate}");
     }
 
     // 게임 불러오기 함수 (슬롯 번호 지정)
@@ -94,7 +100,12 @@ public class SaveController : MonoBehaviour
         string saveLocation = GetSavePath(slotIndex);
         if (File.Exists(saveLocation))
         {
-            SaveData saveData = JsonUtility.FromJson<SaveData>(File.ReadAllText(saveLocation));
+
+            string json = File.ReadAllText(saveLocation);
+            SaveData saveData = JsonUtility.FromJson<SaveData>(json);
+
+
+            // 플레이어 정보 불러오기
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             player.transform.position = saveData.playerPosition;
             PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
@@ -136,13 +147,18 @@ public class SaveController : MonoBehaviour
                     }
                 }
             }
-            Debug.Log($"슬롯 {slotIndex}에서 게임 불러오기 완료");
+
+            // 플레이 시간과 저장 날짜 불러오기
+            GameManagerSystem.Instance.playTime = saveData.playTime;
+
+            Debug.Log($"슬롯 {slotIndex}에서 게임 불러오기 완료. 플레이 시간: {saveData.playTime}, 날짜: {saveData.lastSavedDate}");
         }
         else
         {
             Debug.Log($"슬롯 {slotIndex}에 세이브파일이 존재하지않습니다.");
         }
     }
+    
 
     // 세이브 파일 삭제 (슬롯 번호 지정)
     public void DeleteSaveFile(int slotIndex)
@@ -164,6 +180,31 @@ public class SaveController : MonoBehaviour
     {
         return File.Exists(GetSavePath(slotIndex));
     }
+
+    //슬롯의 플레이 시간 반환
+    public float GetPlayTime(int slotIndex)
+    {
+        string saveLocation = GetSavePath(slotIndex);
+        if (File.Exists(saveLocation))
+        {
+            SaveData saveData = JsonUtility.FromJson<SaveData>(File.ReadAllText(saveLocation));
+            return saveData.playTime;
+        }
+        return 0f;
+    }
+
+    // 슬롯의 마지막 저장 날짜를 반환하는 함수
+    public string GetLastSavedDate(int slotIndex)
+    {
+        string saveLocation = GetSavePath(slotIndex);
+        if (File.Exists(saveLocation))
+        {
+            SaveData saveData = JsonUtility.FromJson<SaveData>(File.ReadAllText(saveLocation));
+            return saveData.lastSavedDate;
+        }
+        return "N/A";
+    }
+
 
     // 월드 초기화 (월드 아이템만 바꾸기. 나머지는 초기 상태 그대로 저장)
     public void initializeWorld()

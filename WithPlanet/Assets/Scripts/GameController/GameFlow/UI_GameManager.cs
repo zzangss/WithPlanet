@@ -100,25 +100,25 @@ public class UI_GameManager : MonoBehaviour
     //새 게임 시작
     public void StartNewGame()
     {
-        gameManagerSystem.NewGameLoad(); // 새 게임 시작
-        StartGamePanel(); // 게임 패널 열기
+        gameManagerSystem.CreateNewSlot();
+        dialogueManager.StartTutorial();
+        PauseController.SetPause(false);
+        StartGamePanel();
     }
 
-    //게임 시작 (사용자가 선택한 슬롯에 따라)
+    // "게임 시작" 버튼에 연결할 함수 (선택된 슬롯 불러오기)
     public void StartSelectedGame()
     {
         int selectedSlot = saveSlotSelector.GetSelectedSlot();
 
-        if (selectedSlot != -1)
+        if (selectedSlot > 0)
         {
-            // 선택된 슬롯이 있을 경우에만 게임 불러오기
             gameManagerSystem.LoadGame(selectedSlot);
             StartGamePanel();
         }
         else
         {
-            // 슬롯이 선택되지 않았을 경우 경고 메시지 표시
-            Debug.Log("게임을 시작하려면 먼저 슬롯을 선택하세요!");
+            Debug.Log("게임을 시작하려면 슬롯을 먼저 선택하세요!");
         }
     }
 
@@ -128,7 +128,7 @@ public class UI_GameManager : MonoBehaviour
     public void SaveGame()
     {
         gameManagerSystem.SaveGame();
-        // 저장 후 UI 갱신 로직 필요 (예: 파일 생성 날짜 표시)
+        
     }
 
     //게임종료
@@ -138,10 +138,14 @@ public class UI_GameManager : MonoBehaviour
     }
 
     // 세이브 파일 삭제 (슬롯 번호로 삭제하기)
-    public void OnDeleteButtonClicked(int slotIndex)
+    public void OnDeleteButtonClicked()
     {
-        gameManagerSystem.DeleteSaveFile(slotIndex);
-        // 삭제 후 UI 갱신 로직 필요
+        int selectedSlot = saveSlotSelector.GetSelectedSlot();
+        if (selectedSlot > 0)
+        {
+            gameManagerSystem.DeleteSaveFile(selectedSlot);
+        }
+        
     }
 
 
@@ -153,7 +157,7 @@ public class UI_GameManager : MonoBehaviour
 
 
 
-    public 
+
 
     void Update()
     {

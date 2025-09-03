@@ -17,4 +17,9 @@ public class SaveData
     public List<WorldItemData> worldItems; // 월드에 있는 아이템 목록
     public Vector3 cartPosition; // 카트의 위치
     public List<CartItemData> cartItems; // 카트에 있는 아이템 목록
+
+    //save UI 정보
+    public float playTime; // 총 플레이 시간
+    public string lastSavedDate; // 마지막 저장 날짜
+
 }
