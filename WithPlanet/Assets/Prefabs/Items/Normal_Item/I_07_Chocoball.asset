@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5057aa2153175654fb2a25d05675ca97, type: 3}
+  m_Name: I_07_Chocoball
+  m_EditorClassIdentifier: 
+  mItemID: 107
+  mCanOverlap: 1
+  mItemType: 1
+  mName: "\uCD08\uCF54\uBCFC"
+  mItemImage: {fileID: 21300000, guid: 1a1dd800231aa9d4ba13b89a05527818, type: 3}
+  mItemValue: 200
+  mWorldPrefab: {fileID: 7910678848578004965, guid: e8626418d3206b94db59617077630ba5, type: 3}

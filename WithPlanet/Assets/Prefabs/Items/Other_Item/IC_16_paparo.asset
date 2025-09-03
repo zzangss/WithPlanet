@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5057aa2153175654fb2a25d05675ca97, type: 3}
+  m_Name: IC_16_paparo
+  m_EditorClassIdentifier: 
+  mItemID: 216
+  mCanOverlap: 0
+  mItemType: 2
+  mName: "\uBE7C\uBE7C\uB85C"
+  mItemImage: {fileID: 21300000, guid: ad3a178c052062b4c80a374f80f26442, type: 3}
+  mItemValue: 50
+  mWorldPrefab: {fileID: 7910678848578004965, guid: 0b6bfae479831c94390c08f8c5a56f62, type: 3}
