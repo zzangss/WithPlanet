@@ -72,13 +72,11 @@ public class PlayerAction : MonoBehaviour
             {
                 dialogueManager.Action(Type.Boss);
             }
-
-            if (isNearMini)
+            else if (isNearMini && !MinigameLauncher.isMiniRunning)
             {
                 minigameLauncher.Launch();
             }
-
-            if (currentItem == null)
+            else if (currentItem == null)
             {
                 TryPickupItem();
             }
@@ -105,8 +103,6 @@ public class PlayerAction : MonoBehaviour
                 inventoryMain.TryOpenCloseInventory();
             }
         }
-
-
     }
 
     private void OnTriggerEnter(Collider other)
@@ -129,7 +125,6 @@ public class PlayerAction : MonoBehaviour
                 isNearMini = true;
                 scanObject = other.gameObject;
             }
-
         }
     }
 
