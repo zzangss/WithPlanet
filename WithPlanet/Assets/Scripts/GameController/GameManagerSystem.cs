@@ -37,9 +37,9 @@ public class GameManagerSystem : MonoBehaviour
     {
         saveController = FindObjectOfType<SaveController>();
         if (!saveController.HasSaveFile(0))
-        }
-            InitialSave();
         {
+            InitialSave();
+        }
         UpdateHasSaveFileStatus();
     }
 
