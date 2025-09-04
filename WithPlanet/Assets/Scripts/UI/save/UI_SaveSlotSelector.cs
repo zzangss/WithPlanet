@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
 public class SaveSlotSelector : MonoBehaviour
 {
@@ -11,8 +12,8 @@ public class SaveSlotSelector : MonoBehaviour
 
     // 세이브 컨트롤러와 슬롯 텍스트 배열
     public SaveController saveController;
-    public Text[] playTimeTexts;
-    public Text[] dateTexts;
+    public TextMeshProUGUI[] playTimeTexts;
+    public TextMeshProUGUI[] dateTexts;
 
     private void Start()
     {

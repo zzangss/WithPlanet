@@ -59,43 +59,43 @@ public class GameManagerSystem : MonoBehaviour
     }
 
     // 새 게임을 시작하는 함수
-    public void CreateNewSlot()
+    public bool StartNewGame()
     {
-        // 사용 가능한 새 슬롯 찾기
-        int newSlot = -1;
+        // 1. 빈 슬롯 찾기
+        int availableSlot = -1;
         for (int i = 1; i <= 3; i++)
         {
             if (!saveController.HasSaveFile(i))
             {
-                newSlot = i;
-                break; // 비어있는 첫 번째 슬롯을 찾으면 반복문 종료
+                availableSlot = i;
+                break;
             }
         }
 
-        if (newSlot != -1)
+        // 2. 빈 슬롯이 있는지 확인
+        if (availableSlot != -1)
         {
-            Debug.Log($"슬롯 {newSlot}에 새 게임을 시작합니다.");
+            // 3. 성공 시: 다음에 저장할 슬롯 번호 설정
+            currentSaveSlot = availableSlot;
 
-            // 초기 상태 파일(슬롯 0)의 데이터를 불러와서
+            // 4. 게임 상태 초기화
             saveController.LoadGame(0);
-
-            // 월드를 초기화하고
             saveController.initializeWorld();
+            playTime = 0f;
 
-            // 새로운 슬롯에 현재 게임 상태를 저장합니다.
-            SaveGame(newSlot);
-
-            // 현재 플레이 중인 슬롯을 새 슬롯으로 설정
-            currentSaveSlot = newSlot;
-
-            // hasSaveFile 상태 업데이트
-            UpdateHasSaveFileStatus();
+            
+            return true; // 성공!
         }
         else
         {
-            Debug.Log("세이브 슬롯이 모두 꽉 찼습니다. 기존 슬롯을 삭제해야 합니다.");
+            // 5. 실패 시:
+            Debug.Log("새 게임 시작 실패: 모든 슬롯이 꽉 찼습니다.");
+            return false; // 실패!
         }
     }
+
+
+
 
     // 게임을 불러오는 함수 (슬롯 번호 지정)
     public void LoadGame(int slotIndex)

@@ -59,6 +59,12 @@ public class UI_GameManager : MonoBehaviour
         gamePanel.SetActive(false);
         pausePanel.SetActive(false);
         savePanel.SetActive(true);
+
+        // 슬롯 상태를 갱신
+        if (saveSlotSelector != null)
+        {
+            saveSlotSelector.RefreshUI();
+        }
     }
 
     public void OpenPausePanel()
@@ -100,10 +106,27 @@ public class UI_GameManager : MonoBehaviour
     //새 게임 시작
     public void StartNewGame()
     {
-        gameManagerSystem.CreateNewSlot();
-        dialogueManager.StartTutorial();
-        PauseController.SetPause(false);
-        StartGamePanel();
+        // CreateNewSlot()이 true를 반환할 때만 게임을 시작
+        if (gameManagerSystem.StartNewGame())
+        {
+            // 슬롯 상태를 갱신
+            if (saveSlotSelector != null)
+            {
+                saveSlotSelector.RefreshUI();
+            }
+
+            dialogueManager.StartTutorial();
+            PauseController.SetPause(false);
+            StartGamePanel();
+
+        }
+        else
+        {
+      
+            // 유저에게 "슬롯이 꽉 찼습니다" 라는 UI 팝업을 보여주는 코드를 여기에 추가할 수 있습니다.
+            Debug.Log("UI 매니저: 새 게임 생성 실패. 게임을 시작하지 않습니다.");
+        }
+
     }
 
     // "게임 시작" 버튼에 연결할 함수 (선택된 슬롯 불러오기)
@@ -113,6 +136,11 @@ public class UI_GameManager : MonoBehaviour
 
         if (selectedSlot > 0)
         {
+            // 슬롯 상태를 갱신
+            if (saveSlotSelector != null)
+            {
+                saveSlotSelector.RefreshUI();
+            }
             gameManagerSystem.LoadGame(selectedSlot);
             StartGamePanel();
         }
@@ -138,12 +166,18 @@ public class UI_GameManager : MonoBehaviour
     }
 
     // 세이브 파일 삭제 (슬롯 번호로 삭제하기)
-    public void OnDeleteButtonClicked()
+    public void DeleteGame()
     {
         int selectedSlot = saveSlotSelector.GetSelectedSlot();
         if (selectedSlot > 0)
         {
             gameManagerSystem.DeleteSaveFile(selectedSlot);
+            // 슬롯 상태를 갱신
+            if (saveSlotSelector != null)
+            {
+                saveSlotSelector.RefreshUI();
+            }
+            
         }
         
     }
