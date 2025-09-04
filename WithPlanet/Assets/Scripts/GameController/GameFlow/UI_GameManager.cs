@@ -52,6 +52,12 @@ public class UI_GameManager : MonoBehaviour
         gamePanel.SetActive(false);
         pausePanel.SetActive(false);
         savePanel.SetActive(true);
+
+        // ���� ���¸� ����
+        if (saveSlotSelector != null)
+        {
+            saveSlotSelector.RefreshUI();
+        }
     }
 
     public void OpenPausePanel()
@@ -93,11 +99,24 @@ public class UI_GameManager : MonoBehaviour
     //�� ���� ����
     public void StartNewGame()
     {
-        gameManagerSystem.CreateNewSlot();
-        dialogueManager.StartTutorial();
-        PauseController.SetPause(false);
-        StartGamePanel();
-        dialogueManager.StartTutorial();
+        if (gameManagerSystem.StartNewGame())
+        {
+            if (saveSlotSelector != null)
+            {
+                saveSlotSelector.RefreshUI();
+            }
+
+            dialogueManager.StartTutorial();
+            PauseController.SetPause(false);
+            StartGamePanel();
+
+        }
+        else
+        {
+      
+            Debug.Log("UI �Ŵ���: �� ���� ���� ����. ������ �������� �ʽ��ϴ�.");
+        }
+
     }
 
     // "���� ����" ��ư�� ������ �Լ� (���õ� ���� �ҷ�����)
@@ -107,6 +126,11 @@ public class UI_GameManager : MonoBehaviour
 
         if (selectedSlot > 0)
         {
+            // ���� ���¸� ����
+            if (saveSlotSelector != null)
+            {
+                saveSlotSelector.RefreshUI();
+            }
             gameManagerSystem.LoadGame(selectedSlot);
             StartGamePanel();
         }
@@ -132,11 +156,17 @@ public class UI_GameManager : MonoBehaviour
     }
 
     // ���̺� ���� ���� (���� ��ȣ�� �����ϱ�)
-    public void OnDeleteButtonClicked()
+    public void DeleteGame()
     {
         int selectedSlot = saveSlotSelector.GetSelectedSlot();
         {
             gameManagerSystem.DeleteSaveFile(selectedSlot);
+            // ���� ���¸� ����
+            if (saveSlotSelector != null)
+            {
+                saveSlotSelector.RefreshUI();
+            }
+            
         }
     }
 

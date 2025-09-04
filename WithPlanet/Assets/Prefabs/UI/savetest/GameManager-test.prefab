@@ -161,6 +161,7 @@ MonoBehaviour:
   inventoryPanel: {fileID: 0}
   dialogueManager: {fileID: 1739273021055599923}
   gameManagerSystem: {fileID: 1509465627933216229}
+  saveSlotSelector: {fileID: 0}
 --- !u!1 &6724237204204432050
 GameObject:
   m_ObjectHideFlags: 0

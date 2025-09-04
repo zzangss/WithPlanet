@@ -51,38 +51,42 @@ public class GameManagerSystem : MonoBehaviour
     }
 
     // �� ������ �����ϴ� �Լ�
-    public void CreateNewSlot()
+    public bool StartNewGame()
     {
-        // ��� ������ �� ���� ã��
-        int newSlot = -1;
+        // 1. �� ���� ã��
+        int availableSlot = -1;
         for (int i = 1; i <= 3; i++)
         {
             if (!saveController.HasSaveFile(i))
             {
-                newSlot = i;
-                break; // ����ִ� ù ��° ������ ã���� �ݺ��� ����
+                availableSlot = i;
+                break;
             }
         }
 
-        if (newSlot != -1)
+        // 2. �� ������ �ִ��� Ȯ��
+        if (availableSlot != -1)
         {
-            Debug.Log($"���� {newSlot}�� �� ������ �����մϴ�.");
+            // 3. ���� ��: ������ ������ ���� ��ȣ ����
+            currentSaveSlot = availableSlot;
 
-            // �ʱ� ���� ����(���� 0)�� �����͸� �ҷ��ͼ�
+            // 4. ���� ���� �ʱ�ȭ
             saveController.LoadGame(0);
-
-            // ���带 �ʱ�ȭ�ϰ�
             saveController.initializeWorld();
+            playTime = 0f;
 
-            SaveGame(newSlot);
-            currentSaveSlot = newSlot;
-            UpdateHasSaveFileStatus();
+            return true; // ����!
         }
         else
         {
-            Debug.Log("���̺� ������ ��� �� á���ϴ�. ���� ������ �����ؾ� �մϴ�.");
+            // 5. ���� ��:
+            Debug.Log("�� ���� ���� ����: ��� ������ �� á���ϴ�.");
+            return false; // ����!
         }
     }
+
+
+
 
     // ������ �ҷ����� �Լ� (���� ��ȣ ����)
     public void LoadGame(int slotIndex)

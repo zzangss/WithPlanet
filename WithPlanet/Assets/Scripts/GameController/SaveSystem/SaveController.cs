@@ -4,6 +4,7 @@ using UnityEngine;
 using System.IO;
 using System;
 
+
 public class SaveController : MonoBehaviour
 {
     private PlayerAction pim;
@@ -108,6 +109,8 @@ public class SaveController : MonoBehaviour
             // 플레이어 정보 불러오기
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             player.transform.position = saveData.playerPosition;
+            CharacterController cc = player.GetComponent<CharacterController>();
+            StartCoroutine(ReEnableController(cc)); // 위치 이동 후 컨트롤러 재활성화
             PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
             playerHealth.health = saveData.playerHealth;
             pim.setItem(saveData.heldItemID);
@@ -222,5 +225,17 @@ public class SaveController : MonoBehaviour
             randomSpawner.SpawnItems();
         }
         Debug.Log("게임 월드 초기화");
+    }
+    // 컨트롤러 재활성화를 위한 코루틴
+    private IEnumerator ReEnableController(CharacterController controller)
+    {
+        // 한 프레임 대기
+        yield return null;
+
+        // 컨트롤러를 다시 활성화
+        if (controller != null)
+        {
+            controller.enabled = true;
+        }
     }
 }
