@@ -13,23 +13,41 @@ MonoBehaviour:
   m_Name: CommentSet
   m_EditorClassIdentifier: 
   untoxicComments:
-  - text: good1
-    profile: {fileID: 0}
+  - text: Love you!
     isToxic: 0
-  - text: good2
-    profile: {fileID: 0}
+  - text: Yeah! A new video
     isToxic: 0
-  - text: good3
-    profile: {fileID: 0}
+  - text: These foods look so delicious
     isToxic: 0
-  - text: good4
-    profile: {fileID: 0}
+  - text: I like cakes too.
     isToxic: 0
   toxicComments:
-  - text: bad
-    profile: {fileID: 0}
+  - text: Stop trying so hard, you'll never succeed.
     isToxic: 1
-  toxicSpawnRatio: 0.3
+  - text: 'This guy always makes me so angry. '
+    isToxic: 1
+  protraits:
+  - {fileID: 21300000, guid: 0f2eb1f831a4ce440a2c449dd879d3ed, type: 3}
+  - {fileID: 21300000, guid: 74413ea95e39bb14fa0b6fa6f071fe0c, type: 3}
+  - {fileID: 21300000, guid: 602679b7f6f490c408ab96a2f529730e, type: 3}
+  - {fileID: 21300000, guid: 29a0c237fc6127447a05f8a249de7b45, type: 3}
+  nicName:
+  - NebulousSylph
+  - InkInvader
+  - GritSoldier
+  - CrunchDemon
+  - HarmonyHue
+  - FuturistAce
+  - GrumpyFox
+  - TranquilKing
+  - WrathfulHunter
+  - PowerhouseLad
+  - GrumpDragon
+  - SunMaster
+  - EverlastCat
+  - MellowMay
+  - ShadowsSteed
+  toxicSpawnRatio: 0.4
   scrollSpeed: 150
   totalDurationSec: 30
   hearts: 4

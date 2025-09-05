@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8959329341806219362}
   - component: {fileID: 747427289781865523}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: NicName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -226,6 +226,7 @@ GameObject:
   - component: {fileID: 7504848601037860815}
   - component: {fileID: 9074414655766390128}
   - component: {fileID: 5284874174052022141}
+  - component: {fileID: 6118542917666862621}
   m_Layer: 5
   m_Name: CommentItem
   m_TagString: Untagged
@@ -298,9 +299,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 7320408348093823433}
-  bg: {fileID: 0}
+  bg: {fileID: 2091592130950635294}
   canvasGroup: {fileID: 7504848601037860815}
   rect: {fileID: 3684543022374827846}
+  portrait: {fileID: 5356436202773150072}
+  nicName: {fileID: 747427289781865523}
 --- !u!114 &5284874174052022141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,6 +320,14 @@ MonoBehaviour:
   thresholdX: 50
   maxAngle: 0
   springBackSpeed: 10
+--- !u!222 &6118542917666862621
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2901378334146444785}
+  m_CullTransparentMesh: 1
 --- !u!1 &3797310006982325669
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,7 +415,7 @@ GameObject:
   - component: {fileID: 6548800679521357096}
   - component: {fileID: 5356436202773150072}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Portrait
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

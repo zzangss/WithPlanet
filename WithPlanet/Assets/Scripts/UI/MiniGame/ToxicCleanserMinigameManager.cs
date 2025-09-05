@@ -29,13 +29,12 @@ namespace Project.Minigames.ToxicCleanser
         [SerializeField] private Button exitButton; 
         [SerializeField] private Button resultExitButton;
         [SerializeField] private CanvasGroup fadeOverlay;
+        [SerializeField] private UIShake backgroundShake;
 
         [SerializeField] private Canvas uiCanvas;          // UI Canvas
 
         private int hearts;
         private float timeLeft;
-        public int removedToxic;
-        public int spawnedToxic = 0;
 
         private readonly List<CommentItem> liveItems = new();
 
@@ -55,8 +54,6 @@ namespace Project.Minigames.ToxicCleanser
             // 1. 초기화
             hearts = config.hearts;
             timeLeft = config.totalDurationSec;
-            spawnedToxic = 0;
-            removedToxic = 0;
             heartsView.SetHearts(hearts, config.hearts);
             stream.SetSpeed(0f); // 카운트다운 동안 스크롤 정지
 
@@ -130,6 +127,9 @@ namespace Project.Minigames.ToxicCleanser
             {
                 CommentData c;
                 int ratio = UnityEngine.Random.Range(0, 10);
+                int portraitNum = UnityEngine.Random.Range(0, config.protraits.Count);
+                int nicnameNum = UnityEngine.Random.Range(0, config.nicName.Count);
+
                 if(ratio < config.toxicSpawnRatio * 10)
                 {
                     int idx = UnityEngine.Random.Range(0, config.toxicComments.Count);
@@ -145,12 +145,10 @@ namespace Project.Minigames.ToxicCleanser
                 RectTransform rt = (RectTransform)item.transform;
                 rt.SetParent(content, false);
 
-                item.Init(c.text, c.isToxic, viewport);
+                item.Init(c.text, c.isToxic, viewport, config.protraits[portraitNum], config.nicName[nicnameNum]);
                 SwipeToDelete swipe = item.GetComponent<SwipeToDelete>();
                 swipe.OnSwipeDelete = HandleSwipeDelete;
                 item.OnMissed = HandleMissed;
-
-                if (c.isToxic) spawnedToxic++;
 
                 liveItems.Add(item);
             }
@@ -165,21 +163,24 @@ namespace Project.Minigames.ToxicCleanser
         private void HandleSwipeDelete(CommentItem item)
         {
             var cg = item.GetComponent<CanvasGroup>();
-            if (cg != null) { cg.blocksRaycasts = false; cg.interactable = false; }
-
+            if (cg != null) 
+            { 
+                cg.blocksRaycasts = false; cg.interactable = false; 
+            }
 
             if (!item.isToxic)
             {
                 LoseHeart();
 
                 item.setText("removed comment");
+                item.MarkFailVisual();
                 item.ResetPosition();
                 return;
             }
 
-            removedToxic++;
             item.isToxic = false;
             item.setText("removed comment");
+            item.MarkSuccessVisual();
             item.ResetPosition();
         }
 
@@ -192,22 +193,13 @@ namespace Project.Minigames.ToxicCleanser
         {
             if (item == null) return;
 
-            // 화면 안인데 Miss 콜백이 오면 오탐이므로 무시
             if (item.isToxic)
             {
-                Debug.Log(
-                    $"[MISS] name='{item.name}', toxic=True, worldPos={item.transform.position}, " +
-                    $"t={Time.time:F2}s, hearts(before)={hearts}");
                 LoseHeart(); // 기존 메서드 사용
+                backgroundShake.Play(); //miss시 화면 흔들리는 효과
             }
 
-            else
-            {
-                Debug.Log(
-                    $"[MISS-NO-PENALTY] name='{item.name}', toxic=False, worldPos={item.transform.position}, t={Time.time:F2}s");
-            }
-
-            // 정리: 구독 해제 → 목록 제거 → 풀 반환 (순서 주의)
+            // 구독 해제
             try { item.OnMissed -= HandleMissed; } catch { }
         }
 

@@ -12,6 +12,8 @@ namespace Project.Minigames.ToxicCleanser
         [SerializeField] private Image bg;
         [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private RectTransform rect;
+        [SerializeField] private Image portrait;
+        [SerializeField] private TMP_Text nicName;
 
         [NonSerialized] public bool isToxic;
         public Action<CommentItem> OnMissed;
@@ -19,12 +21,17 @@ namespace Project.Minigames.ToxicCleanser
         private RectTransform viewport;
         private bool initialized;
 
-        public void Init(string text, bool toxic, RectTransform vp)
+        public void Init(string text, bool toxic, RectTransform vp, Sprite portrait, string nicName)
         {
             body.text = text;
             isToxic = toxic;
             viewport = vp;
-            if (canvasGroup != null) { canvasGroup.alpha = 1f; }
+            if (canvasGroup != null) 
+            { 
+                canvasGroup.alpha = 1f; 
+            }
+            this.portrait.sprite = portrait;
+            this.nicName.text = nicName;
             initialized = true;
         }
 
@@ -72,9 +79,14 @@ namespace Project.Minigames.ToxicCleanser
             onComplete?.Invoke();
         }
 
-        public void MarkMissedVisual()
+        public void MarkFailVisual()
         {
             bg.color = Color.red;
+        }
+
+        public void MarkSuccessVisual()
+        {
+            bg.color = Color.green;
         }
 
         public void setText(string text)
@@ -91,7 +103,5 @@ namespace Project.Minigames.ToxicCleanser
                 swipe.ForceSpringBack();
             }
         }
-
-
     }
 }
