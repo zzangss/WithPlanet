@@ -222,6 +222,10 @@ PrefabInstance:
       propertyPath: pausePanel
       value: 
       objectReference: {fileID: 1165170601}
+    - target: {fileID: 9012690942064185501, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
+      propertyPath: saveSlotSelector
+      value: 
+      objectReference: {fileID: 1545079047}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2671,6 +2675,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 873984923287933208, guid: 273e13025feb9ef488452a36fd4865b9, type: 3}
   m_PrefabInstance: {fileID: 2164086793672115620}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1545079047 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1261628797126938350, guid: 273e13025feb9ef488452a36fd4865b9, type: 3}
+  m_PrefabInstance: {fileID: 2164086793672115620}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1545079046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 171fb25dff891c948bd1e09f70b6d5fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1593750527 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 314211147450118726, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
