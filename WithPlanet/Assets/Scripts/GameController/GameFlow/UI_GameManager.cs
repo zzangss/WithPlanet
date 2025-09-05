@@ -27,7 +27,7 @@ public class UI_GameManager : MonoBehaviour
 
         // ���� �Ŵ��� �ý��� �ʱ�ȭ
         gameManagerSystem = FindObjectOfType<GameManagerSystem>();
-        saveSlotSelector = FindObjectOfType<SaveSlotSelector>();
+        //saveSlotSelector = FindObjectOfType<SaveSlotSelector>();
     }
 
     void Start()
@@ -109,11 +109,9 @@ public class UI_GameManager : MonoBehaviour
             dialogueManager.StartTutorial();
             PauseController.SetPause(false);
             StartGamePanel();
-
         }
         else
         {
-      
             Debug.Log("UI �Ŵ���: �� ���� ���� ����. ������ �������� �ʽ��ϴ�.");
         }
 
@@ -122,6 +120,10 @@ public class UI_GameManager : MonoBehaviour
     // "���� ����" ��ư�� ������ �Լ� (���õ� ���� �ҷ�����)
     public void StartSelectedGame()
     {
+        if(saveSlotSelector == null)
+        {
+            Debug.Log("save slot selector가 null");
+        }
         int selectedSlot = saveSlotSelector.GetSelectedSlot();
 
         if (selectedSlot > 0)
