@@ -554,7 +554,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1551096432796157687}
-  duration: 0.3
+  duration: 0.15
   strength: 12
   vibrato: 6
   flashImage: {fileID: 7048850604273367540}

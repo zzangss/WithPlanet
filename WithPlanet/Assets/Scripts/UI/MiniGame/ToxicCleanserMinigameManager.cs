@@ -173,14 +173,16 @@ namespace Project.Minigames.ToxicCleanser
                 LoseHeart();
 
                 item.setText("removed comment");
-                item.MarkFailVisual();
+                item.MarkDeletedVisual();
                 item.ResetPosition();
+
+                backgroundShake.Play();
                 return;
             }
 
             item.isToxic = false;
             item.setText("removed comment");
-            item.MarkSuccessVisual();
+            item.MarkDeletedVisual();
             item.ResetPosition();
         }
 

@@ -122,44 +122,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &398773368 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 948618083497894363, guid: 5b8f6df7e7ac3894a8848b1fe33aa24c, type: 3}
-  m_PrefabInstance: {fileID: 1692215488311338480}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &398773370 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7048850604273367540, guid: 5b8f6df7e7ac3894a8848b1fe33aa24c, type: 3}
-  m_PrefabInstance: {fileID: 1692215488311338480}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 398773368}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &398773372
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 398773368}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fa5897b5df47dd4486b46d047a0dd4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  duration: 0.15
-  strength: 12
-  vibrato: 12
-  fadeOut: 1
-  flashImage: {fileID: 398773370}
-  flashColor: {r: 1, g: 0.23113209, b: 0.23113209, a: 0.25}
-  flashTime: 0.1
-  punchScale: 1
-  punchScaleAmount: 0.05
 --- !u!1 &1025954620
 GameObject:
   m_ObjectHideFlags: 0
@@ -466,10 +428,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 948618083497894363, guid: 5b8f6df7e7ac3894a8848b1fe33aa24c, type: 3}
-      propertyPath: m_Name
-      value: BackgroundImage
-      objectReference: {fileID: 0}
     - target: {fileID: 995234505931753003, guid: 5b8f6df7e7ac3894a8848b1fe33aa24c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -642,18 +600,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7048850604273367540, guid: 5b8f6df7e7ac3894a8848b1fe33aa24c, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7048850604273367540, guid: 5b8f6df7e7ac3894a8848b1fe33aa24c, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7048850604273367540, guid: 5b8f6df7e7ac3894a8848b1fe33aa24c, type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7848106310379966553, guid: 5b8f6df7e7ac3894a8848b1fe33aa24c, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -685,10 +631,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 948618083497894363, guid: 5b8f6df7e7ac3894a8848b1fe33aa24c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 398773372}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5b8f6df7e7ac3894a8848b1fe33aa24c, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

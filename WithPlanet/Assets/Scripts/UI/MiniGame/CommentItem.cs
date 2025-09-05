@@ -41,7 +41,6 @@ namespace Project.Minigames.ToxicCleanser
             canvasGroup = GetComponent<CanvasGroup>();
             body = GetComponentInChildren<TMP_Text>();
         }
-
         private void Update()
         {
             if (!initialized || rect == null || viewport == null) return;
@@ -79,14 +78,9 @@ namespace Project.Minigames.ToxicCleanser
             onComplete?.Invoke();
         }
 
-        public void MarkFailVisual()
+        public void MarkDeletedVisual()
         {
-            bg.color = Color.red;
-        }
-
-        public void MarkSuccessVisual()
-        {
-            bg.color = Color.green;
+            bg.color = Color.gray;
         }
 
         public void setText(string text)

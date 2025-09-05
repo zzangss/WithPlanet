@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CommentSet
   m_EditorClassIdentifier: 
   untoxicComments:
-  - text: Love you!
+  - text: Love you! <
     isToxic: 0
   - text: Yeah! A new video
     isToxic: 0
@@ -21,10 +21,58 @@ MonoBehaviour:
     isToxic: 0
   - text: I like cakes too.
     isToxic: 0
+  - text: Wish I could be as happy as you every day.
+    isToxic: 0
+  - text: You bring me joy every day.
+    isToxic: 0
+  - text: How about challenging yourself to dance in the next video?
+    isToxic: 0
+  - text: Sweets bring me joy.
+    isToxic: 0
+  - text: 'GREAT! Got the food list. '
+    isToxic: 0
+  - text: A teddy bear for you.
+    isToxic: 0
+  - text: Please... share some with me. It looks so delicious.
+    isToxic: 0
+  - text: Next time, can you eat it with cheese?
+    isToxic: 0
+  - text: 'You''re awesome! '
+    isToxic: 0
+  - text: 'Don''t cry babe... that breaks my heart '
+    isToxic: 0
+  - text: 'This video is sure to go viral. '
+    isToxic: 0
   toxicComments:
+  - text: 'This guy always makes me so angry. '
+    isToxic: 1
   - text: Stop trying so hard, you'll never succeed.
     isToxic: 1
-  - text: 'This guy always makes me so angry. '
+  - text: You are acting happy every day, aren't you?
+    isToxic: 1
+  - text: Is this guy dumb?
+    isToxic: 1
+  - text: Boring as hell.
+    isToxic: 1
+  - text: Nothing to watch... This guy's videos are all super boring.
+    isToxic: 1
+  - text: "The attention-seeking \u201Cclown\u201D"
+    isToxic: 1
+  - text: You must be a trashy loser in reality.
+    isToxic: 1
+  - text: What the hell did you filmed? Losers should learn to be quiet!
+    isToxic: 1
+  - text: 'Why do you always film such garbage? It''s disgusting. '
+    isToxic: 1
+  - text: I bet you'd do anything for money... We all know that.
+    isToxic: 1
+  - text: 'Even aliens are prettier than you! '
+    isToxic: 1
+  - text: You looks like a potato, its disgusting.
+    isToxic: 1
+  - text: "Guess what\uFF1F even your crying is annoying..."
+    isToxic: 1
+  - text: 'You''re probably acting again for sympathy, aren''t you? '
     isToxic: 1
   protraits:
   - {fileID: 21300000, guid: 0f2eb1f831a4ce440a2c449dd879d3ed, type: 3}
@@ -49,5 +97,5 @@ MonoBehaviour:
   - ShadowsSteed
   toxicSpawnRatio: 0.4
   scrollSpeed: 150
-  totalDurationSec: 30
+  totalDurationSec: 50
   hearts: 4
