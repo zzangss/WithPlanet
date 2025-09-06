@@ -134,6 +134,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 3310931551815767222, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
+      propertyPath: m_BgMusic
+      value: 
+      objectReference: {fileID: 8300000, guid: 506d28d6ba1b938458d7c3393fc44dcc, type: 3}
+    - target: {fileID: 3310931551815767222, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
+      propertyPath: m_ClickSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 981cffbe0c1d097448ee21f595b81bf0, type: 3}
+    - target: {fileID: 3310931551815767222, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
+      propertyPath: m_MusicAudioSource
+      value: 
+      objectReference: {fileID: 171590684}
+    - target: {fileID: 3310931551815767222, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
+      propertyPath: m_EffectsAudioSource
+      value: 
+      objectReference: {fileID: 631604678}
     - target: {fileID: 5387120621672654605, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
       propertyPath: bossNpc
       value: 
