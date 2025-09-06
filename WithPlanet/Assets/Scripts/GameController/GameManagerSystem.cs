@@ -18,6 +18,7 @@ public class GameManagerSystem : MonoBehaviour
 
     // ������ �ý��� ��ũ��Ʈ ���� 
     [SerializeField] private SaveController saveController;
+    [SerializeField] private SaveSlotSelector saveSlotSelector;
 
     private void Awake()
     {
@@ -138,6 +139,7 @@ public class GameManagerSystem : MonoBehaviour
     {
         Debug.Log($"���� {slotIndex}�� ���̺� ���� ����");
         saveController.DeleteSaveFile(slotIndex);
+        saveSlotSelector.SetSelectedSlot(-1);
         UpdateHasSaveFileStatus();
     }
 
