@@ -72,8 +72,12 @@ public class SaveSlotSelector : MonoBehaviour
     {
         return selectedSlot;
     }
+    public void SetSelectedSlot(int slotnum)
+    {
+        selectedSlot=slotnum;
+    }
 
-    // 초(float)를 "00h 00m 00s" 형식으로 변환하는 도우미 함수
+   // (float)를 "00h 00m 00s" 형식으로 변환하는 도우미 함수
     private string FormatPlayTime(float seconds)
     {
         TimeSpan t = TimeSpan.FromSeconds(seconds);

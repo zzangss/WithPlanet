@@ -105,7 +105,7 @@ public class UI_GameManager : MonoBehaviour
             {
                 saveSlotSelector.RefreshUI();
             }
-
+           
             dialogueManager.StartTutorial();
             PauseController.SetPause(false);
             StartGamePanel();
@@ -168,7 +168,8 @@ public class UI_GameManager : MonoBehaviour
             {
                 saveSlotSelector.RefreshUI();
             }
-            
+
+            saveSlotSelector.SetSelectedSlot(-1);
         }
     }
 
