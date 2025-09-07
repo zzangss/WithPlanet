@@ -7,11 +7,11 @@ using System;
 
 public class SaveController : MonoBehaviour
 {
-    private PlayerAction pim;
-    private ItemSpawner itemSpawner;
-    private InventoryMain inventoryMain;
-    private ItemDictionary itemdic;
-    private RandomSpawner randomSpawner;
+    [SerializeField] private PlayerAction pim;
+    [SerializeField] private ItemSpawner itemSpawner;
+    [SerializeField] private InventoryMain inventoryMain;
+    [SerializeField] private ItemDictionary itemdic;
+    [SerializeField] private RandomSpawner randomSpawner;
 
     void Awake()
     {
