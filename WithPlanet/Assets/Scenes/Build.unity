@@ -130,6 +130,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 314211147450118726, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
+      propertyPath: pim
+      value: 
+      objectReference: {fileID: 2138774165}
+    - target: {fileID: 314211147450118726, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
+      propertyPath: itemdic
+      value: 
+      objectReference: {fileID: 1875438973}
+    - target: {fileID: 314211147450118726, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
+      propertyPath: inventoryMain
+      value: 
+      objectReference: {fileID: 985767809}
     - target: {fileID: 3165073140711079918, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -222,6 +234,10 @@ PrefabInstance:
       propertyPath: pausePanel
       value: 
       objectReference: {fileID: 1165170601}
+    - target: {fileID: 9012690942064185501, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
+      propertyPath: inventoryPanel
+      value: 
+      objectReference: {fileID: 65864652}
     - target: {fileID: 9012690942064185501, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
       propertyPath: saveSlotSelector
       value: 
@@ -326,6 +342,11 @@ Transform:
   - {fileID: 274366773}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &65864652 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6868977891311599764, guid: 4aaa7f5e426726a4d8e46602dd5ff84b, type: 3}
+  m_PrefabInstance: {fileID: 1349899720103996864}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &86655061 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4111612357080549919, guid: 273e13025feb9ef488452a36fd4865b9, type: 3}
@@ -4474,6 +4495,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 369129000}
+    - target: {fileID: 1386297823678297869, guid: 273e13025feb9ef488452a36fd4865b9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1386297823678297869, guid: 273e13025feb9ef488452a36fd4865b9, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

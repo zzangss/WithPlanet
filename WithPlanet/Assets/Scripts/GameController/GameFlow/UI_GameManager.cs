@@ -9,11 +9,11 @@ public class UI_GameManager : MonoBehaviour
     public GameObject gamePanel;
     public GameObject pausePanel;
     public GameObject savePanel;
-    public GameObject inventoryPanel;
     public DialogueManager dialogueManager;
 
     [SerializeField] private GameManagerSystem gameManagerSystem;
     [SerializeField] private SaveSlotSelector saveSlotSelector;
+    [SerializeField] private InventoryMain inventoryMain;
     private void Awake()
     {
         if (Instance == null)
@@ -82,19 +82,8 @@ public class UI_GameManager : MonoBehaviour
         Cursor.visible = true;
     }
 
-    public void OpenInventoryPanel()
-    {
-        inventoryPanel.SetActive(!inventoryPanel.activeSelf); // �κ��丮 �г� ���
-        if (inventoryPanel.activeSelf)
-        {
-            inventoryPanel.SetActive(false);
-        }
-        else
-        {
-            inventoryPanel.SetActive(true);
-        }
-    }
-    //UI ��ư ���� 
+   
+    //UI usage
 
     //�� ���� ����
     public void StartNewGame()
@@ -117,29 +106,39 @@ public class UI_GameManager : MonoBehaviour
 
     }
 
-    // "���� ����" ��ư�� ������ �Լ� (���õ� ���� �ҷ�����)
+    // paly button click
     public void StartSelectedGame()
     {
         if(saveSlotSelector == null)
         {
             Debug.Log("save slot selector가 null");
+            return;
         }
         int selectedSlot = saveSlotSelector.GetSelectedSlot();
 
         if (selectedSlot > 0)
         {
-            // ���� ���¸� ����
-            if (saveSlotSelector != null)
+            if (gameManagerSystem.HasSaveFile(selectedSlot))
             {
-                saveSlotSelector.RefreshUI();
+
+                if (saveSlotSelector != null)
+                {
+                    saveSlotSelector.RefreshUI();
+                }
+                gameManagerSystem.LoadGame(selectedSlot);
+                StartGamePanel();
             }
-            gameManagerSystem.LoadGame(selectedSlot);
-            StartGamePanel();
+            else
+            {
+                // 파일이 존재하지 않으면 경고 메시지를 띄웁니다.
+                Debug.Log($"선택한 슬롯 {selectedSlot}은 비어있습니다!");
+            }
         }
         else
         {
-            Debug.Log("������ �����Ϸ��� ������ ���� �����ϼ���!");
+            Debug.Log("게임을 시작하려면 슬롯을 먼저 선택하세요!");
         }
+
     }
 
     // ���� ��ư�� ����
@@ -189,9 +188,13 @@ public class UI_GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             // ���� ���� ��
-            if (gamePanel.activeSelf)
+            if (gamePanel.activeSelf && !inventoryMain.GetIsInventoryActive())
             {
                 OpenPausePanel();
+            }
+            else if (inventoryMain.GetIsInventoryActive())
+            {
+                inventoryMain.CloseInventory();
             }
             // ���� �� ������ ��
             else if (pausePanel.activeSelf)
@@ -203,6 +206,7 @@ public class UI_GameManager : MonoBehaviour
             {
                 OpenMenuPanel();
             }
+           
         }
     }
 }

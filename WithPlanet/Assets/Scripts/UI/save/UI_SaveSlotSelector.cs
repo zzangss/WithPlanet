@@ -11,7 +11,7 @@ public class SaveSlotSelector : MonoBehaviour
     public Color defaultColor = Color.white;
 
     // 세이브 컨트롤러와 슬롯 텍스트 배열
-    public SaveController saveController;
+    [SerializeField] private SaveController saveController;
     public TextMeshProUGUI[] playTimeTexts;
     public TextMeshProUGUI[] dateTexts;
 

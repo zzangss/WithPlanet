@@ -17,7 +17,6 @@ public class SaveController : MonoBehaviour
     {
         pim = FindObjectOfType<PlayerAction>();
         itemSpawner = FindObjectOfType<ItemSpawner>();
-        inventoryMain = FindObjectOfType<InventoryMain>();
         itemdic = FindObjectOfType<ItemDictionary>();
         randomSpawner = FindObjectOfType<RandomSpawner>();
     }
@@ -133,6 +132,7 @@ public class SaveController : MonoBehaviour
             // 카트 아이템 불러오기
             if (inventoryMain != null)
             {
+                inventoryMain.gameObject.SetActive(true);
                 inventoryMain.ClearAllSlots();
                 if (saveData.cartItems != null && saveData.cartItems.Count > 0)
                 {
@@ -149,6 +149,8 @@ public class SaveController : MonoBehaviour
                         }
                     }
                 }
+                inventoryMain.gameObject.SetActive(false);
+
             }
 
             // 플레이 시간과 저장 날짜 불러오기
