@@ -26,7 +26,7 @@ public class UI_GameManager : MonoBehaviour
         }
 
         // ���� �Ŵ��� �ý��� �ʱ�ȭ
-        gameManagerSystem = FindObjectOfType<GameManagerSystem>();
+      
         //saveSlotSelector = FindObjectOfType<SaveSlotSelector>();
     }
 

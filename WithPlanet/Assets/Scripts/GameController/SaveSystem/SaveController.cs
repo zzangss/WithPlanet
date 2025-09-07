@@ -15,10 +15,26 @@ public class SaveController : MonoBehaviour
 
     void Awake()
     {
-        pim = FindObjectOfType<PlayerAction>();
-        itemSpawner = FindObjectOfType<ItemSpawner>();
-        itemdic = FindObjectOfType<ItemDictionary>();
-        randomSpawner = FindObjectOfType<RandomSpawner>();
+        if (pim == null)
+        {
+            pim = FindObjectOfType<PlayerAction>();
+        }
+        if (itemSpawner == null)
+        {
+            itemSpawner = FindObjectOfType<ItemSpawner>();
+        }
+        if (inventoryMain == null)
+        {
+            inventoryMain = FindObjectOfType<InventoryMain>();
+        }
+        if (itemdic == null)
+        {
+            itemdic = FindObjectOfType<ItemDictionary>();
+        }
+        if (randomSpawner == null)
+        {
+            randomSpawner = FindObjectOfType<RandomSpawner>();
+        }
     }
 
     // 슬롯 번호에 따라 다른 세이브 파일 경로를 반환하는 함수
