@@ -13,66 +13,67 @@ MonoBehaviour:
   m_Name: CommentSet
   m_EditorClassIdentifier: 
   untoxicComments:
-  - text: Love you! <
+  - text: Love you!<sprite=16>
     isToxic: 0
-  - text: Yeah! A new video
+  - text: Yeah! A new video<sprite=17>
     isToxic: 0
-  - text: These foods look so delicious
+  - text: These foods look so delicious<sprite=19>    <sprite=18>
     isToxic: 0
-  - text: I like cakes too.
+  - text: I like cakes too.<sprite=20>
     isToxic: 0
-  - text: Wish I could be as happy as you every day.
+  - text: Wish I could be as happy as you every day.<sprite=22>    <sprite=21>
     isToxic: 0
-  - text: You bring me joy every day.
+  - text: You bring me joy every day.<sprite=23>
     isToxic: 0
-  - text: How about challenging yourself to dance in the next video?
+  - text: How about challenging yourself to dance in the next video?<sprite=24>
     isToxic: 0
-  - text: Sweets bring me joy.
+  - text: Sweets bring me joy.<sprite=25>
     isToxic: 0
-  - text: 'GREAT! Got the food list. '
+  - text: GREAT! Got the food list.<sprite=26>
     isToxic: 0
-  - text: A teddy bear for you.
+  - text: A teddy bear for you.<sprite=27>
     isToxic: 0
-  - text: Please... share some with me. It looks so delicious.
+  - text: Please... share some with me. It looks so delicious.<sprite=28>
     isToxic: 0
-  - text: Next time, can you eat it with cheese?
+  - text: Next time, can you eat it with cheese?<sprite=29>
     isToxic: 0
-  - text: 'You''re awesome! '
+  - text: You're awesome!<sprite=30>
     isToxic: 0
-  - text: 'Don''t cry babe... that breaks my heart '
+  - text: Don't cry babe... that breaks my heart<sprite=31>
     isToxic: 0
-  - text: 'This video is sure to go viral. '
+  - text: This video is sure to go viral.<sprite=4>
     isToxic: 0
   toxicComments:
-  - text: 'This guy always makes me so angry. '
+  - text: "The attention-seeking \u201Cclown\u201D<sprite=0>"
     isToxic: 1
-  - text: Stop trying so hard, you'll never succeed.
+  - text: You're probably acting again for sympathy, aren't you?<sprite=1>
     isToxic: 1
-  - text: You are acting happy every day, aren't you?
+  - text: What the hell did you filmed? Losers should learn to be quiet!<sprite=3>   
+      <sprite=2>
     isToxic: 1
-  - text: Is this guy dumb?
+  - text: This guy always makes me so angry.<sprite=4>
     isToxic: 1
-  - text: Boring as hell.
+  - text: Stop trying so hard, you'll never succeed.<sprite=5>
     isToxic: 1
-  - text: Nothing to watch... This guy's videos are all super boring.
+  - text: You are acting happy every day, aren't you?<sprite=6>
     isToxic: 1
-  - text: "The attention-seeking \u201Cclown\u201D"
+  - text: Is this guy dumb?<sprite=7>
     isToxic: 1
-  - text: You must be a trashy loser in reality.
+  - text: Boring as hell.<sprite=8>
     isToxic: 1
-  - text: What the hell did you filmed? Losers should learn to be quiet!
+  - text: Nothing to watch... This guy's videos are all super boring.<sprite=9>
     isToxic: 1
-  - text: 'Why do you always film such garbage? It''s disgusting. '
+  - text: Why do you always film such garbage? It's disgusting.<sprite=10>
     isToxic: 1
-  - text: I bet you'd do anything for money... We all know that.
+  - text: I bet you'd do anything for money... We all know that.<sprite=11>
     isToxic: 1
-  - text: 'Even aliens are prettier than you! '
+  - text: Even aliens are prettier than you!<sprite=12>
     isToxic: 1
-  - text: You looks like a potato, its disgusting.
+  - text: You looks like a potato, its disgusting.<sprite=13>
     isToxic: 1
-  - text: "Guess what\uFF1F even your crying is annoying..."
+  - text: Guess what? even your crying is annoying...<sprite=14>
     isToxic: 1
-  - text: 'You''re probably acting again for sympathy, aren''t you? '
+  - text: You must be a trashy loser in reality.<sprite=15>
     isToxic: 1
   protraits:
   - {fileID: 21300000, guid: 0f2eb1f831a4ce440a2c449dd879d3ed, type: 3}
@@ -95,7 +96,7 @@ MonoBehaviour:
   - EverlastCat
   - MellowMay
   - ShadowsSteed
-  toxicSpawnRatio: 0.4
+  toxicSpawnRatio: 0
   scrollSpeed: 150
   totalDurationSec: 50
   hearts: 4
