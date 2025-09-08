@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: I_05_Candycain
   m_EditorClassIdentifier: 
   mItemID: 105
-  mCanOverlap: 0
+  mCanOverlap: 1
   mItemType: 1
   mName: "\uCE94\uB514\uCF00\uC778"
   mItemImage: {fileID: 21300000, guid: 8f857fb31778e8e4592413925b8f15c7, type: 3}

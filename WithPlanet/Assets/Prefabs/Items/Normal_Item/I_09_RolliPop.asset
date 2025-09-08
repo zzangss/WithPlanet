@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: I_09_RolliPop
   m_EditorClassIdentifier: 
   mItemID: 109
-  mCanOverlap: 0
+  mCanOverlap: 1
   mItemType: 1
   mName: "\uB864\uB9AC\uD31D"
   mItemImage: {fileID: 21300000, guid: 381483d9f6fd3e8488c4f32c28417a93, type: 3}

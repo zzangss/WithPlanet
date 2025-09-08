@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: IC_18_WatchCandy
   m_EditorClassIdentifier: 
   mItemID: 218
-  mCanOverlap: 0
+  mCanOverlap: 1
   mItemType: 2
   mName: "\uD53C\uC790"
   mItemImage: {fileID: 21300000, guid: 93353d88095a03a4096c0782e2460b00, type: 3}

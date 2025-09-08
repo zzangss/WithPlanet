@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: IC_20_ComputerCake
   m_EditorClassIdentifier: 
   mItemID: 220
-  mCanOverlap: 0
+  mCanOverlap: 1
   mItemType: 2
   mName: "\uCEF4\uD4E8\uD130\uCF00\uC774\uD06C"
   mItemImage: {fileID: 21300000, guid: 030d051d63032e64099c74c109d80713, type: 3}

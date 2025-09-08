@@ -62,8 +62,6 @@ public class ItemSpawner : MonoBehaviour
                 worldItem.itemLocation = ItemLocation.World;
             }
         }
-
-
     }
 
     //세이브 시 월드에 아이템 생성하기
