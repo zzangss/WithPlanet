@@ -9,6 +9,7 @@ public class UI_GameManager : MonoBehaviour
     public GameObject gamePanel;
     public GameObject pausePanel;
     public GameObject savePanel;
+    public GameObject settingsPanel;
     public DialogueManager dialogueManager;
 
     [SerializeField] private GameManagerSystem gameManagerSystem;
@@ -43,6 +44,7 @@ public class UI_GameManager : MonoBehaviour
         gamePanel.SetActive(false);
         pausePanel.SetActive(false);
         savePanel.SetActive(false);
+        settingsPanel.SetActive(false);
         PauseController.SetPause(true); // �޴��� ������ ���� �Ͻ�����
     }
 
@@ -52,6 +54,7 @@ public class UI_GameManager : MonoBehaviour
         gamePanel.SetActive(false);
         pausePanel.SetActive(false);
         savePanel.SetActive(true);
+        settingsPanel.SetActive(false);
 
         // ���� ���¸� ����
         if (saveSlotSelector != null)
@@ -66,6 +69,7 @@ public class UI_GameManager : MonoBehaviour
         gamePanel.SetActive(false);
         pausePanel.SetActive(true);
         savePanel.SetActive(false);
+        settingsPanel.SetActive(false);
         PauseController.SetPause(true); // �Ͻ����� �г��� ������ ���� �Ͻ�����
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -77,12 +81,23 @@ public class UI_GameManager : MonoBehaviour
         gamePanel.SetActive(true);
         pausePanel.SetActive(false);
         savePanel.SetActive(false);
+        settingsPanel.SetActive(false);
         PauseController.SetPause(false); // ���� �г��� ������ �Ͻ����� ����
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
 
-   
+    public void OpenSettingsPanel()
+    {
+        menuPanel.SetActive(false);
+        gamePanel.SetActive(false);
+        pausePanel.SetActive(false);
+        savePanel.SetActive(false);
+        settingsPanel.SetActive(true);
+        PauseController.SetPause(true);
+    }
+
+
     //UI usage
 
     //�� ���� ����
