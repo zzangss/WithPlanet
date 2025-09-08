@@ -94,7 +94,7 @@ public class UI_GameManager : MonoBehaviour
             {
                 saveSlotSelector.RefreshUI();
             }
-           
+            dialogueManager.Init();
             dialogueManager.StartTutorial();
             PauseController.SetPause(false);
             StartGamePanel();
