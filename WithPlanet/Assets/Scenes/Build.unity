@@ -135,6 +135,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2138774165}
     - target: {fileID: 314211147450118726, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1049641994}
+    - target: {fileID: 314211147450118726, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
       propertyPath: itemdic
       value: 
       objectReference: {fileID: 1875438973}
@@ -157,11 +161,11 @@ PrefabInstance:
     - target: {fileID: 3310931551815767222, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
       propertyPath: m_BgMusic
       value: 
-      objectReference: {fileID: 8300000, guid: 506d28d6ba1b938458d7c3393fc44dcc, type: 3}
+      objectReference: {fileID: 8300000, guid: b5ccffeaf815e8c4eb17fc020e8c7411, type: 3}
     - target: {fileID: 3310931551815767222, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
       propertyPath: m_ClickSound
       value: 
-      objectReference: {fileID: 8300000, guid: 981cffbe0c1d097448ee21f595b81bf0, type: 3}
+      objectReference: {fileID: 8300000, guid: c8ced023b9bff7b429c73e977a9db479, type: 3}
     - target: {fileID: 3310931551815767222, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
       propertyPath: m_MusicAudioSource
       value: 
@@ -279,9 +283,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1165170601}
     - target: {fileID: 9012690942064185501, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
+      propertyPath: inventoryMain
+      value: 
+      objectReference: {fileID: 985767809}
+    - target: {fileID: 9012690942064185501, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
       propertyPath: inventoryPanel
       value: 
-      objectReference: {fileID: 1103454921}
+      objectReference: {fileID: 0}
     - target: {fileID: 9012690942064185501, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
       propertyPath: saveSlotSelector
       value: 
@@ -386,11 +394,6 @@ Transform:
   - {fileID: 274366773}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &65864652 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6868977891311599764, guid: 4aaa7f5e426726a4d8e46602dd5ff84b, type: 3}
-  m_PrefabInstance: {fileID: 1349899720103996864}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &86655061 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4111612357080549919, guid: 273e13025feb9ef488452a36fd4865b9, type: 3}
@@ -2040,11 +2043,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 7234338796013669918, guid: 91a6a48e0f7bfde43ad25849adbce3b7, type: 3}
   m_PrefabInstance: {fileID: 1084095355}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1103454921 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6868977891311599764, guid: 4aaa7f5e426726a4d8e46602dd5ff84b, type: 3}
-  m_PrefabInstance: {fileID: 1349899720103996864}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1136110072 stripped
 GameObject:
