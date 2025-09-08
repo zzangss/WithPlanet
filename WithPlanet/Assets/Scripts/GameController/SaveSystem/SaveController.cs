@@ -8,6 +8,7 @@ using System;
 public class SaveController : MonoBehaviour
 {
     [SerializeField] private PlayerAction pim;
+    [SerializeField] private GameObject player;
     [SerializeField] private ItemSpawner itemSpawner;
     [SerializeField] private InventoryMain inventoryMain;
     [SerializeField] private ItemDictionary itemdic;
@@ -58,8 +59,12 @@ public class SaveController : MonoBehaviour
         SaveData saveData = new SaveData();
 
         // 플레이어 위치 저장
-        saveData.playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
-        PlayerHealth playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
+        //saveData.playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
+        //PlayerHealth playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
+
+        saveData.playerPosition = player.transform.position;
+        
+        PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
         saveData.playerHealth = playerHealth.health;
         saveData.heldItemID = pim.hasItem ? pim.currentItem.Item.ItemID : -1;
 
@@ -122,10 +127,14 @@ public class SaveController : MonoBehaviour
 
 
             // 플레이어 정보 불러오기
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            player.transform.position = saveData.playerPosition;
-            CharacterController cc = player.GetComponent<CharacterController>();
-            StartCoroutine(ReEnableController(cc)); // 위치 이동 후 컨트롤러 재활성화
+            //GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+            Rigidbody rb=player.GetComponent<Rigidbody>();
+            rb.MovePosition(saveData.playerPosition);
+
+            //player.transform.position = saveData.playerPosition;
+            //CharacterController cc = player.GetComponent<CharacterController>();
+            //StartCoroutine(ReEnableController(cc)); // 위치 이동 후 컨트롤러 재활성화
             PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
             playerHealth.health = saveData.playerHealth;
             pim.setItem(saveData.heldItemID);
