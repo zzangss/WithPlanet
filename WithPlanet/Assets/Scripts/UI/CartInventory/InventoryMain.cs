@@ -10,6 +10,7 @@ public class InventoryMain : InventoryBase
     public static bool IsInventoryActive = false; //인벤토리 활성화 여부
     [SerializeField] private TMP_Text mTotalValue;
 
+
     // Start is called before the first frame update
     void Awake() 
     {
@@ -116,7 +117,7 @@ public class InventoryMain : InventoryBase
         Cursor.visible = true; // 화면에 커서가 보이도록 설정 
     }
 
-    private void CloseInventory()
+    public void CloseInventory()
     {
         mInventoryBase.SetActive(false);
         IsInventoryActive = false;

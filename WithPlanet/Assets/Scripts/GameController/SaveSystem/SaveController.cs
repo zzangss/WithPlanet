@@ -7,19 +7,35 @@ using System;
 
 public class SaveController : MonoBehaviour
 {
-    private PlayerAction pim;
-    private ItemSpawner itemSpawner;
-    private InventoryMain inventoryMain;
-    private ItemDictionary itemdic;
-    private RandomSpawner randomSpawner;
+    [SerializeField] private PlayerAction pim;
+    [SerializeField] private GameObject player;
+    [SerializeField] private ItemSpawner itemSpawner;
+    [SerializeField] private InventoryMain inventoryMain;
+    [SerializeField] private ItemDictionary itemdic;
+    [SerializeField] private RandomSpawner randomSpawner;
 
     void Awake()
     {
-        pim = FindObjectOfType<PlayerAction>();
-        itemSpawner = FindObjectOfType<ItemSpawner>();
-        inventoryMain = FindObjectOfType<InventoryMain>();
-        itemdic = FindObjectOfType<ItemDictionary>();
-        randomSpawner = FindObjectOfType<RandomSpawner>();
+        if (pim == null)
+        {
+            pim = FindObjectOfType<PlayerAction>();
+        }
+        if (itemSpawner == null)
+        {
+            itemSpawner = FindObjectOfType<ItemSpawner>();
+        }
+        if (inventoryMain == null)
+        {
+            inventoryMain = FindObjectOfType<InventoryMain>();
+        }
+        if (itemdic == null)
+        {
+            itemdic = FindObjectOfType<ItemDictionary>();
+        }
+        if (randomSpawner == null)
+        {
+            randomSpawner = FindObjectOfType<RandomSpawner>();
+        }
     }
 
     // 슬롯 번호에 따라 다른 세이브 파일 경로를 반환하는 함수
@@ -43,8 +59,12 @@ public class SaveController : MonoBehaviour
         SaveData saveData = new SaveData();
 
         // 플레이어 위치 저장
-        saveData.playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
-        PlayerHealth playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
+        //saveData.playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
+        //PlayerHealth playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
+
+        saveData.playerPosition = player.transform.position;
+        
+        PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
         saveData.playerHealth = playerHealth.health;
         saveData.heldItemID = pim.hasItem ? pim.currentItem.Item.ItemID : -1;
 
@@ -107,10 +127,14 @@ public class SaveController : MonoBehaviour
 
 
             // 플레이어 정보 불러오기
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            player.transform.position = saveData.playerPosition;
-            CharacterController cc = player.GetComponent<CharacterController>();
-            StartCoroutine(ReEnableController(cc)); // 위치 이동 후 컨트롤러 재활성화
+            //GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+            Rigidbody rb=player.GetComponent<Rigidbody>();
+            rb.MovePosition(saveData.playerPosition);
+
+            //player.transform.position = saveData.playerPosition;
+            //CharacterController cc = player.GetComponent<CharacterController>();
+            //StartCoroutine(ReEnableController(cc)); // 위치 이동 후 컨트롤러 재활성화
             PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
             playerHealth.health = saveData.playerHealth;
             pim.setItem(saveData.heldItemID);
@@ -133,6 +157,7 @@ public class SaveController : MonoBehaviour
             // 카트 아이템 불러오기
             if (inventoryMain != null)
             {
+                inventoryMain.gameObject.SetActive(true);
                 inventoryMain.ClearAllSlots();
                 if (saveData.cartItems != null && saveData.cartItems.Count > 0)
                 {
@@ -149,6 +174,8 @@ public class SaveController : MonoBehaviour
                         }
                     }
                 }
+                inventoryMain.gameObject.SetActive(false);
+
             }
 
             // 플레이 시간과 저장 날짜 불러오기

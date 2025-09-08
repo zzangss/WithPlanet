@@ -36,7 +36,7 @@ public class GameManagerSystem : MonoBehaviour
 
     private void Start()
     {
-        saveController = FindObjectOfType<SaveController>();
+       
         if (!saveController.HasSaveFile(0))
         {
             InitialSave();
@@ -86,7 +86,11 @@ public class GameManagerSystem : MonoBehaviour
         }
     }
 
-
+    //file exist conform
+   public bool HasSaveFile(int selectedSlot)
+    {
+        return saveController.HasSaveFile(selectedSlot);
+    }
 
 
     // ������ �ҷ����� �Լ� (���� ��ȣ ����)
@@ -130,7 +134,7 @@ public class GameManagerSystem : MonoBehaviour
     // ���� ���� �Լ�
     public void QuitGame()
     {
-        Debug.Log("���� ����");
+        Debug.Log("game end");
         Application.Quit();
     }
 

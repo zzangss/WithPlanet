@@ -31,11 +31,26 @@ public class DialogueManager : Singleton<DialogueManager>
 
     private ObjData currentNpc; // 현재 대화중인 NPC
 
+
+    //초기화 initialize new game 마다 호출 필요
+    public void Init()
+    {
+        dialoguePanel.SetActive(false);
+        isAction = false;
+        talkIndex = 0;
+        openingPlayed = false;
+        minigameFinished = false;
+        minigameSuccess = false;
+        CurrentStage = State.Opening;
+    }
+
+
     private void OnEnable()
     {
         ToxicCleanserMinigameManager.OnMinigameSuccess += HandleMinigameSuccess;
         ToxicCleanserMinigameManager.OnMinigameFail += HandleMinigameFail;
     }
+
 
     private void OnDisable()
     {
