@@ -221,7 +221,13 @@ public class UI_GameManager : MonoBehaviour
             {
                 OpenMenuPanel();
             }
-           
+
+            else if (settingsPanel.activeSelf)
+               
+            {
+                OpenPausePanel();
+            }
+
         }
     }
 }
