@@ -10,6 +10,7 @@ public class InventoryMain : InventoryBase
     public static bool IsInventoryActive = false; //인벤토리 활성화 여부
     [SerializeField] private TMP_Text mTotalValue;
 
+    public event System.Action OnInventoryChanged;
 
     // Start is called before the first frame update
     void Awake() 
@@ -18,9 +19,13 @@ public class InventoryMain : InventoryBase
                       //자식이 awake 호출할 때 부모의 awake도 같이 호출되도록 한다.
     }
 
-    // Update is called once per frame
-    void Update()
+    private void RefreshTotalUI()
     {
+        if (mTotalValue == null)
+        {
+            Debug.LogWarning("[InventoryMain] mTotalValue is NULL");
+            return;
+        }
         mTotalValue.text = CalTotalItemValue().ToString() + "$";
     }
 
@@ -35,7 +40,6 @@ public class InventoryMain : InventoryBase
                 total += slot.GetItemCount() * slot.Item.Value;
             }
         }
-
         return total;
     }
 
@@ -58,12 +62,16 @@ public class InventoryMain : InventoryBase
                 if (targetSlot.Item.ItemID == item.ItemID)
                 {
                     targetSlot.AddItem(count);
+                    OnInventoryChanged?.Invoke(); 
+                    RefreshTotalUI();
                 }
             }
         }
         else
         {
             targetSlot.SetItem(item, count);
+            OnInventoryChanged?.Invoke();
+            RefreshTotalUI();
         }
     }
 
@@ -77,8 +85,10 @@ public class InventoryMain : InventoryBase
                 // 슬롯이 비지 않았으면 
                 if (mSlots[i].Item != null && mSlots[i].Item.ItemID == item.ItemID)
                 {
-                        //현재 슬롯의 아이템 개수(Count)를 갱신한다.
+                    //현재 슬롯의 아이템 개수(Count)를 갱신한다.
                     mSlots[i].AddItem(count);
+                    OnInventoryChanged?.Invoke();
+                    RefreshTotalUI();
                     return;
                 }
             }
@@ -89,6 +99,8 @@ public class InventoryMain : InventoryBase
             if (mSlots[i].Item == null)
             {
                 mSlots[i].SetItem(item, count);
+                OnInventoryChanged?.Invoke();
+                RefreshTotalUI();
                 return;
             }
         }
@@ -114,7 +126,9 @@ public class InventoryMain : InventoryBase
         IsInventoryActive = true; // 인벤토리 활성화 여부 업데이트
 
         Cursor.lockState = CursorLockMode.None; // 커서 활성화 
-        Cursor.visible = true; // 화면에 커서가 보이도록 설정 
+        Cursor.visible = true; // 화면에 커서가 보이도록 설정
+                               
+        RefreshTotalUI(); //item total value update
     }
 
     public void CloseInventory()
@@ -140,6 +154,8 @@ public class InventoryMain : InventoryBase
             return;
         }
         mSlots[slotIndex].SetItem(item, count);
+        OnInventoryChanged?.Invoke();
+        RefreshTotalUI();
     }
 
     public void ClearAllSlots()
@@ -148,5 +164,7 @@ public class InventoryMain : InventoryBase
         {
             slot.ClearSlot();
         }
+        OnInventoryChanged?.Invoke();
+        RefreshTotalUI();
     }
 }

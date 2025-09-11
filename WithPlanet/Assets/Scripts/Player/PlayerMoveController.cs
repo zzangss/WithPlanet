@@ -147,8 +147,8 @@ public class PlayerMoveController : MonoBehaviour
         //플레이어의 이동 방향에 따라 스프라이트를 뒤집기
         if (h != 0)
         {
-            spriter.flipX = h > 0;
-            isFlipped = h > 0;
+            spriter.flipX = h > 0; // 
+            isFlipped = h > 0; // -> : true / <- : false
         }
     }
 

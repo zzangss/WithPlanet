@@ -36,6 +36,12 @@ public class PlayerAction : MonoBehaviour
     public Transform itemHoldingPoint; // 아이템을 들고 있는 위치
     private Animator playerAnimator; // 플레이어 애니메이터
 
+    // 카트 관리
+    public Vector3 rightcartHoldOffset = new Vector3(0f,0f,0f);
+    public Vector3 leftcartHoldOffset = new Vector3(0f,0f,0f);
+    private bool isHoldingCart = false;
+    private GameObject holdedCart = null;
+
     void Start()
     {
         playerAnimator = GetComponent<Animator>();
@@ -102,6 +108,46 @@ public class PlayerAction : MonoBehaviour
                 Debug.Log("카트 주변 q 누르기");
                 inventoryMain.TryOpenCloseInventory();
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Tab) && isNearCart && scanObject != null && scanObject.CompareTag("Cart"))
+        {
+            if (!isHoldingCart)
+            {
+                // 카트 따라오기 시작
+                holdedCart = scanObject;
+                isHoldingCart = true;
+                Debug.Log("플레이어가 카트 잡기 시작");
+            }
+            else
+            {
+                // 따라오던 카트 멈춤
+                isHoldingCart = false;
+                holdedCart = null;
+                Debug.Log("카트 잡기 멈춤");
+            }
+        }
+    }
+
+    void LateUpdate()
+    {
+        if (isHoldingCart && holdedCart != null)
+        {
+            SpriteRenderer cartSprite = holdedCart.GetComponent<SpriteRenderer>(); //cart의 sprite 
+            Vector3 targetPos = transform.position; //cart의 타겟 위치
+
+            // 플레이어 방향에 따라 cart sprite 방향 바꾸기 
+            if (playerMoveController != null && playerMoveController.isFlipped) // -> 
+            {
+                cartSprite.flipX = !playerMoveController.isFlipped;
+                holdedCart.transform.position = targetPos + rightcartHoldOffset;
+            }
+            else // <- 
+            {
+                cartSprite.flipX = !playerMoveController.isFlipped;
+                holdedCart.transform.position = targetPos + leftcartHoldOffset;
+            }
+
         }
     }
 
