@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7343633493294211600}
   - component: {fileID: 5035887948687904038}
   - component: {fileID: 9070794314608329321}
+  - component: {fileID: 5286715667776398414}
   m_Layer: 0
   m_Name: Cart
   m_TagString: Cart
@@ -108,7 +109,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -132,5 +133,21 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1.1811953
-  m_Center: {x: 0.020901442, y: -2.2023246e-10, z: 2.2023246e-10}
+  m_Radius: 2
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5286715667776398414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6544354269486059451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d147f82435d0f2f43820f21c1106c794, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionTexts:
+  - to Open/Close Cart
+  - to put Item into Cart
+  interactKeys: 7100000020000000

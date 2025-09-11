@@ -498,9 +498,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5035887948687904038, guid: 1b0ca0831f1604b47843b93577f11ffd, type: 3}
-      propertyPath: m_UseGravity
-      value: 0
+    - target: {fileID: 5286715667776398414, guid: 1b0ca0831f1604b47843b93577f11ffd, type: 3}
+      propertyPath: actionTexts.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5286715667776398414, guid: 1b0ca0831f1604b47843b93577f11ffd, type: 3}
+      propertyPath: interactKeys.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5286715667776398414, guid: 1b0ca0831f1604b47843b93577f11ffd, type: 3}
+      propertyPath: actionTexts.Array.data[2]
+      value: to Hold/Unhold Cart
+      objectReference: {fileID: 0}
+    - target: {fileID: 5286715667776398414, guid: 1b0ca0831f1604b47843b93577f11ffd, type: 3}
+      propertyPath: interactKeys.Array.data[2]
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 6544354269486059451, guid: 1b0ca0831f1604b47843b93577f11ffd, type: 3}
       propertyPath: m_Name
@@ -509,10 +521,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6544354269486059451, guid: 1b0ca0831f1604b47843b93577f11ffd, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 488568004}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b0ca0831f1604b47843b93577f11ffd, type: 3}
 --- !u!1 &64741274 stripped
 GameObject:
@@ -1161,32 +1170,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4810825893243767334, guid: 3669d8ea455213e41a2cb9cbaa25b76a, type: 3}
   m_PrefabInstance: {fileID: 888596027}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &406058125 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6544354269486059451, guid: 1b0ca0831f1604b47843b93577f11ffd, type: 3}
-  m_PrefabInstance: {fileID: 55058948}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &488568000 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1974738711216967671, guid: 1b0ca0831f1604b47843b93577f11ffd, type: 3}
   m_PrefabInstance: {fileID: 55058948}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &488568004
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 406058125}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d147f82435d0f2f43820f21c1106c794, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actionTexts:
-  - to Open/Close Cart
-  - to put Item into Cart
-  interactKeys: 7100000020000000
 --- !u!1001 &612692458
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4290,9 +4278,45 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 623135046}
     - target: {fileID: 12303003311587793, guid: e73926dc950802246b0cafe0044e3ba7, type: 3}
+      propertyPath: cartHoldOffset.x
+      value: -2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 12303003311587793, guid: e73926dc950802246b0cafe0044e3ba7, type: 3}
+      propertyPath: cartHoldOffset.y
+      value: -1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 12303003311587793, guid: e73926dc950802246b0cafe0044e3ba7, type: 3}
+      propertyPath: cartHoldOffset.z
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 12303003311587793, guid: e73926dc950802246b0cafe0044e3ba7, type: 3}
       propertyPath: minigameLauncher
       value: 
       objectReference: {fileID: 2093224466}
+    - target: {fileID: 12303003311587793, guid: e73926dc950802246b0cafe0044e3ba7, type: 3}
+      propertyPath: leftcartHoldOffset.x
+      value: -7.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 12303003311587793, guid: e73926dc950802246b0cafe0044e3ba7, type: 3}
+      propertyPath: leftcartHoldOffset.y
+      value: -1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 12303003311587793, guid: e73926dc950802246b0cafe0044e3ba7, type: 3}
+      propertyPath: leftcartHoldOffset.z
+      value: -1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 12303003311587793, guid: e73926dc950802246b0cafe0044e3ba7, type: 3}
+      propertyPath: rightcartHoldOffset.x
+      value: -0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 12303003311587793, guid: e73926dc950802246b0cafe0044e3ba7, type: 3}
+      propertyPath: rightcartHoldOffset.y
+      value: -1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 12303003311587793, guid: e73926dc950802246b0cafe0044e3ba7, type: 3}
+      propertyPath: rightcartHoldOffset.z
+      value: -8.5
+      objectReference: {fileID: 0}
     - target: {fileID: 744925815056624999, guid: e73926dc950802246b0cafe0044e3ba7, type: 3}
       propertyPath: m_LocalPosition.x
       value: -100.2

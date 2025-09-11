@@ -35,7 +35,6 @@ public class InventoryMain : InventoryBase
                 total += slot.GetItemCount() * slot.Item.Value;
             }
         }
-
         return total;
     }
 
