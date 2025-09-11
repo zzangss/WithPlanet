@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: IC_08_RainBoots
   m_EditorClassIdentifier: 
   mItemID: 208
-  mCanOverlap: 0
+  mCanOverlap: 1
   mItemType: 2
   mName: "\uC7A5\uD654"
   mItemImage: {fileID: 21300000, guid: 3b39c71fd1a687047a4e5e75bb409f61, type: 3}

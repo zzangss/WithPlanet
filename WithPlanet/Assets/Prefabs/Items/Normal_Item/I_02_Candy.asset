@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mItemID: 102
   mCanOverlap: 1
-  mItemType: 2
+  mItemType: 1
   mName: Candy2
   mItemImage: {fileID: 21300000, guid: ac88e2476164f2d43ba1bf1b224c8fde, type: 3}
   mItemValue: 100

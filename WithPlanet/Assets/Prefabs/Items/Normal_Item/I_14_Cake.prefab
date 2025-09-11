@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5342566561473073245}
   - component: {fileID: 8752178389148365484}
   - component: {fileID: 6204936734866462451}
+  - component: {fileID: 2696429647857132338}
   m_Layer: 9
   m_Name: I_14_Cake
   m_TagString: Item
@@ -171,3 +172,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mItem: {fileID: 11400000, guid: 2b5b2d72f2baf1f4985307f0eb1d0002, type: 2}
   mItemLocation: 0
+--- !u!114 &2696429647857132338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7910678848578004965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d147f82435d0f2f43820f21c1106c794, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionTexts:
+  - to Pick Item
+  interactKeys: 20000000

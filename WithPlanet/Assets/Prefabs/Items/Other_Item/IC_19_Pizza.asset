@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: IC_19_Pizza
   m_EditorClassIdentifier: 
   mItemID: 219
-  mCanOverlap: 0
+  mCanOverlap: 1
   mItemType: 2
   mName: "\uD53C\uC790"
   mItemImage: {fileID: 21300000, guid: d7268a58dd7bd164a9b9b6c3e346861c, type: 3}

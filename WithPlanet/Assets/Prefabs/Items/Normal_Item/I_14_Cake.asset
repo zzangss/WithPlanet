@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: I_14_Cake
   m_EditorClassIdentifier: 
   mItemID: 114
-  mCanOverlap: 0
+  mCanOverlap: 1
   mItemType: 1
   mName: "\uC870\uAC01\uCF00\uC78C"
   mItemImage: {fileID: 21300000, guid: 53c4a6fe54c73584fa39dc23b48a25db, type: 3}

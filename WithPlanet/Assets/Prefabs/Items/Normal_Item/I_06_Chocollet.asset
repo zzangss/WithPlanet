@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: I_06_Chocollet
   m_EditorClassIdentifier: 
   mItemID: 106
-  mCanOverlap: 0
+  mCanOverlap: 1
   mItemType: 1
   mName: "\uCD08\uCF5C\uB9BF"
   mItemImage: {fileID: 21300000, guid: ce2a0dffd76ef104cbeb8d45caa75413, type: 3}
