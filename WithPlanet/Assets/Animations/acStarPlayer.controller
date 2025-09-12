@@ -11,28 +11,34 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -2701420135666830965}
-    m_Position: {x: 510, y: 220, z: 0}
+    m_Position: {x: 910, y: 220, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8859227146352550119}
-    m_Position: {x: -60, y: 210, z: 0}
+    m_Position: {x: -40, y: 240, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7799809582746858320}
-    m_Position: {x: 530, y: 480, z: 0}
+    m_Position: {x: 910, y: 520, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2346970972543092244}
-    m_Position: {x: -70, y: 480, z: 0}
+    m_Position: {x: -50, y: 550, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3498757294216341946}
-    m_Position: {x: 230, y: 340, z: 0}
+    m_Position: {x: 430, y: 290, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1398191393044604886}
-    m_Position: {x: 290, y: 130, z: 0}
+    m_Position: {x: 370, y: -30, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8745521881651656425}
-    m_Position: {x: 325, y: 195, z: 0}
+    m_Position: {x: 410, y: 100, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5020075476903860349}
-    m_Position: {x: 360, y: 260, z: 0}
+    m_Position: {x: 630, y: 40, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -2447522916991249023}
+    m_Position: {x: 910, y: 100, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -8372290610070079790}
+    m_Position: {x: 920, y: -40, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -43,6 +49,32 @@ AnimatorStateMachine:
   m_ExitPosition: {x: 60, y: -50, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 8859227146352550119}
+--- !u!1102 &-8372290610070079790
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Bstand
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 18fee7d1eb47f3e4c94ba527448a9031, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &-7799809582746858320
 AnimatorState:
   serializedVersion: 6
@@ -232,6 +264,32 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1102 &-2447522916991249023
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Bholditem
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: d39f29ee2214e524caa2b25705c0f5e6, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &-2346970972543092244
 AnimatorState:
   serializedVersion: 6
@@ -321,6 +379,12 @@ AnimatorController:
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
   - m_Name: HoldCart
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: Behind
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
