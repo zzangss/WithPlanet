@@ -15,7 +15,7 @@ public class PlayerMoveController : MonoBehaviour
     public float normalSpeed = 15f;
     public float runSpeed = 30f;
     public float currentSpeed = 15f;
-    public bool isFlipped = false;
+    public bool isFlipped = false; //이동방향이 오른쪽이면 뒤집는다.
 
     private LayerMask groundMask = ~0;
     private float groundCheckRadius = 0.28f;

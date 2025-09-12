@@ -127,6 +127,23 @@ public class PlayerAction : MonoBehaviour
                 Debug.Log("카트 잡기 멈춤");
             }
         }
+        //w 뒤로 가는 키를 눌렀을 때
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            if(playerAnimator!=null)
+            {
+                playerAnimator.SetBool("Behind", true);
+            }
+        }
+        //w 뒤로 가는 키를 뗐을 때
+        if (Input.GetKeyUp(KeyCode.W))
+        {
+            if (playerAnimator != null)
+            {
+                playerAnimator.SetBool("Behind", false);
+            }
+        }
+    
     }
 
     void LateUpdate()

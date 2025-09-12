@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5ef532fae12aa314f9a4ec99a9c579fb
+guid: 3c1edfaf2e0fd554ab9626ccbd1cdec3
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,12 +97,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Bstar_walk_back (1)_0
+      name: star_carry_back_spirite (1)_0
       rect:
         serializedVersion: 2
-        x: 91
+        x: 87
         y: 24
-        width: 302
+        width: 350
         height: 453
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -111,19 +111,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 78b23cb533bd1cc43baa6f6bf7a4e0c2
-      internalID: 1000975680
+      spriteID: f0bd659ebe42faf4a9b27d2378913541
+      internalID: 541197677
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Bstar_walk_back (1)_1
+      name: star_carry_back_spirite (1)_1
       rect:
         serializedVersion: 2
-        x: 595
+        x: 571
         y: 26
-        width: 301
+        width: 359
         height: 451
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -132,8 +132,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d6a0c188d3838f649b8c2b5fc69b9fea
-      internalID: 1332205205
+      spriteID: 801e994893b6c02469386096a25c5e31
+      internalID: 1770119205
       vertices: []
       indices: 
       edges: []
@@ -149,8 +149,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Bstar_walk_back (1)_0: 1000975680
-      Bstar_walk_back (1)_1: 1332205205
+      star_carry_back_spirite (1)_0: 541197677
+      star_carry_back_spirite (1)_1: 1770119205
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
