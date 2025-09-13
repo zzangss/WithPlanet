@@ -3,7 +3,7 @@ using UnityEngine;
 
 /// <summary>
 /// 'Aimer' 자식 오브젝트를 이용해 3D 조준과 2D 표현을 분리한 CCTV 컨트롤러입니다.
-/// '볼 조인트'처럼 자유로운 추적이 가능합니다.
+/// '볼 조인트'처럼 자유로운 추적이 가능하며, 움직임이 더 부드럽고 안정적입니다.
 /// </summary>
 [RequireComponent(typeof(SphereCollider))]
 public class CCTV_AimerBased_Controller : MonoBehaviour
@@ -36,6 +36,8 @@ public class CCTV_AimerBased_Controller : MonoBehaviour
     private SpriteRenderer cctvSprite;
     private SphereCollider detectionCollider;
     private Coroutine patrolCoroutine;
+    private Vector3 initialAimerLocalPosition;
+
 
     void Awake()
     {
@@ -53,6 +55,7 @@ public class CCTV_AimerBased_Controller : MonoBehaviour
         initialRotation = transform.rotation;
         detectionCollider.isTrigger = true;
         detectionCollider.radius = detectionRadius;
+        initialAimerLocalPosition = aimerTransform.localPosition;
         StartPatrol();
     }
 
@@ -66,31 +69,61 @@ public class CCTV_AimerBased_Controller : MonoBehaviour
 
     void TrackTarget(Vector3 targetPosition)
     {
-        // 1. [조준 담당] Aimer가 목표 지점을 완벽하게 3D로 조준합니다.
-        aimerTransform.LookAt(targetPosition);
+        // 1. [조준 담당] Aimer가 목표 지점을 향해 부드럽게 회전합니다.
+        Quaternion targetAimerRotation = Quaternion.LookRotation(targetPosition - aimerTransform.position);
+        aimerTransform.rotation = Quaternion.Slerp(aimerTransform.rotation, targetAimerRotation, rotationSpeed * Time.deltaTime);
 
-        // 2. [표현 담당] Aimer의 회전 정보를 이용하여 Pivot과 Sprite를 제어합니다.
+        // 2. [표현 담당] Aimer의 안정된 회전 정보를 이용하여 Pivot과 Sprite를 제어합니다.
 
-        // 2-1. Flip 처리: Aimer의 현재 정면 방향과 월드 오른쪽 방향(Vector3.right)을 비교
-        float dotProduct = Vector3.Dot(aimerTransform.forward, Vector3.right);
+        // [수정된 Flip 로직] Pivot의 로컬 오른쪽 방향을 기준으로 타겟이 왼쪽에 있는지 오른쪽에 있는지 판단하여 안정성을 높입니다.
+        Vector3 directionToTarget = targetPosition - transform.position;
+        float dotProduct = Vector3.Dot(directionToTarget, transform.right);
         cctvSprite.flipX = dotProduct < 0;
+        
+        if (cctvSprite.flipX)
+        {
+          
+            // 스프라이트가 뒤집혔다면, Aimer의 Z 위치를 반전시켜 반대편으로 옮김
+            aimerTransform.localPosition = new Vector3(
+                -initialAimerLocalPosition.x,
+                -initialAimerLocalPosition.y,
+                -initialAimerLocalPosition.z
+            );
 
-        // 2-2. Z축 회전 처리 (상하): Aimer의 로컬 X축 회전값을 가져와 Pivot의 Z축에 적용
-        float verticalAngle = aimerTransform.localEulerAngles.x;
+           
+        }
+        else
+        {
+            // 스프라이트가 원래 방향이라면, Aimer도 원래 위치로 복원
+            aimerTransform.localPosition = initialAimerLocalPosition;
+        }
 
-        // 360도 형식의 각도를 -180 ~ 180 형식으로 변환하여 자연스럽게 만듭니다.
-        if (verticalAngle > 180) verticalAngle -= 360;
+        // aimer가 바라보는 방향 벡터
+        Vector3 aimerForward = aimerTransform.forward;
 
+        // aimer 방향 벡터의 수평 투영 (Y값을 0으로 만들어 수평 방향만 남김)
+        Vector3 horizontalForward = aimerForward;
+        horizontalForward.y = 0;
+
+        // 수평 방향과 실제 조준 방향 사이의 각도를 계산하여 상하 각도를 구함
+        // Vector3.Angle은 항상 양수 값을 반환하므로, aimerForward.y의 부호로 위아래를 구분
+        float verticalAngle = Vector3.Angle(horizontalForward, aimerForward) * Mathf.Sign(aimerForward.y);
+
+        // 계산된 각도를 최대치로 제한
         verticalAngle = Mathf.Clamp(verticalAngle, -maxVerticalAngle, maxVerticalAngle);
 
         // 최종 회전값 생성: 초기 X, Y 회전은 유지하고 Z축만 Aimer의 각도로 변경
+        if (cctvSprite.flipX)
+        {
+            verticalAngle = -verticalAngle; // 뒤집힌 상태에서는 각도도 반대로 적용
+        }
         Quaternion finalRotation = Quaternion.Euler(
             initialRotation.eulerAngles.x,
             initialRotation.eulerAngles.y,
-            -verticalAngle // Aimer의 X축 회전(Pitch)을 Pivot의 Z축 회전(Roll)에 적용
+            verticalAngle // Aimer의 X축 회전(Pitch)을 Pivot의 Z축 회전(Roll)에 적용. 위로 들면(음수각도) Z가 양수가 되도록 -를 붙임.
         );
 
-        // Pivot을 부드럽게 최종 회전값으로 이동
+        // Pivot의 회전도 Slerp를 사용하여 더 부드럽게 만듭니다.
         transform.rotation = Quaternion.Slerp(transform.rotation, finalRotation, rotationSpeed * Time.deltaTime);
     }
 
@@ -107,14 +140,15 @@ public class CCTV_AimerBased_Controller : MonoBehaviour
             float randomY = Random.Range(-patrolAreaSize.y / 2, patrolAreaSize.y / 2);
             Vector3 randomTargetPosition = patrolCenter + patrolRight * randomX + patrolUp * randomY;
 
-            // 목표 지점에 도착할 때까지 대략적인 시간 동안 이동
-            float journeyDuration = Vector3.Distance(aimerTransform.position, randomTargetPosition) / (rotationSpeed * 2f);
-            float elapsedTime = 0;
-            while (elapsedTime < journeyDuration)
+            // 목표 지점을 향한 방향 벡터를 계산
+            Vector3 directionToTarget = randomTargetPosition - aimerTransform.position;
+            // Aimer의 시선이 목표 방향과 거의 일치할 때까지 이동
+            while (Vector3.Angle(aimerTransform.forward, directionToTarget) > 5f)
             {
                 if (isPlayerDetected) yield break;
                 TrackTarget(randomTargetPosition);
-                elapsedTime += Time.deltaTime;
+                // 다음 프레임까지 대기하면서 방향을 다시 계산
+                directionToTarget = randomTargetPosition - aimerTransform.position;
                 yield return null;
             }
 
@@ -123,6 +157,7 @@ public class CCTV_AimerBased_Controller : MonoBehaviour
         }
     }
 
+    // --- 나머지 코드는 이전과 거의 동일 ---
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -136,7 +171,6 @@ public class CCTV_AimerBased_Controller : MonoBehaviour
             }
         }
     }
-
     void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -146,7 +180,6 @@ public class CCTV_AimerBased_Controller : MonoBehaviour
             StartPatrol();
         }
     }
-
     void StartPatrol()
     {
         if (patrolCoroutine == null)
@@ -154,7 +187,6 @@ public class CCTV_AimerBased_Controller : MonoBehaviour
             patrolCoroutine = StartCoroutine(PatrolRoutine());
         }
     }
-
     void StopPatrol()
     {
         if (patrolCoroutine != null)
@@ -163,14 +195,10 @@ public class CCTV_AimerBased_Controller : MonoBehaviour
             patrolCoroutine = null;
         }
     }
-
     void OnDrawGizmosSelected()
     {
-        // 플레이어 감지 범위
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
-
-        // 순찰 영역
         Gizmos.color = Color.cyan;
         Quaternion gizmoRotation = (Application.isPlaying) ? initialRotation : transform.rotation;
         Vector3 patrolCenter = transform.position + (gizmoRotation * Vector3.forward) * patrolAreaDistance;
