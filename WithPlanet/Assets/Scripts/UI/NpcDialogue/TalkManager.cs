@@ -1,94 +1,73 @@
-using System.Collections.Generic;
+Ôªøusing System.Collections.Generic;
 using UnityEngine;
 
 public class TalkManager : MonoBehaviour
 {
-    // talkData[npcId][stage] = string[] (¥ÎªÁ πËø≠)
-    private readonly Dictionary<Type, Dictionary<State, string[]>> talkData = new Dictionary<Type, Dictionary<State, string[]>>();
+    // talkData[npc][stage] = DialogueEntry[]
+    private readonly Dictionary<Type, Dictionary<State, DialogueEntry[]>> talkData
+        = new Dictionary<Type, Dictionary<State, DialogueEntry[]>>();
 
-    // ∆Ì¿«∏¶ ¿ß«— NPC ID ªÛºˆ (ObjData.idø° ∏¬√Á¡÷ººø‰)
-    public const int NPC_BOSS = 1000;
-    public const int NPC_MILUNA = 1100;
-    public const int NPC_BOXMONSTER = 1200;
+    private void Awake() => GenerateData();
 
-    private void Awake()
-    {
-        GenerateData();
-    }
-
-    // ø©±‚ø° ≥Îº«¿« Ω«¡¶ ¥ÎªÁ∑Œ √§øˆ≥÷¿∏ººø‰.
-    // ∞¢ string[]¥¬ «— ¡Ÿ¿Ã «— π¯¿« Talk() √‚∑¬¿‘¥œ¥Ÿ.
     private void GenerateData()
     {
         // Boss
-        talkData[Type.Boss] = new Dictionary<State, string[]>
+        talkData[Type.Boss] = new Dictionary<State, DialogueEntry[]>
         {
             [State.Opening] = new[]
             {
-                // °Â°Â ø©±‚ø° Boss ø¿«¡¥◊ º≥∏Ì(∞‘¿” Ω√¿€ ¡˜»ƒ ¿Áª˝)¿ª ≥÷¿∏ººø‰ °Â°Â
-                "Star, remember your mission here.\n1) Find out the most valuable treasures/collectibles on this planet.\n2) Collect them and recycle it with our machine.\nCan you get it?",
-                "There°Øs plenty of collectibles here. They all have different values, but don't bring everything back. You have to select them by yourself.\nYou°Øll figure out what kind of treasure is valuable by explore the story on this planet. ",
-                "The collectibles can simply divided in 3 types.\n1) Common collectibles\n2) The Core collectible\n3) Other collectibles",
-                "We only collect the Common&Core things. \nThe common collectibles can achieve the target value.\r\nBut if you can°Øt bring back the Core collectible, no matter if you°Øve collected enough values of the collectibles you will fail the mission.",
-                "Other collectibles also have their own values, but Be careful!!! It will count as minus when you finally recycle.",
-                "So simply it will goes like this. Keep this rule in mind. ",
-                "Now go get the Mission point. It will tells you how much values you have to collect. And maybe°¶ you can find some clues about this planet."
+                DialogueEntry.Line("Star, remember your mission here.\n1) Find out the most valuable treasures/collectibles on this planet.\n2) Collect them and recycle it with our machine.\nCan you get it?"),
+                DialogueEntry.Line("There‚Äôs plenty of collectibles here..."),
+                DialogueEntry.Line("The collectibles can simply divided in 3 types.\n1) Common collectibles\n2) The Core collectible\n3) Other collectibles"),
+                DialogueEntry.Line("We only collect the Common&Core things..."),
+                DialogueEntry.Line("Other collectibles also have their own values, but Be careful!!! ..."),
+                DialogueEntry.Line("So simply it will goes like this. Keep this rule in mind."),
+                DialogueEntry.Line("Now go get the Mission point...")
             },
-            [State.PreMinigame] = new[]
-            {
-                // °Â°Â πÃ¥œ∞‘¿” Ω√¿€ ¿¸ Boss ¥ÎªÁ °Â°Â
-                "."
-            },
-            [State.PostMinigame] = new[]
-            {
-                // °Â°Â πÃ¥œ∞‘¿” »ƒ Boss ¥ÎªÁ(º∫∞¯/Ω«∆– ∞¯≈Î ∂«¥¬ ∫–±‚ √≥∏Æ ∞°¥…) °Â°Â
-                "."
-            }
+            [State.PreMinigame] = new[] { DialogueEntry.Line(".") },
+            [State.PostMinigame] = new[] { DialogueEntry.Line(".") },
         };
 
-        // Miluna
-        talkData[Type.Miluna] = new Dictionary<State, string[]>
+        // Miluna ‚Äî ÏòàÏãú: ÏÑ†ÌÉùÏßÄ Î∂ÑÍ∏∞
+        talkData[Type.Miluna] = new Dictionary<State, DialogueEntry[]>
         {
             [State.PreMinigame] = new[]
             {
-                "I never seen you before, how did you get here?",
-                "I don't care what you're here for, I don't have time for you. \nThere are too many negative comments posted with my content, I have to fix them so I can manage with you, OK?",
-                "Or°¶ maybe, you can help me with it?",
-                "Yes! it will helps a lot. \nYou have to delete all the negative comments under the video. \nAre you ready? Click the screen to start.",
-
+                DialogueEntry.Line("I never seen you before, how did you get here?"),
+                DialogueEntry.Line("I don't care what you're here for..."),
+                DialogueEntry.Choice("Or‚Ä¶ maybe, you can help me with it?", "O (help)", "X (reject)", oNext: 4, xNext: 5),
+                DialogueEntry.Line("Yes! it will helps a lot. \nYou have to delete all the negative comments... Click the screen to start."), // idx 4 (O)
+                DialogueEntry.Line("Hmm‚Ä¶ It won‚Äôt take long. I really need your help..."), // idx 5 (X)
+                DialogueEntry.Choice("Can you help me now?", "O (ok)", "X (sorry)", oNext: 4, xNext: 7),
+                DialogueEntry.Line("Alright‚Ä¶ come back if you change your mind."), // idx 7 (Í±∞Ï†à Ï¢ÖÎ£å)
             },
             [State.PostMinigame] = new[]
             {
-                "Wow! you are awesome. Guess I need a professional like you to manage my account.\nBy the way, you were asking about the most valuable thing on our planet, right?",
-                "I would say it's definitely those sweet things, like candy and desserts! \nThey keep us in a good mood and provide us with the energy to survive. I can't even imagine how to live without them.",
-                "Go ahead, collect whatever you want, Smartie!"
-                
+                DialogueEntry.Line("Wow! you are awesome..."),
+                DialogueEntry.Line("I would say it's definitely those sweet things..."),
+                DialogueEntry.Line("Go ahead, collect whatever you want, Smartie!")
             }
         };
 
         // BoxMonster
-        talkData[Type.BoxMonster] = new Dictionary<State, string[]>
+        talkData[Type.BoxMonster] = new Dictionary<State, DialogueEntry[]>
         {
             [State.PreMinigame] = new[]
             {
-                "Oh, don°Øt panic. I just need some help°¶ ",
-                "I knew that you came here for those collectibles.\nBut if you want to know which collectible is valuable, you must help the owner of this planet, MILUNA. ",
-                "MILUNA have got in trouble with the career as a popular influencer. You need to help MILUNA get through this rough period.",
-                "Come on. I°Øll take you to MILUNA°Øs room. You can find your mission point there."
+                DialogueEntry.Line("Oh, don‚Äôt panic. I just need some help‚Ä¶ "),
+                DialogueEntry.Line("I knew that you came here for those collectibles..."),
+                DialogueEntry.Line("MILUNA have got in trouble..."),
+                DialogueEntry.Line("Come on. I‚Äôll take you to MILUNA‚Äôs room...")
             },
-            [State.PostMinigame] = new[]
-            {
-                "Oh, You did it!(box)"
-            }
+            [State.PostMinigame] = new[] { DialogueEntry.Line("Oh, You did it!(box)") }
         };
     }
 
-    // talkIndex∞° π¸¿ß∏¶ ≥—¿∏∏È null π›»Ø
-    public string GetTalk(Type npcId, State stage, int talkIndex)
+    // talkIndex Î≤îÏúÑ Î∞ñÏù¥Î©¥ null
+    public DialogueEntry GetTalk(Type npc, State stage, int talkIndex)
     {
-        if (!talkData.TryGetValue(npcId, out var stageMap)) return null;
+        if (!talkData.TryGetValue(npc, out var stageMap)) return null;
         if (!stageMap.TryGetValue(stage, out var lines)) return null;
-
         if (talkIndex < 0 || talkIndex >= lines.Length) return null;
         return lines[talkIndex];
     }
