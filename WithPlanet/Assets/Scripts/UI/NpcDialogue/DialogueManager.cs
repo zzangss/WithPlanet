@@ -28,7 +28,7 @@ public class DialogueManager : Singleton<DialogueManager>
     public bool isAction = false;
     public int talkIndex = 0;
 
-    public State CurrentStage { get; private set; } = State.Opening;
+    public State CurrentStage = State.Opening;
     private bool openingPlayed = false;
 
     public ObjData currentNpc;

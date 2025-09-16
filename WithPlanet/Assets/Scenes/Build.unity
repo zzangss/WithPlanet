@@ -154,6 +154,10 @@ PrefabInstance:
       propertyPath: randomSpawner
       value: 
       objectReference: {fileID: 1069861778}
+    - target: {fileID: 314211147450118726, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
+      propertyPath: dialogueManager
+      value: 
+      objectReference: {fileID: 623135046}
     - target: {fileID: 3165073140711079918, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
       propertyPath: m_Name
       value: GameManager
