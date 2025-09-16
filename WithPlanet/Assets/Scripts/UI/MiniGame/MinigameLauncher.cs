@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,8 +5,16 @@ namespace Project.Minigames.ToxicCleanser
 {
     public class MinigameLauncher : Singleton<MinigameLauncher>
     {
-        [SerializeField] private string sceneName = "Minigame_ToxicCleanser_Scene";
         public static bool isMiniRunning = false;
+
+        [SerializeField] private string[] sceneNames =
+        {
+            "MinigameScene",
+            "MinigameScene2"
+        };
+
+        [SerializeField] private int sceneIndex = 0;
+        private bool transitioning = false; // 씬 전환중 여부를 저장. 중복 실행 방지용
 
         private void OnEnable()
         {
@@ -23,16 +30,26 @@ namespace Project.Minigames.ToxicCleanser
 
         public void Launch()
         {
-            if (!string.IsNullOrEmpty(sceneName))
-            {
-                isMiniRunning = true;
-                SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
-            }
+            if (isMiniRunning || transitioning) return;
+            if (sceneNames == null || sceneNames.Length == 0) return;
+            if (sceneIndex < 0 || sceneIndex >= sceneNames.Length) return;
+
+            isMiniRunning = true;
+            SceneManager.LoadScene(sceneNames[sceneIndex], LoadSceneMode.Additive);
         }
 
         private void HandleSuccess()
         {
-            Debug.Log("Minigame success: give treasure hint");
+            if (transitioning) return;
+            Debug.Log("Minigame success");
+
+            // 마지막이면 정리하고 종료
+            if (sceneIndex + 1 >= sceneNames.Length)
+            {
+                return;
+            }
+
+            sceneIndex++;
         }
 
         private void HandleFail()

@@ -358,6 +358,18 @@ PrefabInstance:
       propertyPath: m_EffectsAudioSource
       value: 
       objectReference: {fileID: 631604678}
+    - target: {fileID: 6729559188009328675, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
+      propertyPath: sceneNames.Array.data[0]
+      value: MinigameScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 6729559188009328675, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
+      propertyPath: sceneNames.Array.data[1]
+      value: MinigameScene2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6729559188009328675, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
+      propertyPath: sceneNames.Array.data[2]
+      value: MinigameScene3
+      objectReference: {fileID: 0}
     - target: {fileID: 7473454046979046493, guid: 03d284f484857c6468458b8bd7e62e70, type: 3}
       propertyPath: m_LocalPosition.x
       value: 209.20717
