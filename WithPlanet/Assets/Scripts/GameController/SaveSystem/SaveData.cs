@@ -22,4 +22,8 @@ public class SaveData
     public float playTime; // 총 플레이 시간
     public string lastSavedDate; // 마지막 저장 날짜
 
+
+    //dialogue 정보
+    public State state;
+
 }

@@ -13,6 +13,7 @@ public class SaveController : MonoBehaviour
     [SerializeField] private InventoryMain inventoryMain;
     [SerializeField] private ItemDictionary itemdic;
     [SerializeField] private RandomSpawner randomSpawner;
+    [SerializeField] private DialogueManager dialogueManager; 
 
     void Awake()
     {
@@ -106,6 +107,8 @@ public class SaveController : MonoBehaviour
                 }
             }
         }
+        //대화 state 저장
+        saveData.state = dialogueManager.CurrentStage;
 
         // 플레이 시간과 저장 날짜 저장
         saveData.playTime = currentPlayTime; 
@@ -177,6 +180,8 @@ public class SaveController : MonoBehaviour
                 inventoryMain.gameObject.SetActive(false);
 
             }
+            //대화 satge 불러오기
+             dialogueManager.CurrentStage= saveData.state;
 
             // 플레이 시간과 저장 날짜 불러오기
             GameManagerSystem.Instance.playTime = saveData.playTime;
