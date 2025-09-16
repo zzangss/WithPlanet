@@ -110,23 +110,25 @@ public class PlayerAction : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Tab) && isNearCart && scanObject != null && scanObject.CompareTag("Cart"))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             if (!isHoldingCart)
             {
-                // 카트 따라오기 시작
-                holdedCart = scanObject;
-                isHoldingCart = true;
-                Debug.Log("플레이어가 카트 잡기 시작");
+                if (isNearCart && scanObject != null && scanObject.CompareTag("Cart"))
+                {
+                    holdedCart = scanObject;
+                    isHoldingCart = true;
+                    Debug.Log("플레이어가 카트 잡기 시작");
+                }
             }
             else
             {
-                // 따라오던 카트 멈춤
                 isHoldingCart = false;
                 holdedCart = null;
                 Debug.Log("카트 잡기 멈춤");
             }
         }
+
         //w 뒤로 가는 키를 눌렀을 때
         if (Input.GetKeyDown(KeyCode.W))
         {

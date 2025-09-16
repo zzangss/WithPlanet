@@ -34,6 +34,9 @@ public class DialogueManager : Singleton<DialogueManager>
     public ObjData currentNpc;
 
     private DialogueEntry _pendingChoice;
+    private bool _endAfterNextLine = false;
+    private State? pendingNextStage = null;
+
 
     private void Awake()
     {
@@ -66,7 +69,7 @@ public class DialogueManager : Singleton<DialogueManager>
     public void StartTutorial()
     {
         if (!openingPlayed && bossNpc != null) StartOpeningDialogue();
-        else SetStage(State.PreMinigame);
+        else SetStage(State.PreMinigame1);
     }
 
     // 플레이어 상호작용에서 호출: 스캔된 NPC 타입 전달
@@ -105,7 +108,12 @@ public class DialogueManager : Singleton<DialogueManager>
             if (CurrentStage == State.Opening)
             {
                 openingPlayed = true;
-                SetStage(State.PreMinigame);
+                SetStage(State.PreMinigame1);
+            }
+            else if (pendingNextStage.HasValue)
+            {
+                SetStage(pendingNextStage.Value);
+                pendingNextStage = null; 
             }
             return;
         }
@@ -117,6 +125,23 @@ public class DialogueManager : Singleton<DialogueManager>
                 talkText.text = entry.text;
                 isAction = true;
                 talkIndex++;
+
+                if (_endAfterNextLine)
+                {
+                    _endAfterNextLine = false; // 1회성
+                    isAction = false;
+                    dialoguePanel.SetActive(false);
+                    PauseController.SetPause(false);
+                    talkIndex = 0;
+
+                    // (선택) 이 타이밍에 예약된 다음 스테이지 적용도 가능
+                    if (pendingNextStage.HasValue)
+                    {
+                        SetStage(pendingNextStage.Value);
+                        pendingNextStage = null;
+                    }
+                    return;
+                }
                 break;
 
             case LineKind.Choice:
@@ -144,12 +169,19 @@ public class DialogueManager : Singleton<DialogueManager>
         if (isO && _pendingChoice.nextIndexIfO >= 0) next = _pendingChoice.nextIndexIfO;
         if (!isO && _pendingChoice.nextIndexIfX >= 0) next = _pendingChoice.nextIndexIfX;
 
-        // (원하면 여기서 선택 결과 플래그를 저장해 진행 상태에 반영 가능)
-        // GameProgress.acceptedHelpFromMiluna = isO;  등
+        if (currentNpc != null && currentNpc.type == Type.Miluna && CurrentStage == State.PreMinigame1)
+        {
+            pendingNextStage = isO ? State.PreMinigame1_O : State.PreMinigame1_X;
+        }
+
+        if (isO && _pendingChoice.endAfterSelectO) _endAfterNextLine = true;
+        if (!isO && _pendingChoice.endAfterSelectX) _endAfterNextLine = true;
 
         talkIndex = next;
         _pendingChoice = null;
         ShowChoice(false);
+
+        // 선택 후에도 "현재 state"의 다음 줄을 계속 진행
         Talk(currentNpc.type);
     }
 
@@ -171,6 +203,6 @@ public class DialogueManager : Singleton<DialogueManager>
 
     public void SetStage(State next) => CurrentStage = next;
 
-    private void HandleMinigameSuccess() => SetStage(State.PostMinigame);
-    private void HandleMinigameFail() => SetStage(State.PreMinigame);
+    private void HandleMinigameSuccess() => SetStage(State.PostMinigame1Success);
+    private void HandleMinigameFail() => SetStage(State.PostMinigame1Fail);
 }
