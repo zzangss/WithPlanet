@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   totalDurationSec: 30
   targetGoal: 20
-  refreshInterval: 2
+  refreshInterval: 3
   targetSpawnRatio: 0.1
   penaltySecondsOnWrongClick: 5
   flipProbPerSecond: 0.2
