@@ -7,20 +7,28 @@ namespace Project.Minigames.ToxicCleanser
     public class ImageSet : ScriptableObject
     {
         [Header("Gameplay")]
-        [Min(1)] public int hearts = 3;                 // 초기 하트 수
-        [Min(5f)] public float totalDurationSec = 30f;  // 전체 제한 시간(초)
+        [Min(5f)] public int totalDurationSec = 30;   // 전체 제한 시간
+        [Min(1)] public int targetGoal = 30;    // 제한시간 내 제거해야 할 총 타깃 수
+        [Min(0.3f)] public float refreshInterval = 1.5f; // 새로고침 주기(초)
+        [Range(0f, 1f)] public float targetSpawnRatio = 0.4f; // 최초 타깃 비율 
 
-        [Tooltip("웨이브(그리드) 리프레시 주기(초)")]
-        [Min(0.3f)] public float refreshInterval = 1.5f;
+        [Header("Wrong Click (Non-Target) Penalty")]
+        [Tooltip("타깃이 아닌 이미지를 눌렀을 때 남은 시간에서 깎을 초")]
+        [Min(0f)] public float penaltySecondsOnWrongClick = 1.0f;
 
-        [Tooltip("그리드 내 제거 대상(타깃) 비율(0~1)")]
-        [Range(0f, 1f)] public float targetSpawnRatio = 0.4f;
+        [Header("Mid Flip (Neutral -> Target)")]
+        [Tooltip("후보 1개 기준 초당 변신 확률 p (예: 0.2)")]
+        [Range(0f, 1f)] public float flipProbPerSecond = 0.2f;
+        [Tooltip("변신 체크 주기(초)")]
+        [Range(0.05f, 1f)] public float flipCheckInterval = 0.25f;
+        [Tooltip("한 번의 체크에서 최대 변신 개수")]
+        [Min(0)] public int maxFlipsPerTick = 1;
+
+        [Tooltip("보드에 동시에 존재 가능한 타깃 상한(과도한 증가 방지). 0 또는 음수면 제한 없음")]
+        public int maxTargetsOnBoard = 5;
 
         [Header("Assets")]
-        [Tooltip("클릭해 제거해야 하는 이미지들(타깃)")]
         public List<Sprite> targetSprites = new List<Sprite>();
-
-        [Tooltip("클릭하면 안 되는 이미지들(중립)")]
         public List<Sprite> neutralSprites = new List<Sprite>();
     }
 }

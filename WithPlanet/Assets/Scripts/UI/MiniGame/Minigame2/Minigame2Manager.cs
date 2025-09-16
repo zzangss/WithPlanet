@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -13,42 +14,46 @@ namespace Project.Minigames.ToxicCleanser
         public static event Action OnMinigameFail;
 
         [Header("Config")]
-        [SerializeField] private ImageSet config;                 // 미니게임2 전용 설정
+        [SerializeField] private ImageSet config;
 
-        [Header("UI (기존 구현 재사용)")]
+        [Header("UI")]
         [SerializeField] private CountdownController countdownOverlay; // StartCountdown(3)
-        [SerializeField] private TimelineView timeline;               // decreaseTime(timeLeft, total)
-        [SerializeField] private HeartsView heartsView;               // SetHearts(curr, max)
-        [SerializeField] private ResultPanelController resultPanel;   // ShowSuccess/ShowFail
+        [SerializeField] private TimelineView timeline;          // decreaseTime(timeLeft, total)
+        [SerializeField] private ResultPanelController resultPanel;    // ShowSuccess/ShowFail
         [SerializeField] private Button exitButton;
         [SerializeField] private Button resultExitButton;
         [SerializeField] private CanvasGroup fadeOverlay;
-        [SerializeField] private UIShake backgroundShake;
+        [SerializeField] private UIShake backgroundShake;   // (선택)
 
         [Header("Board")]
-        [SerializeField] private GridBoard board;                // GridLayoutGroup + GridItemView 프리팹
+        [SerializeField] private GridBoard board;
         [SerializeField, Range(2, 6)] private int gridSize = 3;
 
-        [Header("Override (씬에서 즉석 튜닝용)")]
-        [SerializeField] private bool overrideRefreshInterval = false;
-        [SerializeField, Min(0.3f)] private float refreshIntervalOverride = 1.5f;
+        [Header("Refresh FX (블러 오버레이 Image)")]
+        [SerializeField] private Image refreshOverlay;
+        [SerializeField, Range(0.05f, 0.6f)] private float refreshFxDuration = 0.25f;
 
-        [SerializeField] private bool overrideTargetRatio = false;
-        [SerializeField, Range(0f, 1f)] private float targetRatioOverride = 0.4f;
+        [Header("Progress UI")]
+        [SerializeField] private TMP_Text progressText; // "현재/목표"
 
-        // 내부 상태
-        private int hearts;
+        // === 내부 상태 ===
         private float timeLeft;
         private float waveTimer;
+        private float flipTimer;
 
+        private int clearedTotal;
         private int targetCountThisWave;
-        private int clearedTargetThisWave;
 
+        private bool isRefreshing;
         private readonly List<GridItemView> cells = new();
         private System.Random rnd = new();
 
-        private float RefreshInterval => overrideRefreshInterval ? refreshIntervalOverride : config.refreshInterval;
-        private float TargetRatio => overrideTargetRatio ? targetRatioOverride : config.targetSpawnRatio;
+        private float RefreshInterval => config.refreshInterval;
+        private float TargetRatio => config.targetSpawnRatio;
+        private float FlipProbPerSecond => config.flipProbPerSecond;
+        private float FlipCheckInterval => config.flipCheckInterval;
+        private int MaxFlipsPerTick => Mathf.Max(0, config.maxFlipsPerTick);
+        private int MaxTargetsOnBoard => config.maxTargetsOnBoard;
 
         private void Start()
         {
@@ -58,13 +63,19 @@ namespace Project.Minigames.ToxicCleanser
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
 
-            // 보드 생성 및 셀 구독
             board.Build(gridSize);
             cells.Clear();
             foreach (var c in board.Cells)
             {
-                c.OnActionPressed += HandleActionPressed;  // ⬅️ 버튼만 판정
+                c.OnActionPressed += HandleActionPressed;
                 cells.Add(c);
+            }
+
+            if (refreshOverlay != null)
+            {
+                var cc = refreshOverlay.color;
+                refreshOverlay.color = new Color(cc.r, cc.g, cc.b, 0f);
+                refreshOverlay.raycastTarget = false;
             }
 
             StartCoroutine(RunGameLoop());
@@ -72,146 +83,256 @@ namespace Project.Minigames.ToxicCleanser
 
         private IEnumerator RunGameLoop()
         {
-            // 1) 초기화 — 기존 HUD API 시그니처 그대로
-            hearts = config.hearts;
             timeLeft = config.totalDurationSec;
-            heartsView.SetHearts(hearts, config.hearts);
+            clearedTotal = 0;
+            UpdateProgressText();
             timeline.decreaseTime(timeLeft, config.totalDurationSec);
 
-            // 2) 카운트다운
             yield return StartCoroutine(countdownOverlay.StartCountdown(3));
 
-            // 3) 첫 웨이브 시작
             waveTimer = 0f;
-            SpawnNewWave();
+            flipTimer = 0f;
+            SetUpNewWave();
 
-            // 4) 메인 루프
-            while (timeLeft >= 0f && hearts > 0)
+            while (timeLeft > 0f)
             {
                 timeLeft -= Time.deltaTime;
                 timeline.decreaseTime(timeLeft, config.totalDurationSec);
 
                 waveTimer += Time.deltaTime;
-                if (waveTimer >= RefreshInterval)
+                if (waveTimer >= RefreshInterval && !isRefreshing)
+                    StartCoroutine(RefreshWaveRoutine());
+
+                flipTimer += Time.deltaTime;
+                if (flipTimer >= FlipCheckInterval && FlipProbPerSecond > 0f && MaxFlipsPerTick > 0)
                 {
-                    // 타깃을 다 못 지웠으면 패널티
-                    if (clearedTargetThisWave < targetCountThisWave)
-                    {
-                        LoseHeart();
-                        if (hearts <= 0) break;
-                        backgroundShake?.Play();
-                    }
-                    SpawnNewWave();
+                    flipTimer = 0f;
+                    TryFlipNeutralsToTargets();
+                }
+
+                if (clearedTotal >= config.targetGoal)
+                {
+                    EndGame(true);
+                    yield break;
                 }
 
                 yield return null;
             }
 
-            // 5) 종료
-            bool success = (timeLeft <= 0f) && (hearts > 0);
-            EndGame(success);
+            EndGame(clearedTotal >= config.targetGoal);
         }
 
-        private void SpawnNewWave()
+        /// <summary>
+        /// 새로고침 루틴
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator RefreshWaveRoutine()
         {
+            isRefreshing = true;
             waveTimer = 0f;
-            int total = gridSize * gridSize;
 
-            targetCountThisWave = Mathf.Clamp(Mathf.RoundToInt(TargetRatio * total), 0, total);
-            clearedTargetThisWave = 0;
+            SetUpNewWave();
 
-            // 인덱스 섞기
-            var idx = new List<int>(total);
-            for (int i = 0; i < total; i++) idx.Add(i);
-            for (int i = total - 1; i > 0; i--)
+            if (refreshOverlay && refreshFxDuration > 0f)
             {
-                int j = rnd.Next(0, i + 1);
-                (idx[i], idx[j]) = (idx[j], idx[i]);
+                yield return StartCoroutine(FadeImage(refreshOverlay, 1f, 0f, refreshFxDuration));
             }
 
-            var targetSet = new HashSet<int>();
-            for (int i = 0; i < targetCountThisWave; i++) targetSet.Add(idx[i]);
+            isRefreshing = false;
+        }
+        /// <summary>
+        /// 새로운 게시물을 셋업해주는 함수 (새로고침)
+        /// </summary>
+        private void SetUpNewWave()
+        {
+            int total = gridSize * gridSize; // 총 게시물 개수 
 
-            // 셀 세팅
+            targetCountThisWave = Mathf.Clamp(Mathf.RoundToInt(TargetRatio * total), 0, total);
+
+            var idx = new List<int>(total);
+            for (int i = 0; i < total; i++)
+            {
+                idx.Add(i);
+            }
+            Shuffle(idx);
+
+            // 해시셋을 이용해 인덱스로 타깃인지 아닌지 확인 가능 
+            var targetSet = new HashSet<int>();
+            for (int i = 0; i < targetCountThisWave; i++) 
+            { 
+                targetSet.Add(idx[i]); 
+            }
+
+            // 하나씩 게시물 셋업
             for (int i = 0; i < total; i++)
             {
                 var cell = cells[i];
-                bool isTarget = targetSet.Contains(i);
-
-                Sprite sprite = PickRandom(isTarget ? config.targetSprites : config.neutralSprites);
-                cell.Setup(sprite, isTarget);          // 이미지 + 타깃 여부
-                cell.ResetVisualState();               // 버튼/투명도 초기화
+                bool isTarget = targetSet.Contains(i); // i번 게시물이 타깃인지 판단 
+                Sprite sprite = PickRandom(isTarget ? config.targetSprites : config.neutralSprites); // isTarget값에 따라 각 스프라이트 세트에서 랜덤으로 이미지 가져오기
+                cell.Setup(sprite, isTarget);
+                cell.ResetVisualState();
             }
         }
 
+        /// <summary>
+        /// 기본 이미지를 타깃 이미지로 전환하는 함수 
+        /// </summary>
+        private void TryFlipNeutralsToTargets()
+        {
+            // 현재 활성 타깃 수(아직 제거되지 않아 Action 가능 상태)
+            int activeTargets = CountActiveTargets();
+            int allowedExtra = (MaxTargetsOnBoard > 0) ? Mathf.Max(0, MaxTargetsOnBoard - activeTargets) : int.MaxValue;
+            if (allowedExtra <= 0) return;
+
+            var candidates = new List<GridItemView>();
+            foreach (var c in cells)
+            {
+                if (!c.IsTarget && c.ActionButton != null && c.ActionButton.interactable)
+                    candidates.Add(c);
+            }
+            if (candidates.Count == 0) return;
+
+            float p = Mathf.Clamp01(FlipProbPerSecond * FlipCheckInterval);
+            int flips = 0;
+            Shuffle(candidates);
+            foreach (var cell in candidates)
+            {
+                if (flips >= MaxFlipsPerTick) break;
+                if (flips >= allowedExtra) break;
+
+                if (UnityEngine.Random.value <= p)
+                {
+                    var newSprite = PickRandom(config.targetSprites);
+                    cell.ForceSetTarget(newSprite);
+                    flips++;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 현재 활성 상태인 타깃 게시물 개수 카운트
+        /// </summary>
+        /// <returns></returns>
+        private int CountActiveTargets()
+        {
+            int n = 0;
+            foreach (var c in cells)
+            {
+                if (c.IsTarget && c.ActionButton != null && c.ActionButton.interactable)
+                {
+                    n++;
+                }
+            }
+            return n;
+        }
+
+        /// <summary>
+        /// 게시물 삭제를 눌렀을 때 동작 함수
+        /// </summary>
+        /// <param name="cell"></param>
         private void HandleActionPressed(GridItemView cell)
         {
-            if (cell == null) return;
-
+            if (cell == null)
+            {
+                return;
+            }
             if (cell.IsTarget)
             {
-                // 올바른 제거: 버튼만 눌렸을 때 시각적 제거
                 cell.ApplyRemovedVisual();
-                clearedTargetThisWave++;
-
-                // 퍼펙트 → 즉시 다음 웨이브
-                if (clearedTargetThisWave >= targetCountThisWave)
-                {
-                    SpawnNewWave();
-                }
+                clearedTotal++;
+                UpdateProgressText();
             }
             else
             {
-                // 중립에 눌렀다면 오클릭 패널티
-                LoseHeart();
-                backgroundShake?.Play();
-                if (hearts <= 0)
-                {
-                    StopAllCoroutines();
-                    EndGame(false);
-                }
+                cell.ApplyRemovedVisual();
+
+                // 오클릭: 남은 시간 감소
+                timeLeft = Mathf.Max(0f, timeLeft - config.penaltySecondsOnWrongClick);
+                backgroundShake?.Play(); 
             }
         }
 
-        private void LoseHeart()
+        /// <summary>
+        /// 현재까지 지운 타깃 개수를 나타낸다.
+        /// </summary>
+        private void UpdateProgressText()
         {
-            hearts = Mathf.Max(0, hearts - 1);
-            heartsView.SetHearts(hearts, config.hearts); // ✅ 기존 시그니처 유지
+            if (progressText != null)
+                progressText.text = $"{clearedTotal} / {config.targetGoal}";
         }
 
+        /// <summary>
+        /// 성공/실패 시 결과 패널을 보여주고 미니게임 성공/실패 이벤트를 수행한다. 
+        /// </summary>
+        /// <param name="success">true:게임성공</param>
         private void EndGame(bool success)
         {
-            if (success)
-            {
-                resultPanel.ShowSuccess();
-                OnMinigameSuccess?.Invoke();
+            if (success) 
+            { 
+                resultPanel.ShowSuccess(); 
+                OnMinigameSuccess?.Invoke(); 
             }
-            else
-            {
-                resultPanel.ShowFail();
-                OnMinigameFail?.Invoke();
+            else 
+            { 
+                resultPanel.ShowFail(); 
+                OnMinigameFail?.Invoke(); 
             }
         }
 
-        // — 튜닝용(슬라이더에서 연결 가능) —
-        public void SetTargetRatio(float ratio) => overrideTargetRatio = Mathf.Clamp01(ratio);
-        public void SetRefreshInterval(float sec) => overrideRefreshInterval = (sec >= 0.3f);
+        // util
+        private IEnumerator FadeImage(Image img, float fromA, float toA, float duration)
+        {
+            Color baseC = img.color;
+            img.raycastTarget = true;
+            float t = 0f;
+            while (t < duration)
+            {
+                t += Time.deltaTime;
+                float a = Mathf.Lerp(fromA, toA, t / duration);
+                img.color = new Color(baseC.r, baseC.g, baseC.b, a);
+                yield return null;
+            }
+            img.color = new Color(baseC.r, baseC.g, baseC.b, toA);
+            img.raycastTarget = toA > 0.01f;
+        }
 
-        // — 씬 복귀(기존 로직 유지) —
+        /// <summary>
+        /// 리스트를 무작위로 섞는다. Fisher-Yates 알고리즘 적용
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list">대상 리스트</param>
+        private void Shuffle<T>(IList<T> list)
+        {
+            for (int i = list.Count - 1; i > 0; i--)
+            {
+                int j = UnityEngine.Random.Range(0, i + 1);
+                (list[i], list[j]) = (list[j], list[i]);
+            }
+        }
+
+        /// <summary>
+        /// 주어진 리스트의 스프라이트를 랜덤 리턴
+        /// </summary>
+        /// <param name="list">스프라이트 가져올 리스트</param>
+        /// <returns></returns>
+        private Sprite PickRandom(IList<Sprite> list)
+        {
+            if (list == null || list.Count == 0) return null;
+            int i = UnityEngine.Random.Range(0, list.Count);
+            return list[i];
+        }
+
         public void ExitToMain()
         {
             MinigameLauncher.isMiniRunning = false;
             StartCoroutine(ExitToMainRoutine());
         }
-
         private IEnumerator ExitToMainRoutine()
         {
             yield return StartCoroutine(FadeOut(0.5f));
             AsyncOperation op = SceneManager.UnloadSceneAsync(gameObject.scene);
             while (!op.isDone) yield return null;
-            Debug.Log("미니게임2 씬 언로드 완료!");
         }
-
         private IEnumerator FadeOut(float duration)
         {
             if (fadeOverlay == null) yield break;
@@ -223,13 +344,6 @@ namespace Project.Minigames.ToxicCleanser
                 yield return null;
             }
             fadeOverlay.alpha = 1f;
-        }
-
-        private Sprite PickRandom(IList<Sprite> list)
-        {
-            if (list == null || list.Count == 0) return null;
-            int i = rnd.Next(0, list.Count);
-            return list[i];
         }
     }
 }

@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,31 +7,32 @@ namespace Project.Minigames.ToxicCleanser
     public class GridItemView : MonoBehaviour
     {
         [Header("Refs")]
-        [SerializeField] private Image icon;                 // »ó´Ü ÀÌ¹ÌÁö
-        [SerializeField] private Button actionButton;        // ÇÏ´Ü Å¬¸¯ºÎ(½È¾î¿ä µî)
-        [SerializeField] private CanvasGroup canvasGroup;    // ¼±ÅÃ(¾øÀ¸¸é ÀÚµ¿ Ãß°¡)
+        [SerializeField] private Image icon;
+        [SerializeField] private Button actionButton;
+        [SerializeField] private CanvasGroup canvasGroup;
 
         public Image IconImage => icon;
         public Button ActionButton => actionButton;
 
-        public bool IsTarget { get; private set; }           // ÀÌ¹ø ¿şÀÌºê¿¡¼­ Å¸±êÀÎÁö
-
-        // ¹öÆ°ÀÌ ´­·ÈÀ» ¶§¸¸ ¾Ë¸²
+        public bool IsTarget { get; private set; }
         public event Action<GridItemView> OnActionPressed;
 
         private void Awake()
         {
             if (canvasGroup == null)
             {
-                canvasGroup = gameObject.GetComponent<CanvasGroup>();
+                canvasGroup = GetComponent<CanvasGroup>();
                 if (canvasGroup == null) canvasGroup = gameObject.AddComponent<CanvasGroup>();
             }
-
             if (actionButton != null)
                 actionButton.onClick.AddListener(() => OnActionPressed?.Invoke(this));
         }
 
-        /// <summary>¿şÀÌºê¸¶´Ù ¾ÆÀÌÄÜ/Å¸±ê ¿©ºÎ ¼¼ÆÃ + ºñÁÖ¾ó ÃÊ±âÈ­</summary>
+        /// <summary>
+        /// ê²Œì‹œë¬¼ì„ ì…‹ì—…í•œë‹¤. 
+        /// </summary>
+        /// <param name="sprite">ê²Œì‹œë¬¼ ì´ë¯¸ì§€</param>
+        /// <param name="isTarget">true : íƒ€ê¹ƒ ê²Œì‹œë¬¼</param>
         public void Setup(Sprite sprite, bool isTarget)
         {
             IsTarget = isTarget;
@@ -39,11 +40,12 @@ namespace Project.Minigames.ToxicCleanser
             ResetVisualState();
         }
 
-        /// <summary>½Ã°¢Àû Á¦°Å: ·¹ÀÌ¾Æ¿ô °íÁ¤, »óÈ£ÀÛ¿ë¸¸ ¸·°í ¹İÅõ¸í Ã³¸®</summary>
+        /// <summary>
+        ///  ì§€ì›Œì§„ ê²Œì‹œë¬¼ì„ ì´ë¯¸ì§€ë¡œ í‘œí˜„í•˜ê³  ìƒí˜¸ì‘ìš©ì„ ë§‰ëŠ”ë‹¤.
+        /// </summary>
         public void ApplyRemovedVisual()
         {
             if (actionButton) actionButton.interactable = false;
-
             if (icon)
             {
                 var c = icon.color;
@@ -56,11 +58,12 @@ namespace Project.Minigames.ToxicCleanser
             }
         }
 
-        /// <summary>´ÙÀ½ ¿şÀÌºê¸¦ À§ÇØ ÃÊ±â »óÅÂ·Î µÇµ¹¸²</summary>
+        /// <summary>
+        /// ê²Œì‹œë¬¼ì„ í™œì„±í™”í•œë‹¤. (ì´ë¯¸ì§€ ë³µêµ¬ + ìƒí˜¸ì‘ìš© ê°€ëŠ¥)
+        /// </summary>
         public void ResetVisualState()
         {
             if (actionButton) actionButton.interactable = true;
-
             if (icon)
             {
                 var c = icon.color;
@@ -73,6 +76,17 @@ namespace Project.Minigames.ToxicCleanser
                 canvasGroup.alpha = 1f;
             }
             gameObject.SetActive(true);
+        }
+
+        /// <summary>
+        /// ì¼ë°˜ ê²Œì‹œë¬¼ì„ íƒ€ê²Ÿ ê²Œì‹œë¬¼ë¡œ ë°”ê¿€ ìˆ˜ ìˆë‹¤.
+        /// </summary>
+        /// <param name="targetSprite"></param>
+        public void ForceSetTarget(Sprite targetSprite)
+        {
+            IsTarget = true;
+            if (icon) icon.sprite = targetSprite;
+            if (actionButton) actionButton.interactable = true;
         }
     }
 }
