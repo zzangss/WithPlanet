@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System;
-
+using Project.Minigames.ToxicCleanser;
 
 public class SaveController : MonoBehaviour
 {
@@ -13,7 +13,8 @@ public class SaveController : MonoBehaviour
     [SerializeField] private InventoryMain inventoryMain;
     [SerializeField] private ItemDictionary itemdic;
     [SerializeField] private RandomSpawner randomSpawner;
-    [SerializeField] private DialogueManager dialogueManager; 
+    [SerializeField] private DialogueManager dialogueManager;
+    [SerializeField] private MinigameLauncher minigameLauncher;
 
     void Awake()
     {
@@ -36,6 +37,10 @@ public class SaveController : MonoBehaviour
         if (randomSpawner == null)
         {
             randomSpawner = FindObjectOfType<RandomSpawner>();
+        }
+        if (minigameLauncher == null)
+        {
+            minigameLauncher = FindObjectOfType<MinigameLauncher>();
         }
     }
 
@@ -108,7 +113,10 @@ public class SaveController : MonoBehaviour
             }
         }
         //대화 state 저장
-        saveData.state = dialogueManager.CurrentStage;
+        saveData.dialogueState = dialogueManager.CurrentStage;
+
+        // 미니게임 state 저장
+        saveData.miniStateIdx = minigameLauncher.sceneIndex;
 
         // 플레이 시간과 저장 날짜 저장
         saveData.playTime = currentPlayTime; 
@@ -181,7 +189,10 @@ public class SaveController : MonoBehaviour
 
             }
             //대화 satge 불러오기
-             dialogueManager.CurrentStage= saveData.state;
+             dialogueManager.CurrentStage= saveData.dialogueState;
+
+            // 미니게임 state 불러오기
+            minigameLauncher.sceneIndex = saveData.miniStateIdx;
 
             // 플레이 시간과 저장 날짜 불러오기
             GameManagerSystem.Instance.playTime = saveData.playTime;

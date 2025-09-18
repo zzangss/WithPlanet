@@ -23,7 +23,7 @@ public class SaveData
     public string lastSavedDate; // 마지막 저장 날짜
 
 
-    //dialogue 정보
-    public State state;
-
+    //게임 state 정보
+    public State dialogueState; // 대화 진행 상태
+    public int miniStateIdx; // 미니게임 진행 상태 인덱스
 }
