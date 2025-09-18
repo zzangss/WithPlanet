@@ -5,6 +5,7 @@ public class PlayerHealth : MonoBehaviour
 {
     [Header("Health")]
     public float maxHealth = 100f;
+    public float minHealth = 0f;
     public float health;
 
     [Header("Invincibility")]
@@ -38,7 +39,7 @@ public class PlayerHealth : MonoBehaviour
     {
         if (isInvincible) return;
 
-        health -= damage;
+        health = Mathf.Max(health - damage, minHealth);
         Debug.Log($"피해: -{damage}, 남은 체력: {health}");
 
         if (health <= 0)
