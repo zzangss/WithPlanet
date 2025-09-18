@@ -97,5 +97,5 @@ MonoBehaviour:
   - ShadowsSteed
   toxicSpawnRatio: 0.4
   scrollSpeed: 150
-  totalDurationSec: 50
+  totalDurationSec: 10
   hearts: 4

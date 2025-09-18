@@ -13,7 +13,7 @@ namespace Project.Minigames.ToxicCleanser
             "MinigameScene2"
         };
 
-        [SerializeField] private int sceneIndex = 0;
+        public int sceneIndex = 0;
         private bool transitioning = false; // 씬 전환중 여부를 저장. 중복 실행 방지용
 
         private void OnEnable()
