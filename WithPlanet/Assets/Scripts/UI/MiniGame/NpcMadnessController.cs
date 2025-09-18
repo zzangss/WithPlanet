@@ -82,7 +82,7 @@ public class NPCMadnessController : MonoBehaviour
     {
         isMad = true;
 
-        BoostNaviForMadness();
+        StartNavi();
         monsterAttack.attackEnabled = true; // 공격 스크립트 켜기
 
         LockInteractions(true);
@@ -103,7 +103,7 @@ public class NPCMadnessController : MonoBehaviour
         isMad = false;
     }
 
-    private void BoostNaviForMadness()
+    private void StartNavi()
     {
         naviMonster.chaseSpeed = madChaseSpeed;
         naviMonster.detectionRange = madDetectionRange;
