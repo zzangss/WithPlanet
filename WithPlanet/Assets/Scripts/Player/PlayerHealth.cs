@@ -7,6 +7,7 @@ public class PlayerHealth : MonoBehaviour
     public float maxHealth = 100f;
     public float health;
 
+    // 무적 상태
     [Header("Invincibility")]
     public bool isInvincible = false;
     public float invincibilityDuration = 1.0f;
@@ -96,6 +97,7 @@ public class PlayerHealth : MonoBehaviour
     private void Die()
     {
         Debug.Log("플레이어 사망");
+        //여기에 사망 이벤트 invoke하기. 
     }
 
     public void Heal(float amount)
