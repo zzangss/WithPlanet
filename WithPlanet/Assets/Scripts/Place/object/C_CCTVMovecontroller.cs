@@ -29,7 +29,10 @@ public class CCTV_AimerBased_Controller : MonoBehaviour
     private Transform playerTarget;
     private bool isPlayerDetected = false;
     private Quaternion initialRotation;
-    private SpriteRenderer cctvSprite;
+    [SerializeField] private SpriteRenderer cctvSprite;
+    [SerializeField] private GameObject rightLight;
+    [SerializeField] private GameObject leftLight;
+
     //private SphereCollider detectionCollider;
     private Coroutine patrolCoroutine;
     private Vector3 initialAimerLocalPosition;
@@ -51,6 +54,8 @@ public class CCTV_AimerBased_Controller : MonoBehaviour
         initialRotation = transform.rotation;
         //detectionCollider.isTrigger = true;
         initialAimerLocalPosition = aimerTransform.localPosition;
+        rightLight.SetActive(false);
+        leftLight.SetActive(false);
         StartPatrol();
     }
 
@@ -73,18 +78,25 @@ public class CCTV_AimerBased_Controller : MonoBehaviour
         // 2-1. 스프라이트를 flip해서 오른쪽, 왼쪽을 보는것처럼 표현
         Vector3 directionToTarget = targetPosition - transform.position;
         float dotProduct = Vector3.Dot(directionToTarget, transform.right); //내적
-        cctvSprite.flipX = dotProduct < 0;
+        bool isFlip = dotProduct < 0;
+        cctvSprite.flipX = isFlip;
+
+        //빛관리
+         rightLight.SetActive(isFlip);
+         leftLight.SetActive(!isFlip);
         
+      
+
         // 2.2 flip된 aimer에 맞춰 aimer위치도 변경해준다.  
         if (cctvSprite.flipX)
         {
-         
+
             aimerTransform.localPosition = new Vector3(
                 -initialAimerLocalPosition.x,
                 -initialAimerLocalPosition.y,
                 -initialAimerLocalPosition.z
             );
-           
+
         }
         else
         {

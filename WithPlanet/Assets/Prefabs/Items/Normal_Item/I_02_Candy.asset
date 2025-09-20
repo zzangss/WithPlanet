@@ -16,6 +16,6 @@ MonoBehaviour:
   mCanOverlap: 1
   mItemType: 1
   mName: Candy2
-  mItemImage: {fileID: 21300000, guid: ac88e2476164f2d43ba1bf1b224c8fde, type: 3}
+  mItemImage: {fileID: 21300000, guid: 900cee8e77d18ca4ab4d42cf0c078929, type: 3}
   mItemValue: 100
   mWorldPrefab: {fileID: 7910678848578004965, guid: 700a40468c944ae43a7f81b317bb7068, type: 3}
