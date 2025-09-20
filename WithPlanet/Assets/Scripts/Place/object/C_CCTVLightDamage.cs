@@ -14,14 +14,19 @@ public class LightDamage : MonoBehaviour
 
     [SerializeField] private PlayerHealth playerHealth;
 
+
+
     // Trigger 안에 다른 Collider가 들어왔을 때 호출
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("플레이어 감지");
+      
 
-        if (other.CompareTag("Player") && isDamage)
+        if (other.CompareTag("Player") )
         {
-            if (playerHealth = null)
+
+           
+
+            if (playerHealth == null)
             {
                 playerHealth = other.GetComponent<PlayerHealth>();
             }
