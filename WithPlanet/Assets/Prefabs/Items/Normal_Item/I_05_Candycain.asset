@@ -16,6 +16,6 @@ MonoBehaviour:
   mCanOverlap: 1
   mItemType: 1
   mName: "\uCE94\uB514\uCF00\uC778"
-  mItemImage: {fileID: 21300000, guid: 8f857fb31778e8e4592413925b8f15c7, type: 3}
+  mItemImage: {fileID: 21300000, guid: ccaafe675d899114bb32f0564a7d839e, type: 3}
   mItemValue: 250
   mWorldPrefab: {fileID: 7910678848578004965, guid: 7277eab58b6e5264482e6674fbe0475c, type: 3}
