@@ -30,7 +30,7 @@ public class CCTV_AimerBased_Controller : MonoBehaviour
     private bool isPlayerDetected = false;
     private Quaternion initialRotation;
     private SpriteRenderer cctvSprite;
-    private SphereCollider detectionCollider;
+    //private SphereCollider detectionCollider;
     private Coroutine patrolCoroutine;
     private Vector3 initialAimerLocalPosition;
 
@@ -38,7 +38,7 @@ public class CCTV_AimerBased_Controller : MonoBehaviour
     void Awake()
     {
         cctvSprite = GetComponentInChildren<SpriteRenderer>();
-        detectionCollider = GetComponent<SphereCollider>();
+        //detectionCollider = GetComponent<SphereCollider>();
 
         if (cctvSprite == null)
             Debug.LogError("자식 오브젝트에서 SpriteRenderer를 찾을 수 없습니다! 구조를 확인해주세요.", this.gameObject);
@@ -49,17 +49,17 @@ public class CCTV_AimerBased_Controller : MonoBehaviour
     void Start()
     {
         initialRotation = transform.rotation;
-        detectionCollider.isTrigger = true;
+        //detectionCollider.isTrigger = true;
         initialAimerLocalPosition = aimerTransform.localPosition;
         StartPatrol();
     }
 
     void Update()
     {
-        if (isPlayerDetected && playerTarget != null)
+        /*if (isPlayerDetected && playerTarget != null)
         {
             TrackTarget(playerTarget.position);
-        }
+        }*/
     }
 
     void TrackTarget(Vector3 targetPosition)
@@ -160,7 +160,7 @@ public class CCTV_AimerBased_Controller : MonoBehaviour
     }
 
    
-    void OnTriggerEnter(Collider other)
+    /*void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
@@ -181,7 +181,8 @@ public class CCTV_AimerBased_Controller : MonoBehaviour
             playerTarget = null;
             StartPatrol();
         }
-    }
+    }*/
+
     void StartPatrol()
     {
        // Debug.Log("감시 시작! ");
