@@ -30,13 +30,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7910678848578004965}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.35355338, y: 0.35355338, z: -0.1464466, w: 0.8535535}
+  m_LocalRotation: {x: 0.44350538, y: 0.23087436, z: 0.116999805, w: 0.85808575}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.6, y: 0.6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 45, y: 45, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: 45, z: 35}
 --- !u!212 &991429027057222176
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -135,8 +135,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 3
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 6
+  m_Center: {x: 0.5, y: 0, z: 0}
 --- !u!65 &8752178389148365484
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -156,8 +156,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 8, y: 8, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 8, y: 13, z: 0.2}
+  m_Center: {x: 0.5, y: 0, z: 0}
 --- !u!114 &6204936734866462451
 MonoBehaviour:
   m_ObjectHideFlags: 0
