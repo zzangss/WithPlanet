@@ -96,7 +96,7 @@ MonoBehaviour:
   - EverlastCat
   - MellowMay
   - ShadowsSteed
-  toxicSpawnRatio: 0
+  toxicSpawnRatio: 0.4
   scrollSpeed: 150
-  totalDurationSec: 10
+  totalDurationSec: 50
   hearts: 4
