@@ -12,7 +12,7 @@ public class SaveController : MonoBehaviour
     [SerializeField] private ItemSpawner itemSpawner;
     [SerializeField] private InventoryMain inventoryMain;
     [SerializeField] private ItemDictionary itemdic;
-    [SerializeField] private RandomSpawner randomSpawner;
+    [SerializeField] private RandomSpawner[] randomSpawners;
     [SerializeField] private DialogueManager dialogueManager;
     [SerializeField] private MinigameLauncher minigameLauncher;
 
@@ -34,9 +34,9 @@ public class SaveController : MonoBehaviour
         {
             itemdic = FindObjectOfType<ItemDictionary>();
         }
-        if (randomSpawner == null)
+        if (randomSpawners == null || randomSpawners.Length == 0)
         {
-            randomSpawner = FindObjectOfType<RandomSpawner>();
+            randomSpawners = FindObjectsOfType<RandomSpawner>();
         }
         if (minigameLauncher == null)
         {
@@ -263,9 +263,16 @@ public class SaveController : MonoBehaviour
         }
 
         // 5. 월드 아이템 새로 생성
-        if (randomSpawner != null)
+        if (randomSpawners.Length > 0)
         {
-            randomSpawner.SpawnItems();
+            for (int i = 0; i < randomSpawners.Length; i++)
+            {
+
+                if (randomSpawners[i] != null)
+                {
+                    randomSpawners[i].SpawnItems();
+                }
+            }
         }
         Debug.Log("게임 월드 초기화");
     }
