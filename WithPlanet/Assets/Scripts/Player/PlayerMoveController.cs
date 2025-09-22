@@ -17,6 +17,9 @@ public class PlayerMoveController : MonoBehaviour
     public float currentSpeed = 15f;
     public bool isFlipped = false; //이동방향이 오른쪽이면 뒤집는다.
 
+    [Tooltip("걷는 소리 오디오 클립")]
+    [SerializeField] private AudioClip footstepSound;
+
 
     private bool isGrounded;
     private Vector3 groundNormal = Vector3.up;
@@ -70,6 +73,15 @@ public class PlayerMoveController : MonoBehaviour
         {
             spriter.flipX = h > 0; // 
             isFlipped = h > 0; // -> : true / <- : false
+        }
+    }
+
+    //audio 출력
+    public void PlayFootstepSound()
+    {
+        if (footstepSound != null)
+        {
+            AudioManager.Instance.PlaySfx(footstepSound);
         }
     }
 
