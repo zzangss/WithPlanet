@@ -129,16 +129,16 @@ public class PlayerAction : MonoBehaviour
             }
         }
 
-        //w 뒤로 가는 키를 눌렀을 때
-        if (Input.GetKeyDown(KeyCode.W))
+        //w 뒤로 가는 키를 눌렀을 때 + 방향키
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
             if(playerAnimator!=null)
             {
                 playerAnimator.SetBool("Behind", true);
             }
         }
-        //w 뒤로 가는 키를 뗐을 때
-        if (Input.GetKeyUp(KeyCode.W))
+        //w 뒤로 가는 키를 뗐을 때 + 방향키
+        if (Input.GetKeyUp(KeyCode.W)|| Input.GetKeyUp(KeyCode.UpArrow))
         {
             if (playerAnimator != null)
             {
