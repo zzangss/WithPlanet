@@ -42,5 +42,6 @@ public class Audio : MonoBehaviour
     public void OnEffectsVolume(float value)
     {
         PlayerPrefs.SetFloat("EffectsVolume", value);
+        AudioManager.Instance.SetEffectsVolume(value);
     }
 }
