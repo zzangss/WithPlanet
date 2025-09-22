@@ -83,4 +83,15 @@ public class AudioManager : MonoBehaviour
     {
         m_MusicAudioSource.volume = volume;
     }
+
+    //효과음들 추가
+
+    //1. 단발성 효과음 재생(UI 클릭, 피격, 아이템 획득)
+    public void PlaySfx(AudioClip clip)
+    {
+        if (clip == null) return;
+        m_EffectsAudioSource.PlayOneShot(clip);
+    }
+
+    //2. 반복 효과음 재생 (환경음
 }
