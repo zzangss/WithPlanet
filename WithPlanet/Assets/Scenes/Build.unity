@@ -5454,6 +5454,22 @@ PrefabInstance:
       propertyPath: minigameLauncher
       value: 
       objectReference: {fileID: 2093224466}
+    - target: {fileID: 2602238148410329160, guid: 2eb5b4f4b52b8c046877a97e0d195438, type: 3}
+      propertyPath: getItemSounds.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2602238148410329160, guid: 2eb5b4f4b52b8c046877a97e0d195438, type: 3}
+      propertyPath: getItemSounds.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 78e3261f4c9fae54c86bab73be85674e, type: 3}
+    - target: {fileID: 2602238148410329160, guid: 2eb5b4f4b52b8c046877a97e0d195438, type: 3}
+      propertyPath: getItemSounds.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 3e80e0934ede18a4980d2239de30912f, type: 3}
+    - target: {fileID: 2602238148410329160, guid: 2eb5b4f4b52b8c046877a97e0d195438, type: 3}
+      propertyPath: getItemSounds.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 0420c37f25cc35d41af2ce05c1dbae04, type: 3}
     - target: {fileID: 3563843014178534159, guid: 2eb5b4f4b52b8c046877a97e0d195438, type: 3}
       propertyPath: m_LocalPosition.x
       value: -100.2
@@ -5494,6 +5510,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5464094823528071575, guid: 2eb5b4f4b52b8c046877a97e0d195438, type: 3}
+      propertyPath: footstepSound
+      value: 
+      objectReference: {fileID: 8300000, guid: b10008b56fde7ea488ba85acf986adba, type: 3}
+    - target: {fileID: 5464094823528071575, guid: 2eb5b4f4b52b8c046877a97e0d195438, type: 3}
+      propertyPath: footstepSounds.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5464094823528071575, guid: 2eb5b4f4b52b8c046877a97e0d195438, type: 3}
+      propertyPath: footstepSounds.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: b10008b56fde7ea488ba85acf986adba, type: 3}
+    - target: {fileID: 5464094823528071575, guid: 2eb5b4f4b52b8c046877a97e0d195438, type: 3}
+      propertyPath: footstepSounds.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: e101e2d465721bb40a7358047e10cd07, type: 3}
+    - target: {fileID: 5464094823528071575, guid: 2eb5b4f4b52b8c046877a97e0d195438, type: 3}
+      propertyPath: footstepSounds.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 4a4c445899e68f2409b1092f49595e40, type: 3}
+    - target: {fileID: 5464094823528071575, guid: 2eb5b4f4b52b8c046877a97e0d195438, type: 3}
+      propertyPath: footstepSounds.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: 7acb652e383008d42a14d3f95ad433a7, type: 3}
     - target: {fileID: 6998868775452418587, guid: 2eb5b4f4b52b8c046877a97e0d195438, type: 3}
       propertyPath: promptUI
       value: 

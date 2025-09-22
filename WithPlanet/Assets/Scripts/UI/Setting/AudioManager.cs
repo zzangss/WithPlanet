@@ -95,7 +95,7 @@ public class AudioManager : MonoBehaviour
     // 일반 버튼 클릭 효과음 재생
     public void PlayButtonClickSound()
     {
-        PlayLoopingSfx(m_ClickSound);
+        PlaySfx(m_ClickSound);
         
     }
     /*

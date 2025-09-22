@@ -18,7 +18,7 @@ public class PlayerMoveController : MonoBehaviour
     public bool isFlipped = false; //이동방향이 오른쪽이면 뒤집는다.
 
     [Tooltip("걷는 소리 오디오 클립")]
-    [SerializeField] private AudioClip footstepSound;
+    [SerializeField] private AudioClip[] footstepSounds;
 
 
     private bool isGrounded;
@@ -79,10 +79,15 @@ public class PlayerMoveController : MonoBehaviour
     //audio 출력
     public void PlayFootstepSound()
     {
-        if (footstepSound != null)
+        if (footstepSounds != null && footstepSounds.Length > 0)
         {
-            AudioManager.Instance.PlaySfx(footstepSound);
+            // 1. 배열의 인덱스 범위 안에서 무작위 숫자를 하나 고릅니다. (예: 0, 1, 2, 3 중 하나)
+            int randomIndex = Random.Range(0, footstepSounds.Length);
+
+            // 2. 무작위로 고른 오디오 클립을 AudioManager에 전달해 재생합니다.
+            AudioManager.Instance.PlaySfx(footstepSounds[randomIndex]);
         }
+           
     }
 
     /*private bool CheckGrounded(out RaycastHit hit)

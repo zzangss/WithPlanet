@@ -23,7 +23,7 @@ AnimatorStateMachine:
     m_Position: {x: 50, y: 820, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3498757294216341946}
-    m_Position: {x: 550, y: 400, z: 0}
+    m_Position: {x: 520, y: 440, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1398191393044604886}
     m_Position: {x: 140, y: -260, z: 0}
@@ -225,7 +225,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: B_getItem
-  m_Speed: 1
+  m_Speed: 0.4
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 3902352221984957271}
@@ -303,7 +303,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: GetItem
-  m_Speed: 2
+  m_Speed: 0.4
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 5720317525027542587}
@@ -356,7 +356,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: StarPlayerRUN
-  m_Speed: 0.6
+  m_Speed: 0.4
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 4493847693330672044}
@@ -625,7 +625,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: G_hasItemWalk
-  m_Speed: 0.6
+  m_Speed: 0.4
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 4287722147458959743}
@@ -1167,7 +1167,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Bwalk
-  m_Speed: 0.6
+  m_Speed: 0.4
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 6043253758286836569}

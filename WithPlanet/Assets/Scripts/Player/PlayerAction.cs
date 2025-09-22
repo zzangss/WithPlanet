@@ -42,6 +42,9 @@ public class PlayerAction : MonoBehaviour
     private bool isHoldingCart = false;
     private GameObject holdedCart = null;
 
+    //AUDIO 
+    [SerializeField] private AudioClip[]  getItemSounds;
+
     void Start()
     {
         playerAnimator = GetComponent<Animator>();
@@ -529,5 +532,34 @@ public class PlayerAction : MonoBehaviour
         currentItem = null;
     }
 
-   
+    //audio
+
+    //¾ÆÀÌÅÛ È¹µæ audio
+    public void PlayGetItemSound1()
+    {
+        if (getItemSounds != null && getItemSounds.Length > 0)
+        {
+            AudioManager.Instance.PlaySfx(getItemSounds[0]);
+        }
+
+    }
+
+    public void PlayGetItemSound2()
+    {
+        if (getItemSounds != null && getItemSounds.Length > 0)
+        {
+            AudioManager.Instance.PlaySfx(getItemSounds[1]);
+        }
+
+    }
+
+    public void PlayGetItemSound3()
+    {
+        if (getItemSounds != null && getItemSounds.Length > 0)
+        {
+            AudioManager.Instance.PlaySfx(getItemSounds[2]);
+        }
+
+    }
+
 }
