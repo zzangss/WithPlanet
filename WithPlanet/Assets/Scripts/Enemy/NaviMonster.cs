@@ -20,11 +20,13 @@ public class NaviMonster : MonoBehaviour
     private bool isChasing = false;
     private bool isReturning = false;
     private NavMeshAgent nav;
+    private Animator anim;
 
     void Start()
     {
         originalPosition = transform.position;
         nav = GetComponent<NavMeshAgent>();
+        anim = GetComponent<Animator>();
 
         // 즉시 활성화 시도
         if (nav != null)
@@ -79,9 +81,9 @@ public class NaviMonster : MonoBehaviour
     void Update()
     {
         // 기본 조건 체크 (간단하게)
-        if (nav == null || !nav.enabled || !nav.isOnNavMesh || target == null)
+        if (nav == null || !nav.enabled || !nav.isOnNavMesh || target == null || anim == null)
         {
-            return; // 조건이 안 맞으면 그냥 리턴
+            return;
         }
 
         // 거리 계산
@@ -118,6 +120,18 @@ public class NaviMonster : MonoBehaviour
             nav.speed = returnSpeed;
             nav.SetDestination(originalPosition);
         }
+        UpdateAnimation();
+
+    }
+
+    void UpdateAnimation()
+    {
+        // NavMeshAgent의 속력(velocity) 크기가 0.1보다 크면 움직이는 것으로 간주
+        // 0으로 비교하는 것보다 작은 값을 기준으로 하는 것이 더 안정적입니다.
+        bool isMoving = nav.velocity.magnitude > 0.1f;
+
+        // Animator의 "isMoving" 파라미터 값을 설정
+        anim.SetBool("isMoving", isMoving);
     }
 
     void StartChasing()

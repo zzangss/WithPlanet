@@ -8,9 +8,16 @@ public class MonsterMovement : MonoBehaviour
     public float patrolDistance = 5f; //순찰거리
     private Vector3 startPosition;
     public int direction = 1; //이동방향
+    private Animator anim;//애니메이션
+    private bool isMoving;
+    private SpriteRenderer sr;
+
     // Start is called before the first frame update
     void Start()
+
     {
+        anim = GetComponent<Animator>();
+        sr = GetComponent<SpriteRenderer>();
         startPosition = transform.position; //시작위치 저장
     }
     // Update is called once per frame
@@ -21,10 +28,13 @@ public class MonsterMovement : MonoBehaviour
             Flip();
         }
         MoveMonster();
+
+        UpdateAnimation();
     }
     void MoveMonster()
     {
         transform.Translate(Vector3.right * moveSpeed * direction * Time.deltaTime);
+        isMoving = true;
     }
     bool Turn()
     {
@@ -40,11 +50,19 @@ public class MonsterMovement : MonoBehaviour
         }
         return false;
     }
+
+    void UpdateAnimation()
+    {
+        if (anim != null)
+        {
+            anim.SetBool("isMoving", isMoving);
+        }
+    }
     void Flip()
     {
         direction *= -1; //방향 반전
 
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+       sr = GetComponent<SpriteRenderer>();
         if (sr != null)
         {
             sr.flipX = !sr.flipX; //스프라이트 방향 반전

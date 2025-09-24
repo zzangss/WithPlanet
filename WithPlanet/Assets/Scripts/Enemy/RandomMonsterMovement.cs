@@ -20,10 +20,18 @@ public class RandomMonsterMovement : MonoBehaviour
     private float actionTimer = 0f; // 행동타이머
     private float currentActionTime; //현재 행동 지속 시간
 
+    private Animator anim;//애니메이션
+    private SpriteRenderer sr; //스프라이트
+
+  
     // Start is called before the first frame update
     void Start()
     {
         startPosition = transform.position; //시작위치 저장
+
+        anim = GetComponent<Animator>();
+        sr = GetComponent<SpriteRenderer>();
+        
         SetNewAction();
     }
 
@@ -50,7 +58,17 @@ public class RandomMonsterMovement : MonoBehaviour
             MoveMonster();
         }
 
+        if (anim != null)
+        {
+            anim.SetBool("isMoving",isMoving);
+         }
+        
+       
+
+
     }
+
+
 
     void SetNewAction()
     {
@@ -100,7 +118,7 @@ public class RandomMonsterMovement : MonoBehaviour
     {
         direction *= -1; //방향 반전
 
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+       
 
         if (sr != null)
         {
