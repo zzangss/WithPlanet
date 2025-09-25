@@ -37,23 +37,24 @@ public class PlayerAction : MonoBehaviour
     private Animator playerAnimator; // 플레이어 애니메이터
 
     // 카트 관리
-    public Vector3 rightcartHoldOffset = new Vector3(0f,0f,0f);
-    public Vector3 leftcartHoldOffset = new Vector3(0f,0f,0f);
+    public Vector3 rightcartHoldOffset = new Vector3(0f, 0f, 0f);
+    public Vector3 leftcartHoldOffset = new Vector3(0f, 0f, 0f);
     private bool isHoldingCart = false;
     private GameObject holdedCart = null;
 
     //AUDIO 
-    [SerializeField] private AudioClip[]  getItemSounds;
+    [SerializeField] private AudioClip[] getItemSounds;
+    [SerializeField] private AudioClip dropItemSound;
 
     void Start()
     {
         playerAnimator = GetComponent<Animator>();
-        playerMoveController = GetComponent<PlayerMoveController>(); 
+        playerMoveController = GetComponent<PlayerMoveController>();
 
         //아이템을 get할때의 위치 (기본 왼쪽으로 설정)
         GameObject holdingPos = new GameObject("ItemHoldingPosition");
         holdingPos.transform.SetParent(transform);
-        holdingPos.transform.localPosition = holdingOffset; 
+        holdingPos.transform.localPosition = holdingOffset;
         itemHoldingPoint = holdingPos.transform;
 
         //아이템 dictionary 가져오기
@@ -135,20 +136,20 @@ public class PlayerAction : MonoBehaviour
         //w 뒤로 가는 키를 눌렀을 때 + 방향키
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
-            if(playerAnimator!=null)
+            if (playerAnimator != null)
             {
                 playerAnimator.SetBool("Behind", true);
             }
         }
         //w 뒤로 가는 키를 뗐을 때 + 방향키
-        if (Input.GetKeyUp(KeyCode.W)|| Input.GetKeyUp(KeyCode.UpArrow))
+        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow))
         {
             if (playerAnimator != null)
             {
                 playerAnimator.SetBool("Behind", false);
             }
         }
-    
+
     }
 
     void LateUpdate()
@@ -198,7 +199,7 @@ public class PlayerAction : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other != null) 
+        if (other != null)
         {
             if (other.CompareTag("Cart"))
             {
@@ -221,11 +222,11 @@ public class PlayerAction : MonoBehaviour
     //아이템ID 알려주기
     public int getItemID()
     {
-        if(currentItem!=null && currentItem.Item != null)
+        if (currentItem != null && currentItem.Item != null)
         {
             return currentItem.Item.ItemID;
         }
-        
+
         Debug.LogWarning("현재 아이템이 없습니다.");
 
         return -1; // 아이템이 없을 경우 -1 반환
@@ -234,13 +235,13 @@ public class PlayerAction : MonoBehaviour
     // 세이브시 아이템 설정
     public void setItem(int itemID)
     {
-        itemDictionary= FindObjectOfType<ItemDictionary>();
+        itemDictionary = FindObjectOfType<ItemDictionary>();
 
-        if(itemID<0)
+        if (itemID < 0)
         {
             ClearcurrentItem();
-           // Debug.Log("아이템을 들고있지 않았습니다.");
-           hasItem = false; // 아이템을 들고 있지 않은 상태로 변경
+            // Debug.Log("아이템을 들고있지 않았습니다.");
+            hasItem = false; // 아이템을 들고 있지 않은 상태로 변경
 
             //플레이어 애니메이션
             if (playerAnimator != null)
@@ -293,13 +294,13 @@ public class PlayerAction : MonoBehaviour
     // 아이템 비우기
     public void ClearcurrentItem()
     {
-        if(currentItem != null)
+        if (currentItem != null)
         {
             Destroy(currentItem.gameObject);
             currentItem = null;
             hasItem = false; // 아이템을 들고 있지 않은 상태로 변경
         }
-        
+
     }
 
     private void TryPutItem()
@@ -333,7 +334,7 @@ public class PlayerAction : MonoBehaviour
             return;
         }
 
-       
+
         // 아이템 얻기
         if (isPutable)
         {
@@ -365,7 +366,7 @@ public class PlayerAction : MonoBehaviour
 
 
     }
-  
+
 
     // 주변 아이템 찾아서 획득
     private void TryPickupItem()
@@ -406,7 +407,7 @@ public class PlayerAction : MonoBehaviour
 
         Vector3 holdingPosition = holdingOffset;
         if (playerMoveController != null && !playerMoveController.isFlipped)
-      
+
         {
             holdingPosition.x = -holdingPosition.x; // 6f → -6f로 변경
         }
@@ -529,6 +530,8 @@ public class PlayerAction : MonoBehaviour
             playerAnimator.SetBool("HasItem", false);
         }
 
+        PlayDropItemSound();
+
         currentItem = null;
     }
 
@@ -558,6 +561,15 @@ public class PlayerAction : MonoBehaviour
         if (getItemSounds != null && getItemSounds.Length > 0)
         {
             AudioManager.Instance.PlaySfx(getItemSounds[2]);
+        }
+
+    }
+
+    public void PlayDropItemSound()
+    {
+        if (dropItemSound != null )
+        {
+            AudioManager.Instance.PlaySfx(dropItemSound);
         }
 
     }
