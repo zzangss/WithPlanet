@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 7910678848578004965}
   serializedVersion: 2
   m_LocalRotation: {x: 0.35355338, y: 0.35355338, z: -0.1464466, w: 0.8535535}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -112.704254, y: -41.423008, z: 82.153366}
   m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -111,8 +111,8 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -135,8 +135,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 3
-  m_Center: {x: 2, y: 1, z: 0}
+  m_Radius: 11
+  m_Center: {x: 2.5, y: 0, z: 0}
 --- !u!65 &8752178389148365484
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -156,7 +156,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 10, y: 5.6, z: 0.2}
+  m_Size: {x: 9, y: 5.6, z: 0.2}
   m_Center: {x: 2.6, y: 0, z: 0}
 --- !u!114 &6204936734866462451
 MonoBehaviour:
