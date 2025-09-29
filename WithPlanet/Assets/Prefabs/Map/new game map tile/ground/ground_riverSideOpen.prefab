@@ -63,5 +63,60 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fa621728d0106194998ad037301ca4a2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2354566840503523016}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fa621728d0106194998ad037301ca4a2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3306597015407654893}
   m_SourcePrefab: {fileID: 100100000, guid: fa621728d0106194998ad037301ca4a2, type: 3}
+--- !u!1 &7198703784949107810 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: fa621728d0106194998ad037301ca4a2, type: 3}
+  m_PrefabInstance: {fileID: 8009519043963515187}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &2354566840503523016
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7198703784949107810}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4151791541118835312, guid: fa621728d0106194998ad037301ca4a2, type: 3}
+--- !u!64 &-3306597015407654893
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7198703784949107810}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4151791541118835312, guid: fa621728d0106194998ad037301ca4a2, type: 3}

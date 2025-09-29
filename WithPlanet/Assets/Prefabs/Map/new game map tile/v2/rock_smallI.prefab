@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3266212830868216107}
   - component: {fileID: 588867536516820919}
   - component: {fileID: 4603739559323492906}
+  - component: {fileID: 811202804099365997}
   m_Layer: 0
   m_Name: rock_smallI
   m_TagString: Untagged
@@ -84,3 +85,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &811202804099365997
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 407189166226773129}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 948272068957090093, guid: 19ae1cb65fbb40f4bbfa6b300de2fe9c, type: 3}

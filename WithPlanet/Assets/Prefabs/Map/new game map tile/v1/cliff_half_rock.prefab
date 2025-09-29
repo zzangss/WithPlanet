@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5278201812478792031}
   - component: {fileID: 9119836524753460986}
   - component: {fileID: 6446019176950721072}
+  - component: {fileID: -113958372117921604}
   m_Layer: 0
   m_Name: cliff_half_rock
   m_TagString: Untagged
@@ -84,3 +85,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &-113958372117921604
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4788487736462887909}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 8003374059435982130, guid: 601359bb73a89d048908a81cbc4e48fa, type: 3}
