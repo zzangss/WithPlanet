@@ -64,6 +64,7 @@ public class InventoryMain : InventoryBase
                     targetSlot.AddItem(count);
                     OnInventoryChanged?.Invoke(); 
                     RefreshTotalUI();
+                    GameEvent.RaiseOnCartValueChanged(CalTotalItemValue());
                 }
             }
         }
@@ -72,6 +73,8 @@ public class InventoryMain : InventoryBase
             targetSlot.SetItem(item, count);
             OnInventoryChanged?.Invoke();
             RefreshTotalUI();
+            GameEvent.RaiseOnCartValueChanged(CalTotalItemValue());
+
         }
     }
 
@@ -89,6 +92,7 @@ public class InventoryMain : InventoryBase
                     mSlots[i].AddItem(count);
                     OnInventoryChanged?.Invoke();
                     RefreshTotalUI();
+                    GameEvent.RaiseOnCartValueChanged(CalTotalItemValue());
                     return;
                 }
             }
@@ -101,6 +105,7 @@ public class InventoryMain : InventoryBase
                 mSlots[i].SetItem(item, count);
                 OnInventoryChanged?.Invoke();
                 RefreshTotalUI();
+                GameEvent.RaiseOnCartValueChanged(CalTotalItemValue());
                 return;
             }
         }
@@ -156,6 +161,7 @@ public class InventoryMain : InventoryBase
         mSlots[slotIndex].SetItem(item, count);
         OnInventoryChanged?.Invoke();
         RefreshTotalUI();
+        GameEvent.RaiseOnCartValueChanged(CalTotalItemValue());
     }
 
     public void ClearAllSlots()
@@ -166,5 +172,6 @@ public class InventoryMain : InventoryBase
         }
         OnInventoryChanged?.Invoke();
         RefreshTotalUI();
+        GameEvent.RaiseOnCartValueChanged(CalTotalItemValue());
     }
 }
