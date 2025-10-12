@@ -12,7 +12,7 @@ public class GameEvent
     //스테이지 관련 이벤트
     //새로운 스테이지가 시작될 때 발생하는 이벤트 
     public static event Action<int> OnstageStart;
-    public static void RaiseOnstageStart(int stageNum)
+    public static void RaiseOnStageStart(int stageNum)
     {
         OnstageStart?.Invoke(stageNum);
         Debug.Log($"[GameEvents] Stage {stageNum} Started.");
