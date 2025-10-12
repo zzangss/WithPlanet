@@ -24,11 +24,15 @@ public class PlayerHealth : MonoBehaviour
     private Color originalColor;
     private Rigidbody rb;
 
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+
+    }
     void Start()
     {
         health = maxHealth;
-        rb = GetComponent<Rigidbody>();
-
+        GameEvent.RaiseOnPlayerHealthChanged(health, maxHealth);
         if (playerRenderer == null)
             playerRenderer = GetComponentInChildren<Renderer>();
 
@@ -42,6 +46,9 @@ public class PlayerHealth : MonoBehaviour
 
         health = Mathf.Max(health - damage, minHealth);
         Debug.Log($"피해: -{damage}, 남은 체력: {health}");
+
+        //체력 변경 이벤트
+        GameEvent.RaiseOnPlayerHealthChanged(health, maxHealth);
 
         if (health <= 0)
         {
@@ -98,12 +105,14 @@ public class PlayerHealth : MonoBehaviour
     private void Die()
     {
         Debug.Log("플레이어 사망");
-        //여기에 사망 이벤트 invoke하기. 
+        //gameevent발생
+        GameEvent.RaiseOnPlayerDied();  // 게임 오버 처리를 GameManager에 위임
     }
 
     public void Heal(float amount)
     {
         health = Mathf.Min(health + amount, maxHealth);
         Debug.Log($"회복: +{amount}, 현재 체력: {health}");
+        GameEvent.RaiseOnPlayerHealthChanged(health, maxHealth);
     }
 }
