@@ -70,4 +70,10 @@ public static void RaiseOnPlayerDied()
         OnGamePaused?.Invoke(isPaused);
         Debug.Log($"[GameEvents] Game Paused: {isPaused}");
     }
+
+    // 플레이어 체력 변경 (UI 업데이트 등)
+    public static event Action<float, float> OnPlayerHealthChanged; // currentHealth, maxHealth
+    public static void RaiseOnPlayerHealthChanged(float current, float max) { OnPlayerHealthChanged?.Invoke(current, max); }
+
+ 
 }

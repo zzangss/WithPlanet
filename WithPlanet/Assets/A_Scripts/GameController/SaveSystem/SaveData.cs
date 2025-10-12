@@ -26,4 +26,5 @@ public class SaveData
     //게임 state 정보
     public State dialogueState; // 대화 진행 상태
     public int miniStateIdx; // 미니게임 진행 상태 인덱스
+    public int currentStage; // 현재 스테이지 정보
 }
