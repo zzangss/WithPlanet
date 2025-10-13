@@ -56,13 +56,18 @@ public class StageManager : MonoBehaviour
     {
         // 플레이어 카트의 가치 변경 이벤트를 구독합니다.
         GameEvent.OnCartValueChanged += HandleCartValueChanged;
+        // 플레이어가 회수 하려 할 때 이벤트 구독
+        GameEvent.OnTryCompleted += CheckStageCompletion;
         // GameEvent.OnPlayerDied += HandlePlayerDied; // 플레이어 사망 이벤트도 구독하여 스테이지 리셋 등 처리 가능
+        //player 사망 이벤트
+        GameEvent.OnPlayerDied += GameOver;
     }
     void OnDisable()
     {
         // 오브젝트가 비활성화되거나 파괴될 때 구독을 해제합니다.
         GameEvent.OnCartValueChanged -= HandleCartValueChanged;
-        // GameEvent.OnPlayerDied -= HandlePlayerDied;
+        GameEvent.OnTryCompleted -= CheckStageCompletion;
+        GameEvent.OnPlayerDied -= GameOver;
     }
 
     /// <summary>
@@ -84,6 +89,7 @@ public class StageManager : MonoBehaviour
         {
             isCleared = true;
             //이벤트 호출 가능, 만약 조건이 충족되었을 때 특정 이벤트를 발생시켜야한다면
+            GameEvent.RaiseOnValueSatisfied(isCleared); //만족 이벤트 
         }
     }
 
@@ -93,10 +99,10 @@ public class StageManager : MonoBehaviour
     /// </summary>
     public void CheckStageCompletion()
     {
-        // 현재 카트 가치가 목표 가치 이상인지 확인
-        if (currentCartValue >= stageGoalValue)
+        // 현재 카트 가치가 목표 가치 달성 확인
+        if (isCleared)
         {
-            Debug.Log($"StageManager: Stage {currentStageNumber} 목표 달성!");
+            Debug.Log($"StageManager: Stage {currentStageNumber} 완료!");
             // 스테이지 완료 이벤트를 발생시킵니다.
             GameEvent.RaiseOnStageComplete();
 
@@ -106,6 +112,12 @@ public class StageManager : MonoBehaviour
         {
             Debug.Log($"StageManager: 아직 목표치 미달 ({currentCartValue} / {stageGoalValue})");
         }
+    }
+
+    //player hp==0 일때, stage over 처리
+    public void GameOver()
+    {
+        GameEvent.RaiseOnGameOver();
     }
 
     // (선택 사항) 플레이어 사망 시 스테이지를 어떻게 처리할지

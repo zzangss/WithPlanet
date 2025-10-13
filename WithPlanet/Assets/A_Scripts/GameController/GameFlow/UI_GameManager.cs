@@ -77,7 +77,8 @@ public class UIManager : MonoBehaviour
         GameEvent.OnGameStart += OnGameStarted;               // 게임 시작 시
         GameEvent.OnGameOver += ShowGameOverPanel;            // 게임 오버 시
         GameEvent.OnStageStart += UpdateStageDisplay;         // 스테이지 시작 시 (스테이지 번호 UI 업데이트)
-        GameEvent.OnPlayerHealthChanged += UpdatePlayerHealthUI; // 플레이어 체력 변경 시 (체력 바 UI 업데이트)
+        GameEvent.OnPlayerHealthChanged += UpdatePlayerHealthUI; // 플레이어 체력 변경
+                                                                 // 시 (체력 바 UI 업데이트)
         //SaveManager.Instance.OnSaveFilesChanged += OnSaveFilesChanged; // 세이브 파일 변경 시 (저장/로드 메뉴 UI 갱신)
 
         // (선택 사항) 인벤토리 열림/닫힘 이벤트 구독 (ESC 키 처리 로직 간소화)

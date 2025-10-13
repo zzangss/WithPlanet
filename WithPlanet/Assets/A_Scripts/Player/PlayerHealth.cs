@@ -106,7 +106,7 @@ public class PlayerHealth : MonoBehaviour
     {
         Debug.Log("플레이어 사망");
         //gameevent발생
-        GameEvent.RaiseOnPlayerDied();  // 게임 오버 처리를 GameManager에 위임
+        GameEvent.RaiseOnPlayerDied();  // 게임 오버 처리를 GameManager에 
     }
 
     public void Heal(float amount)

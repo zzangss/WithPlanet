@@ -18,6 +18,14 @@ public class GameEvent
         Debug.Log($"[GameEvents] Stage {stageNum} Started.");
 
     }
+    //스테이지 목표에 달성했을 때 발생하는 이벤트
+    public static event Action<bool> OnValueSatisfied;
+    public static void RaiseOnValueSatisfied(bool isTrue)
+    {
+        OnValueSatisfied?.Invoke(isTrue);
+        Debug.Log($"[GameEvents] Stage 목표 가치 만족! ");
+
+    }
 
     //현재 스테이지가 완료되었을 때 이벤트
     public static event Action OnStageComplete;
@@ -34,6 +42,7 @@ public static void RaiseOnPlayerDied()
     {
         OnPlayerDied?.Invoke();
         Debug.Log("[GameEvents] Player Died!");
+       
     }
 
     // 플레이어의 카트(인벤토리)에 있는 아이템 가치가 변경되었을 때 발생하는 이벤트입니다.
@@ -42,6 +51,14 @@ public static void RaiseOnPlayerDied()
     {
         OnCartValueChanged?.Invoke(currentCartValue);
         Debug.Log($"[GameEvents] Cart Value Changed: {currentCartValue}");
+    }
+
+    //플레이어가 회수를 시도할 때 이벤트
+    public static event Action OnTryCompleted;
+    public static void RaiseOnTryComplete()
+    {
+        OnTryCompleted?.Invoke();
+        Debug.Log($"[GameEvents] 회수 시도:");
     }
 
     //게임 상태 관련 이벤트
