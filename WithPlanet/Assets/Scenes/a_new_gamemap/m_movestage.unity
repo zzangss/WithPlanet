@@ -568,15 +568,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 744925815056624999, guid: e73926dc950802246b0cafe0044e3ba7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.66
+      value: 18.51
       objectReference: {fileID: 0}
     - target: {fileID: 744925815056624999, guid: e73926dc950802246b0cafe0044e3ba7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.046
+      value: 0.87
       objectReference: {fileID: 0}
     - target: {fileID: 744925815056624999, guid: e73926dc950802246b0cafe0044e3ba7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.1
+      value: -5.36
       objectReference: {fileID: 0}
     - target: {fileID: 744925815056624999, guid: e73926dc950802246b0cafe0044e3ba7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2280,7 +2280,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8105212162481640872, guid: 37f04c8e05d8c64459dc2bb2ae60ad95, type: 3}
       propertyPath: m_Name
-      value: StageLoader (2)
+      value: StageLoader_1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5316,7 +5316,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8105212162481640872, guid: 37f04c8e05d8c64459dc2bb2ae60ad95, type: 3}
       propertyPath: m_Name
-      value: StageLoader (6)
+      value: StageLoader_6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12059,7 +12059,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8105212162481640872, guid: 37f04c8e05d8c64459dc2bb2ae60ad95, type: 3}
       propertyPath: m_Name
-      value: StageLoader (3)
+      value: StageLoader_3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -61418,7 +61418,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8105212162481640872, guid: 37f04c8e05d8c64459dc2bb2ae60ad95, type: 3}
       propertyPath: m_Name
-      value: StageLoader (1)
+      value: StageLoader_2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -76922,7 +76922,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1255640531}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Map
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92342,7 +92342,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8105212162481640872, guid: 37f04c8e05d8c64459dc2bb2ae60ad95, type: 3}
       propertyPath: m_Name
-      value: StageLoader (4)
+      value: StageLoader_4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -113955,7 +113955,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8105212162481640872, guid: 37f04c8e05d8c64459dc2bb2ae60ad95, type: 3}
       propertyPath: m_Name
-      value: StageLoader (5)
+      value: StageLoader_5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
