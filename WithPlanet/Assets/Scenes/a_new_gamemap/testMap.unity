@@ -56028,8 +56028,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5464094823528071575, guid: 2eb5b4f4b52b8c046877a97e0d195438, type: 3}
+      propertyPath: runSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5464094823528071575, guid: 2eb5b4f4b52b8c046877a97e0d195438, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5464094823528071575, guid: 2eb5b4f4b52b8c046877a97e0d195438, type: 3}
+      propertyPath: normalSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5464094823528071575, guid: 2eb5b4f4b52b8c046877a97e0d195438, type: 3}
+      propertyPath: currentSpeed
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5593690219429747025, guid: 2eb5b4f4b52b8c046877a97e0d195438, type: 3}
       propertyPath: m_Height

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// 에디터에서 쉽게 생성 가능하도록 설정
+// 에디터에서 생성 가능하도록 설정
 [CreateAssetMenu(fileName = "NewItemData", menuName = "Item/Item Data", order = 1)]
 public class ItemData : ScriptableObject
 {
