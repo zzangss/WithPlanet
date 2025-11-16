@@ -55,7 +55,23 @@ public class PlayerMoveController : MonoBehaviour
         Vector3 worldDirection = new Vector3(h, 0f, v);
         moveDirection = worldDirection.normalized * currentSpeed;
 
-       
+        //w 뒤로 가는 키를 눌렀을 때 + 방향키
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            if (anim != null)
+            {
+                anim.SetBool("Behind", true);
+            }
+        }
+        //w 뒤로 가는 키를 뗐을 때 + 방향키
+        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow))
+        {
+            if (anim != null)
+            {
+                anim.SetBool("Behind", false);
+            }
+        }
+
     }
 
     void FixedUpdate()
@@ -87,30 +103,8 @@ public class PlayerMoveController : MonoBehaviour
             // 2. 무작위로 고른 오디오 클립을 AudioManager에 전달해 재생합니다.
             AudioManager.Instance.PlaySfx(footstepSounds[randomIndex]);
         }
-           
+
     }
-
-    /*private bool CheckGrounded(out RaycastHit hit)
-    {
-        Vector3 origin = transform.position + Vector3.up * groundCheckOffset;
-
-        if (Physics.SphereCast(origin, groundCheckRadius, Vector3.down,
-                               out hit, groundCheckOffset + 0.55f,
-                               groundMask, QueryTriggerInteraction.Ignore))
-        {
-            groundNormal = hit.normal;
-            float angle = Vector3.Angle(groundNormal, Vector3.up);
-            return angle <= maxSlopeAngle + 5f; // 판정은 약간 관대하게(+5° 버퍼)
-        }
-
-        groundNormal = Vector3.up;
-        return false;
-    }
-
-    private static Vector3 ProjectOnGround(Vector3 v, Vector3 groundN)
-    {
-        return Vector3.ProjectOnPlane(v, groundN);
-    }*/
 
 }
 
