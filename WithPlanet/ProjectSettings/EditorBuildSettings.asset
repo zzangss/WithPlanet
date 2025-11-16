@@ -8,22 +8,40 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Build.unity
     guid: a17606a9a4715f642bd4a87d4dfeb1fc
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MiniGameScene.unity
     guid: dca78375142acbd4997a40a3de34ec52
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MiniGameScene2.unity
     guid: 8f25c27e86cdc124a97386999b8b4302
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/game/stage0start.unity
     guid: 1e0b1661cb44cd8408eba850c48e9d28
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/game/stage1.unity
     guid: 5afb1239f19b21841bbea44ce7e24500
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/game/stage3.unity
     guid: e394713a64ab5d840b3cda863c51944c
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/game/stage4.unity
     guid: ecef4dc8e609a1e41b2976ab1d2b4396
+  - enabled: 1
+    path: Assets/Scenes/a_new_gamemap/m_movestage.unity
+    guid: dfe7cf8a7ec0cf941b7bc8997cfccb2b
+  - enabled: 1
+    path: Assets/Scenes/a_new_gamemap/map_1.unity
+    guid: 85b4aa2032739c64cada74ae54b684aa
+  - enabled: 1
+    path: Assets/Scenes/a_new_gamemap/map_2.unity
+    guid: 6045bc5f058d94b439ec8902425d097d
+  - enabled: 1
+    path: Assets/Scenes/a_new_gamemap/map_3.unity
+    guid: c3b76409595cb6e41864cb94b1820b66
+  - enabled: 1
+    path: Assets/Scenes/a_new_gamemap/map_4.unity
+    guid: 242ec1afa2676594daa414d88354f0ef
+  - enabled: 1
+    path: Assets/Scenes/a_new_gamemap/map_5.unity
+    guid: bfa79b5b99f15ab4fbd6acf18d15db41
   m_configObjects: {}

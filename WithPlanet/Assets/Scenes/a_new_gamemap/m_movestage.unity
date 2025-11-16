@@ -5272,7 +5272,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4006970594074024416, guid: 37f04c8e05d8c64459dc2bb2ae60ad95, type: 3}
       propertyPath: targetSceneName
-      value: map
+      value: map_6
       objectReference: {fileID: 0}
     - target: {fileID: 5210058425553421539, guid: 37f04c8e05d8c64459dc2bb2ae60ad95, type: 3}
       propertyPath: m_LocalPosition.x
@@ -113911,7 +113911,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4006970594074024416, guid: 37f04c8e05d8c64459dc2bb2ae60ad95, type: 3}
       propertyPath: targetSceneName
-      value: map_6
+      value: map_5
       objectReference: {fileID: 0}
     - target: {fileID: 5210058425553421539, guid: 37f04c8e05d8c64459dc2bb2ae60ad95, type: 3}
       propertyPath: m_LocalPosition.x
