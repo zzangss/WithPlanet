@@ -60,13 +60,19 @@ public class monsterRandomPatrol : MonoBehaviour
             //애니메이션
             if (anim != null) anim.SetBool("isMoving", true);
 
+
+            Vector3 targetPos = new Vector3(
+     target.position.x,      // 목표의 X 위치
+     transform.position.y,   // 몬스터의 현재 Y 위치 유지
+     target.position.z    // 몬스터의 현재 Z 위치 유지
+ );
             // 목표 지점에 충분히 가까워질 때까지 이동
-            while (Vector3.Distance(transform.position, target.position) > stoppingDistance)
+            while (Vector3.Distance(transform.position, targetPos) > stoppingDistance)
             {
                 // 목표 방향으로 이동
                 transform.position = Vector3.MoveTowards(
                     transform.position,
-                    target.position,
+                    targetPos,
                     moveSpeed * Time.deltaTime
                 );
 
