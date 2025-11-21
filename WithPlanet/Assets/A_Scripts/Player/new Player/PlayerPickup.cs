@@ -5,8 +5,7 @@ using UnityEngine;
 public class PlayerPickup : MonoBehaviour
 {
     public PlayerMoveController playerMoveController; // 플레이어 이동 컨트롤러
-    private bool isItemDetected= false;
-    private ItemPickup item;
+    private List<ItemPickup> detectedItems = new List<ItemPickup>();
 
     //애니메이션
     private Animator playerAnimator; // 플레이어 애니메이터
@@ -34,25 +33,52 @@ public class PlayerPickup : MonoBehaviour
     {
 
         // 플레이어가 범위 내에 있을 때만 Q 키 입력을 검사합니다.
-        if (isItemDetected&&Input.GetKeyDown(KeyCode.Q))
+        if (detectedItems.Count > 0 && Input.GetKeyDown(KeyCode.Q))
         {
             TryPickupItem();
         }
     }
     void TryPickupItem()
     {
-        item.ItemPickuped();
+        for (int i = detectedItems.Count - 1; i >= 0; i--)
+        {
+            ItemPickup itemToPickup = detectedItems[i];
+            // ItemPickuped() 호출
+            itemToPickup.ItemPickuped();
+        }
     }
 
-    // 1. 플레이어가 범위 내 아이템 확인
+    
 
+    //감지 아이템 리스트업
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Item"))
         {
-            Debug.Log("아이템 감지");
-            item = other.GetComponent<ItemPickup>();
-            isItemDetected =true;
+            //Debug.Log("아이템 감지");
+            ItemPickup item = other.GetComponent<ItemPickup>();
+            if (item != null)
+            {
+                if (!detectedItems.Contains(item))
+                {
+                    detectedItems.Add(item);
+                }
+            }
+              
+        }
+    }
+    //감지 아이템 삭제
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Item"))
+        {
+            ItemPickup item = other.GetComponent<ItemPickup>();
+            if (item != null)
+            {
+                Debug.Log("아이템 영역 이탈 및 리스트 제거: " + item.gameObject.name);
+                //  영역을 벗어나면 리스트에서 제거
+                detectedItems.Remove(item);
+            }
         }
     }
     /*
