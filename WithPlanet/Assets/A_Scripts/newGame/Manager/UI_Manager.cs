@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UI_Manager : MonoBehaviour
 {
-    public Text[] itemTexts;
+    public TextMeshProUGUI[] itemTexts;
 
     private void Start()
     {
@@ -31,7 +32,7 @@ public class UI_Manager : MonoBehaviour
         if (index >= 0 && index < itemTexts.Length)
         {
             // 예: "동전 : 1 / 5" 형태로 텍스트 갱신
-            itemTexts[index].text = $"{type} : {currentCount} / {targetCount}";
+            itemTexts[index].text = $"{currentCount} / {targetCount}";
 
             // (선택) 목표 달성 시 텍스트 색상 변경 효과 등
             if (currentCount >= targetCount)

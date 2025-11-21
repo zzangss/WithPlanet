@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5a385039db4876d4a857b1d708b6ee4a, type: 3}
-  m_Name: candyData
+  m_Name: Item3
   m_EditorClassIdentifier: 
-  type: 1
-  itemName: "\uC0AC\uD0D5"
+  type: 0
+  itemName: "\uC544\uC774\uD15C3"
   itemIcon: {fileID: 0}
