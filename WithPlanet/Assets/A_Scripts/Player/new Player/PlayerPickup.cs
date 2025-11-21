@@ -34,15 +34,18 @@ public class PlayerPickup : MonoBehaviour
     {
 
         // 플레이어가 범위 내에 있을 때만 Q 키 입력을 검사합니다.
-        if (isItemDetected && Input.GetKeyDown(KeyCode.Q) && ItemManager.Instance != null)
+        if (isItemDetected&&Input.GetKeyDown(KeyCode.Q))
         {
-            Debug.Log("아이템 획득");
-            item.ItemPickuped();
+            TryPickupItem();
         }
+    }
+    void TryPickupItem()
+    {
+        item.ItemPickuped();
     }
 
     // 1. 플레이어가 범위 내 아이템 확인
-   
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Item"))

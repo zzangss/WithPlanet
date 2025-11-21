@@ -48,6 +48,7 @@ public class ItemManager : MonoBehaviour
         Debug.Log($"아이템 획득: {data.itemName} ({data.type})");
 
         // Collectable1, 2, 3이 Enum의 1, 2, 3 
+        //0이면 수집 불가
         if (data.type >= ItemType1.Collectable1 && data.type <= ItemType1.Collectable3)
         {
             HandleTargetCollectable(data.type);

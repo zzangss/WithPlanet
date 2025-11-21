@@ -32,8 +32,7 @@ public class ItemPickup : MonoBehaviour
 
     private IEnumerator ProcessPickupRoutine()
     {
-        // [시각적 처리] 아이템의 모습과 충돌체만 먼저 끕니다.
-        GetComponent<Collider2D>().enabled = false; // 더 이상 충돌 안 됨
+        
         GetComponent<Renderer>().enabled = false;   // 눈에 안 보임 (3D면 MeshRenderer, 2D면 SpriteRenderer)
 
         // [사운드 처리] 소리가 있다면 재생
