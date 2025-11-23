@@ -120,4 +120,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45523613f7a0efe4eb08bc0e9b072119, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetSceneName: stage1
+  targetSceneName: m_movestage

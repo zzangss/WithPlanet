@@ -1,130 +1,249 @@
 using UnityEngine;
-using UnityEngine.UI; // UI 관련 기능을 사용하기 위해 필수
-using System; // Action 이벤트를 사용하기 위해 필요
+using UnityEngine.UI;
+using System;
 
 /// <summary>
-/// 게임의 전반적인 UI를 관리하고, 게임 이벤트에 반응하여 UI를 업데이트합니다.
-/// GameManager와 SaveManager로부터 이벤트를 구독하여 UI를 제어합니다.
+/// UI의 '기능'을 정의하는 스크립트입니다.
+/// 버튼 연결은 코드가 아닌, 유니티 에디터(Inspector)의 OnClick() 이벤트에서 직접 연결합니다.
 /// </summary>
-
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
-    // UI �г� ����
+    [Header("Panel References")]
+    // 패널들은 껐다 켰다 제어해야 하므로 변수로 가지고 있습니다.
     public GameObject menuPanel;
-    public GameObject gamePanel; //인게임 UI 패널(체력바, 스테이지 등)
-    public GameObject pausePanel;
-    public GameObject savePanel;
+    public GameObject gamePanel;    // 인게임 HUD (체력, 스테이지 등)
+    public GameObject pausePanel;   // 일시정지 화면
+    public GameObject savePanel;    // 저장/로드 화면
     public GameObject settingsPanel;
-    public DialogueManager dialogueManager;
-    public GameObject gameOverPanel; // 게임 오버 패널 
+    public GameObject gameOverPanel;
 
-    //[SerializeField] private GameManagerSystem gameManagerSystem;
+    [Header("External Managers")]
     [SerializeField] private SaveSlotSelector saveSlotSelector;
-    [SerializeField] private InventoryMain inventoryMain;
+    [SerializeField] private DialogueManager dialogueManager;
 
-    [Header("In-Game UI")]
-    [SerializeField] private Slider healthBarSlider; // 체력 바 UI (Slider)
-    [SerializeField] private Text stageNumberText;  // 스테이지 번호를 표시할 UI Text
-
-    [Header("Menu Buttons")]
-    [SerializeField] private Button newGameButton; // 새 게임 버튼
-    [SerializeField] private Button loadGameButton; // 게임 불러오기 버튼 (SavePanel로 이동)
-    [SerializeField] private Button saveGameInPausePanelButton; // 일시정지 패널 내 저장 버튼
-    [SerializeField] private Button exitGameButton; // 게임 종료 버튼
-    [SerializeField] private Button restartGameButton; // 게임 오버 패널 내 재시작 버튼
- 
+    [Header("In-Game HUD")]
+    [SerializeField] private Slider healthBarSlider;
+    [SerializeField] private Text stageNumberText;
 
     private void Awake()
     {
+        // 싱글톤 패턴: 게임 내에 단 하나만 존재하며, 씬이 바뀌어도 파괴되지 않음
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
             return;
         }
-
-      
     }
 
     void Start()
     {
-        // ���� ���� �� �޴� �г� ����
+        // 게임 시작 시 메인 메뉴를 엽니다.
         OpenMenuPanel();
-        newGameButton?.onClick.AddListener(OnNewGameButtonClicked);
-        loadGameButton?.onClick.AddListener(OpenSavePanel); // 메인 메뉴의 불러오기 버튼은 SavePanel을 엽니다.
-        saveGameInPausePanelButton?.onClick.AddListener(OnSaveGameButtonClicked);
-        exitGameButton?.onClick.AddListener(OnExitGameButtonClicked);
-        restartGameButton?.onClick.AddListener(OnRestartGameButtonClicked);
 
-
+        // SaveSlotSelector 초기화 (있다면)
         if (saveSlotSelector != null)
         {
-            // SaveSlotSelector가 SaveManager의 이벤트를 구독하여 UI를 업데이트하고,
-            // 플레이/삭제 버튼이 SaveManager의 LoadGame/DeleteSaveFile을 호출하도록 설정해야 합니다.
-            // UIManager는 SaveSlotSelector의 RefreshUI만 호출하도록 합니다.
+            // 필요 시 초기화 로직 추가
         }
-
     }
 
     void OnEnable()
     {
-        // GameEvent 구독
-        GameEvent.OnGameStart += OnGameStarted;               // 게임 시작 시
-        GameEvent.OnGameOver += ShowGameOverPanel;            // 게임 오버 시
-        GameEvent.OnStageStart += UpdateStageDisplay;         // 스테이지 시작 시 (스테이지 번호 UI 업데이트)
-        GameEvent.OnPlayerHealthChanged += UpdatePlayerHealthUI; // 플레이어 체력 변경
-                                                                 // 시 (체력 바 UI 업데이트)
-        //SaveManager.Instance.OnSaveFilesChanged += OnSaveFilesChanged; // 세이브 파일 변경 시 (저장/로드 메뉴 UI 갱신)
-
-        // (선택 사항) 인벤토리 열림/닫힘 이벤트 구독 (ESC 키 처리 로직 간소화)
-        // inventoryMain.OnInventoryOpened += OnInventoryOpened;
-        // inventoryMain.OnInventoryClosed += OnInventoryClosed;
+        // 게임 이벤트 구독 (옵저버 패턴)
+        GameEvent.OnGameStart += OnGameStarted;
+        GameEvent.OnGameOver += ShowGameOverPanel;
+        GameEvent.OnStageStart += UpdateStageDisplay;
+        GameEvent.OnPlayerHealthChanged += UpdatePlayerHealthUI;
     }
 
     void OnDisable()
     {
-        // GameEvent 구독 해제
+        // 이벤트 구독 해제 (메모리 누수 방지)
         GameEvent.OnGameStart -= OnGameStarted;
         GameEvent.OnGameOver -= ShowGameOverPanel;
         GameEvent.OnStageStart -= UpdateStageDisplay;
         GameEvent.OnPlayerHealthChanged -= UpdatePlayerHealthUI;
-        //SaveManager.Instance.OnSaveFilesChanged -= OnSaveFilesChanged;
-
-        // (선택 사항) 인벤토리 이벤트 구독 해제
-        // inventoryMain.OnInventoryOpened -= OnInventoryOpened;
-        // inventoryMain.OnInventoryClosed -= OnInventoryClosed;
-
-        // 버튼 이벤트 리스너 해제 (씬 전환 시 중복 연결 방지)
-        newGameButton?.onClick.RemoveListener(OnNewGameButtonClicked);
-        loadGameButton?.onClick.RemoveListener(OpenSavePanel);
-        saveGameInPausePanelButton?.onClick.RemoveListener(OnSaveGameButtonClicked);
-        exitGameButton?.onClick.RemoveListener(OnExitGameButtonClicked);
-        restartGameButton?.onClick.RemoveListener(OnRestartGameButtonClicked);
     }
 
-    // --- 이벤트 핸들러 ---
+    // ==================================================================================
+    // [버튼 기능 함수들] 
+    // Inspector의 OnClick()에서 이 함수들을 직접 드래그해서 연결하세요.
+    // ==================================================================================
+
+    // 1. 새 게임 버튼 기능
+    // "New Game" 버튼에 연결할 함수
+    public void OnNewGameClicked()
+    {
+        // 1. 혹시 슬롯이 선택되어 있었다면 해제. (선택된 슬롯 로드 방지)
+        if (saveSlotSelector != null)
+        {
+            saveSlotSelector.SetSelectedSlot(-1);
+        }
+
+        Debug.Log("UIManager: 새 게임 자동 시작 시도 (빈 슬롯 탐색)");
+
+        // 2. GameManager에게 "빈 자리 찾아서 새 게임 시작해줘!"라고 요청
+        // (성공하면 true, 자리 없으면 false가 반환됨)
+        bool isStarted = GameManagerSystem.Instance.StartNewGame();
+
+        if (isStarted)
+        {
+            // 성공! 게임 화면으로 넘어감
+            StartGamePanel();
+        }
+        else
+        {
+            // 실패! (빈 슬롯이 없음)
+            Debug.LogWarning("알림: 빈 슬롯이 없습니다! 기존 데이터를 삭제해야 합니다.");
+
+            // ★ 여기에 "슬롯이 꽉 찼습니다!" 팝업창을 띄우는 코드를 넣으면 됩니다.
+            // 예시: warningPopup.SetActive(true);
+        }
+    }
+
+    // 2. 게임 불러오기 버튼 기능 (저장 슬롯 패널 열기)
+    public void OnOpenLoadPanelClicked()
+    {
+        OpenSavePanel();
+    }
+
+    // 3. (슬롯 선택 후) 실제 로드 실행 기능
+    // Inspector에서 각 슬롯 버튼에 연결할 때, 매개변수(Int)에 1, 2, 3을 적어주세요.
+    public void OnLoadSlotClicked(int slotIndex)
+    {
+        Debug.Log($"UIManager: 슬롯 {slotIndex}번 로드 요청");
+        if (slotIndex > 0)
+        {
+            GameManagerSystem.Instance.LoadGame(slotIndex);
+            StartGamePanel(); // 로드 후 게임 화면 활성화
+        }
+    }
+
+    // 4. 저장 버튼 기능 (일시정지 화면 등에서 사용)
+    public void OnSaveGameClicked()
+    {
+        Debug.Log("UIManager: 현재 상태 저장 요청");
+        GameManagerSystem.Instance.SaveGame();
+
+        // 저장이 완료되면 UI 갱신 (선택 사항)
+        if (saveSlotSelector != null) saveSlotSelector.RefreshUI();
+    }
+
+    // 5. 삭제 버튼 기능
+    public void OnDeleteSlotClicked(int slotIndex)
+    {
+        Debug.Log($"UIManager: 슬롯 {slotIndex}번 삭제 요청");
+        if (slotIndex > 0)
+        {
+            GameManagerSystem.Instance.DeleteSaveFile(slotIndex);
+        }
+    }
+
+    // 6. 게임 종료 버튼 기능
+    public void OnExitGameClicked()
+    {
+        Debug.Log("UIManager: 게임 종료 요청");
+        GameManagerSystem.Instance.QuitGame();
+    }
+
+    // 7. 재시작 버튼 기능 (게임 오버 시)
+    public void OnRestartGameClicked()
+    {
+        Debug.Log("UIManager: 재시작 요청");
+        GameManagerSystem.Instance.RestartGame();
+    }
+
+    // 8. 게임 슬롯 선택 -> start 버튼 눌러 특정 세이브 파일 start 가능 
+    public void OnStartSelectedGameClicked()
+    {
+        // [핵심 변경] UIManager가 직접 기억하지 말고, SaveSlotSelector에게 물어봅니다!
+        // "지금 선택된 슬롯 번호가 몇 번이야?"
+        int selectedSlot = -1;
+        if (saveSlotSelector != null)
+        {
+            selectedSlot = saveSlotSelector.GetSelectedSlot();
+        }
+
+        // 아무것도 선택 안 함 (-1)
+        if (selectedSlot == -1)
+        {
+            Debug.LogWarning("UIManager: 게임을 시작하려면 슬롯을 먼저 선택해주세요!");
+            return;
+        }
+
+        Debug.Log($"UIManager: 선택된 {selectedSlot}번 슬롯으로 게임 시작!");
+
+        // 선택된 슬롯에 세이브 파일이 있으면 -> 로드
+        if (GameManagerSystem.Instance.HasSaveFile(selectedSlot))
+        {
+            GameManagerSystem.Instance.LoadGame(selectedSlot);
+            StartGamePanel();
+        }
+        else
+        {
+            // 파일 없으면 -> 새 게임으로 초기화 후 시작
+            GameManagerSystem.Instance.SaveGame(selectedSlot); // 0초로 초기화
+            GameManagerSystem.Instance.LoadGame(selectedSlot); // 로드
+            StartGamePanel();
+        }
+    }
+
+    // 9. 특정 save 파일 눌러서 삭제 가능 
+    public void OnDeleteSelectedSlotClicked()
+    {
+        // 1. SaveSlotSelector에게 지금 선택된 슬롯 번호를 물어봅니다.
+        int selectedSlot = -1;
+        if (saveSlotSelector != null)
+        {
+            selectedSlot = saveSlotSelector.GetSelectedSlot();
+        }
+
+        // 2. 아무것도 선택하지 않았다면 무시합니다.
+        if (selectedSlot == -1)
+        {
+            Debug.LogWarning("UIManager: 삭제할 슬롯을 먼저 선택해주세요!");
+            return;
+        }
+
+        // 3. (안전장치) 빈 슬롯을 삭제하려고 하면 무시합니다.
+        // (GameManagerSystem에 HasSaveFile 함수가 있으니 활용합니다)
+        if (GameManagerSystem.Instance.HasSaveFile(selectedSlot) == false)
+        {
+            Debug.LogWarning("UIManager: 빈 슬롯이라 삭제할 데이터가 없습니다.");
+            return;
+        }
+
+        // 4. 매니저에게 "이 번호 삭제해줘!"라고 요청합니다.
+        Debug.Log($"UIManager: {selectedSlot}번 슬롯 데이터 삭제 요청");
+        GameManagerSystem.Instance.DeleteSaveFile(selectedSlot);
+
+        // 5. 삭제가 완료되면 SaveSlotSelector의 화면(UI)도 새로고침 해줍니다.
+        // (이미 GameManagerSystem.DeleteSaveFile 안에서 갱신 로직이 있다면 생략 가능하지만, 안전하게 한번 더 호출)
+        saveSlotSelector.RefreshUI();
+    }
+
+    // ==================================================================================
+    // [이벤트 리스너 & 패널 제어]
+    // ==================================================================================
+
     private void OnGameStarted()
     {
-        Debug.Log("UIManager: OnGameStarted 이벤트 수신. 게임 패널 활성화.");
         StartGamePanel();
-        // 튜토리얼 대화 시작 (GameManager에서 호출하는 것이 더 적절할 수도 있습니다)
-        // dialogueManager?.Init();
-        // dialogueManager?.StartTutorial();
-        PauseController.SetPause(false); // 게임 시작 시 일시정지 해제
+        PauseController.SetPause(false);
     }
 
     public void ShowGameOverPanel()
     {
-        Debug.Log("UIManager: OnGameOver 이벤트 수신. 게임 오버 패널 활성화.");
         gameOverPanel?.SetActive(true);
-        // Time.timeScale = 0f; // GameManager에서 처리
-        PauseController.SetPause(true); // UI 조작 가능하도록 시간은 멈추고 마우스는 활성화
-        Cursor.lockState = CursorLockMode.None;
+        PauseController.SetPause(true); // 시간 정지
+        Cursor.lockState = CursorLockMode.None; // 마우스 커서 보이기
         Cursor.visible = true;
     }
 
@@ -133,7 +252,6 @@ public class UIManager : MonoBehaviour
         if (stageNumberText != null)
         {
             stageNumberText.text = $"Stage: {stageNumber}";
-            Debug.Log($"UIManager: 스테이지 UI 업데이트 - Stage {stageNumber}");
         }
     }
 
@@ -144,17 +262,9 @@ public class UIManager : MonoBehaviour
             healthBarSlider.maxValue = maxHealth;
             healthBarSlider.value = currentHealth;
         }
-
-
     }
 
-    private void OnSaveFilesChanged()
-    {
-        Debug.Log("UIManager: OnSaveFilesChanged 이벤트 수신. SaveSlotSelector UI 갱신.");
-        saveSlotSelector?.RefreshUI();
-    }
-
-    // --- UI 패널 관리 메서드 ---
+    // 모든 패널 끄기 (초기화 용도)
     public void CloseAllPanels()
     {
         menuPanel?.SetActive(false);
@@ -169,7 +279,7 @@ public class UIManager : MonoBehaviour
     {
         CloseAllPanels();
         menuPanel?.SetActive(true);
-        PauseController.SetPause(true); // 메뉴에서는 게임 일시정지
+        PauseController.SetPause(true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -178,19 +288,17 @@ public class UIManager : MonoBehaviour
     {
         CloseAllPanels();
         savePanel?.SetActive(true);
-        PauseController.SetPause(true); // 저장/불러오기 중에는 게임 일시정지
+        PauseController.SetPause(true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-
-        // SavePanel 열릴 때마다 UI 갱신
-        saveSlotSelector?.RefreshUI();
+        saveSlotSelector?.RefreshUI(); // 패널 열 때 슬롯 상태 갱신
     }
 
     public void OpenPausePanel()
     {
         CloseAllPanels();
         pausePanel?.SetActive(true);
-        PauseController.SetPause(true); // 일시정지 중에는 게임 일시정지
+        PauseController.SetPause(true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -199,115 +307,52 @@ public class UIManager : MonoBehaviour
     {
         CloseAllPanels();
         settingsPanel?.SetActive(true);
-        PauseController.SetPause(true); // 설정 중에는 게임 일시정지
+        PauseController.SetPause(true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
 
-    public void StartGamePanel() // 인게임 UI 활성화 및 게임 재개
+    public void StartGamePanel() // 인게임 플레이 상태로 전환
     {
         CloseAllPanels();
         gamePanel?.SetActive(true);
-        PauseController.SetPause(false); // 게임 플레이 중에는 일시정지 해제
-        Cursor.lockState = CursorLockMode.Locked; // 커서 잠금
-        Cursor.visible = false;                   // 커서 숨김
+        PauseController.SetPause(false); // 시간 흐름 재개
+        Cursor.lockState = CursorLockMode.Locked; // 마우스 커서 잠금 (FPS/TPS 게임 등)
+        Cursor.visible = false;
     }
 
-    // --- UI 버튼 클릭 이벤트 핸들러 (GameManager에 작업 위임) ---
-    public void OnNewGameButtonClicked()
-    {
-        Debug.Log("UIManager: 새 게임 버튼 클릭 -> GameManager에 요청");
-        //GameManager.Instance.StartNewGame(); // GameManager에 새 게임 시작 요청
-        // UIManager는 OnGameStarted 이벤트에 반응하여 UI를 업데이트합니다.
-    }
 
-    public void OnLoadGameButtonClicked(int slotIndex) // SaveSlotSelector에서 호출할 함수 (선택된 슬롯 전달)
-    {
-        Debug.Log($"UIManager: 로드 게임 버튼 클릭 (슬롯 {slotIndex}) -> GameManager에 요청");
-        if (slotIndex > 0)
-        {
-            //GameManager.Instance.LoadGameFromSlot(slotIndex); // GameManager에 게임 로드 요청
-        }
-        else
-        {
-            Debug.LogWarning("UIManager: 유효하지 않은 슬롯이 선택되었습니다. 로드할 수 없습니다.");
-        }
-    }
-
-    public void OnSaveGameButtonClicked() // 일시정지 메뉴 내 저장 버튼
-    {
-        Debug.Log("UIManager: 저장 버튼 클릭 -> SaveManager에 요청");
-        //SaveManager.Instance.SaveCurrentGame(); // SaveManager에 현재 게임 저장 요청
-        // SaveManager의 OnSaveFilesChanged 이벤트가 발생하여 SaveSlotSelector가 갱신될 것입니다.
-    }
-
-    public void OnDeleteGameButtonClicked(int slotIndex) // SaveSlotSelector에서 호출할 함수
-    {
-        Debug.Log($"UIManager: 삭제 버튼 클릭 (슬롯 {slotIndex}) -> SaveManager에 요청");
-        if (slotIndex > 0)
-        {
-            //SaveManager.Instance.DeleteSaveFile(slotIndex); // SaveManager에 파일 삭제 요청
-        }
-        else
-        {
-            Debug.LogWarning("UIManager: 유효하지 않은 슬롯이 선택되었습니다. 삭제할 수 없습니다.");
-        }
-    }
-
-    public void OnExitGameButtonClicked()
-    {
-        Debug.Log("UIManager: 게임 종료 버튼 클릭 -> GameManager에 요청");
-        //GameManager.Instance.QuitGame(); // GameManager에 게임 종료 요청
-    }
-
-    public void OnRestartGameButtonClicked() // 게임 오버 패널의 재시작 버튼
-    {
-        Debug.Log("UIManager: 게임 오버 재시작 버튼 클릭 -> GameManager에 요청");
-        //GameManager.Instance.RestartGame(); // GameManager에 게임 재시작 요청
-    }
-
-    // --- ESC 키 입력 처리 ---
+    // ==================================================================================
+    // [ESC 키 입력 처리]
+    // ==================================================================================
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            // 인벤토리 활성 상태 처리 (가장 높은 우선순위)
-            if (inventoryMain != null && inventoryMain.GetIsInventoryActive())
+            // 1. 게임 오버 상태일 때는 ESC 무시 (또는 메뉴로 나가기 등 처리 가능)
+            if (gameOverPanel != null && gameOverPanel.activeSelf)
             {
-                inventoryMain.CloseInventory();
+                return;
             }
-            // 게임 오버 패널이 활성화되어 있으면, ESC 키로 닫지 않고 재시작/메인 메뉴 등으로 유도합니다.
-            else if (gameOverPanel != null && gameOverPanel.activeSelf)
+
+            // 2. 일시정지 상태 -> 게임으로 복귀
+            if (pausePanel != null && pausePanel.activeSelf)
             {
-                // 아무것도 하지 않음 (사용자가 버튼을 클릭하도록 유도)
+                StartGamePanel();
             }
-            // 일시정지 패널 활성 상태 처리
-            else if (pausePanel != null && pausePanel.activeSelf)
-            {
-                StartGamePanel(); // 게임 플레이 상태로 돌아감
-            }
-            // 게임 플레이 패널 활성 상태 처리
+            // 3. 게임 플레이 중 -> 일시정지 화면 열기
             else if (gamePanel != null && gamePanel.activeSelf)
-            {
-                OpenPausePanel(); // 일시정지 패널 엶
-            }
-            // 저장 패널 활성 상태 처리 (메뉴에서 접근했다면 메뉴로, 일시정지에서 접근했다면 일시정지로 돌아가게 로직을 설계할 수 있습니다.)
-            // 여기서는 간단히 메인 메뉴로 돌아가도록 합니다.
-            else if (savePanel != null && savePanel.activeSelf)
-            {
-                OpenMenuPanel();
-            }
-            // 설정 패널 활성 상태 처리 (일시정지에서 접근했다면 일시정지로 돌아감)
-            else if (settingsPanel != null && settingsPanel.activeSelf)
             {
                 OpenPausePanel();
             }
-            // 그 외 (메인 메뉴 등)에서는 ESC 키 무시 또는 게임 종료
-            else if (menuPanel != null && menuPanel.activeSelf)
+            // 4. 저장/설정 패널 -> 이전 화면(메뉴 또는 일시정지)으로 복귀
+            // (여기서는 편의상 메인 메뉴로 보내거나 일시정지로 보냅니다)
+            else if ((savePanel != null && savePanel.activeSelf) || (settingsPanel != null && settingsPanel.activeSelf))
             {
-                // 게임 종료 팝업을 띄우거나, 아무것도 하지 않음
+                // 게임 중이었으면 일시정지로, 아니면 메뉴로 가야하는데, 
+                // 일단 간단하게 이전 패널 로직 대신 OpenPausePanel로 통일하거나 메뉴로 보냄
+                OpenMenuPanel();
             }
         }
     }
-
 }

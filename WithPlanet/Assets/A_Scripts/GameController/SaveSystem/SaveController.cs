@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System;
+using UnityEngine.SceneManagement; // [필수] 씬 관리를 위해 추가
 using Project.Minigames.ToxicCleanser;
 
 public class SaveController : MonoBehaviour
@@ -18,58 +19,42 @@ public class SaveController : MonoBehaviour
 
     void Awake()
     {
-        if (pim == null)
-        {
-            pim = FindObjectOfType<PlayerAction>();
-        }
-        if (itemSpawner == null)
-        {
-            itemSpawner = FindObjectOfType<ItemSpawner>();
-        }
-        if (inventoryMain == null)
-        {
-            inventoryMain = FindObjectOfType<InventoryMain>();
-        }
-        if (itemdic == null)
-        {
-            itemdic = FindObjectOfType<ItemDictionary>();
-        }
-        if (randomSpawners == null || randomSpawners.Length == 0)
-        {
-            randomSpawners = FindObjectsOfType<RandomSpawner>();
-        }
-        if (minigameLauncher == null)
-        {
-            minigameLauncher = FindObjectOfType<MinigameLauncher>();
-        }
+        FindReferences(); // 참조 찾는 로직을 함수로 분리
     }
 
-    // 슬롯 번호에 따라 다른 세이브 파일 경로를 반환하는 함수
-    // 0번 슬롯은 초기 상태 파일, 1~3번은 사용자 세이브 파일
+    // 씬이 바뀌면 참조가 다 끊기므로 다시 찾아주는 함수
+    private void FindReferences()
+    {
+        if (player == null) player = GameObject.FindGameObjectWithTag("Player"); // 플레이어 찾기 추가
+        if (pim == null) pim = FindObjectOfType<PlayerAction>();
+        if (itemSpawner == null) itemSpawner = FindObjectOfType<ItemSpawner>();
+        if (inventoryMain == null) inventoryMain = FindObjectOfType<InventoryMain>();
+        if (itemdic == null) itemdic = FindObjectOfType<ItemDictionary>();
+        if (minigameLauncher == null) minigameLauncher = FindObjectOfType<MinigameLauncher>();
+
+        // RandomSpawner는 씬마다 개수가 다를 수 있으므로 매번 새로 찾음
+        randomSpawners = FindObjectsOfType<RandomSpawner>();
+    }
+
     private string GetSavePath(int slotIndex)
     {
-        if (slotIndex == 0)
-        {
-            return Path.Combine(Application.persistentDataPath, "initialstate.json");
-        }
-        else
-        {
-            return Path.Combine(Application.persistentDataPath, $"savefile_{slotIndex}.json");
-        }
+        if (slotIndex == 0) return Path.Combine(Application.persistentDataPath, "initialstate.json");
+        else return Path.Combine(Application.persistentDataPath, $"savefile_{slotIndex}.json");
     }
 
-    // 게임 저장 함수 (슬롯 번호 지정)
-    public void SaveGame(int slotIndex,float currentPlayTime)
+    // 게임 저장 함수
+    public void SaveGame(int slotIndex, float currentPlayTime)
     {
         string saveLocation = GetSavePath(slotIndex);
         SaveData saveData = new SaveData();
 
-        // 플레이어 위치 저장
-        //saveData.playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
-        //PlayerHealth playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
+        // [추가됨] 현재 씬 이름 저장
+        saveData.sceneName = SceneManager.GetActiveScene().name;
 
+        // 플레이어 정보 저장
+        if (player == null) player = GameObject.FindGameObjectWithTag("Player"); // 안전장치
         saveData.playerPosition = player.transform.position;
-        
+
         PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
         saveData.playerHealth = playerHealth.health;
         saveData.heldItemID = pim.hasItem ? pim.currentItem.Item.ItemID : -1;
@@ -91,7 +76,8 @@ public class SaveController : MonoBehaviour
         }
 
         // 카트 위치 저장
-        saveData.cartPosition = GameObject.FindGameObjectWithTag("Cart").transform.position;
+        GameObject cart = GameObject.FindGameObjectWithTag("Cart");
+        if (cart != null) saveData.cartPosition = cart.transform.position;
 
         // 카트 아이템 저장
         saveData.cartItems = new List<CartItemData>();
@@ -112,122 +98,160 @@ public class SaveController : MonoBehaviour
                 }
             }
         }
-        //대화 state 저장
+
         saveData.dialogueState = dialogueManager.CurrentStage;
-
-        // 미니게임 state 저장
         saveData.miniStateIdx = minigameLauncher.sceneIndex;
-
-        // 플레이 시간과 저장 날짜 저장
-        saveData.playTime = currentPlayTime; 
+        saveData.playTime = currentPlayTime;
         saveData.lastSavedDate = DateTime.Now.ToString("yyyy.MM.dd HH:mm");
 
         File.WriteAllText(saveLocation, JsonUtility.ToJson(saveData));
-        Debug.Log($"슬롯 {slotIndex}에 게임 저장 완료. 플레이 시간: {saveData.playTime}, 날짜: {saveData.lastSavedDate}");
+        Debug.Log($"슬롯 {slotIndex} 저장 완료. 씬: {saveData.sceneName}");
     }
 
-    // 게임 불러오기 함수 (슬롯 번호 지정)
+    // 게임 불러오기 함수 (수정됨: 씬 로딩 처리)
     public void LoadGame(int slotIndex)
     {
         string saveLocation = GetSavePath(slotIndex);
         if (File.Exists(saveLocation))
         {
-
             string json = File.ReadAllText(saveLocation);
             SaveData saveData = JsonUtility.FromJson<SaveData>(json);
 
-
-            // 플레이어 정보 불러오기
-            //GameObject player = GameObject.FindGameObjectWithTag("Player");
-
-            Rigidbody rb=player.GetComponent<Rigidbody>();
-            rb.MovePosition(saveData.playerPosition);
-
-            //player.transform.position = saveData.playerPosition;
-            //CharacterController cc = player.GetComponent<CharacterController>();
-            //StartCoroutine(ReEnableController(cc)); // 위치 이동 후 컨트롤러 재활성화
-            PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
-            playerHealth.health = saveData.playerHealth;
-            pim.setItem(saveData.heldItemID);
-
-            // 월드 아이템 불러오기
-            if (itemSpawner != null)
+            // [핵심] 현재 씬과 저장된 씬이 다르면 씬 이동부터 수행
+            string currentScene = SceneManager.GetActiveScene().name;
+            if (!string.IsNullOrEmpty(saveData.sceneName) && saveData.sceneName != currentScene)
             {
-                itemSpawner.clearWorld();
+                // 코루틴을 통해 씬 로딩 대기 후 데이터 적용
+                StartCoroutine(LoadSceneAndRestore(saveData.sceneName, saveData, slotIndex));
             }
-            if (saveData.worldItems != null && saveData.worldItems.Count > 0)
+            else
+            {
+                // 같은 씬이면 바로 적용
+                RestoreGameData(saveData, slotIndex);
+            }
+        }
+        else
+        {
+            Debug.Log($"슬롯 {slotIndex}에 세이브파일이 없습니다.");
+        }
+    }
+
+    // 씬을 비동기로 로드하고 완료되면 데이터를 복구하는 코루틴
+    private IEnumerator LoadSceneAndRestore(string sceneName, SaveData saveData, int slotIndex)
+    {
+        Debug.Log($"씬 이동 시작: {sceneName}");
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+
+        // 씬 로딩이 끝날 때까지 대기
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+
+        // 씬 로딩 직후 한 프레임 더 대기 (오브젝트 초기화 안정성 확보)
+        yield return null;
+
+        // 씬이 바뀌었으므로 플레이어, 스포너 등 참조를 다시 찾아야 함
+        FindReferences();
+
+        // 데이터 복구 실행
+        RestoreGameData(saveData, slotIndex);
+    }
+
+    // 실제 데이터를 적용하는 함수 (LoadGame에서 분리됨)
+    private void RestoreGameData(SaveData saveData, int slotIndex)
+    {
+        // 플레이어 위치 및 상태 복구
+        if (player == null) player = GameObject.FindGameObjectWithTag("Player");
+
+        if (player != null)
+        {
+            Rigidbody rb = player.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.MovePosition(saveData.playerPosition);
+                // 물리 간섭 방지를 위해 속도 초기화 권장
+                rb.velocity = Vector3.zero;
+            }
+            else
+            {
+                player.transform.position = saveData.playerPosition;
+            }
+
+            PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+            if (playerHealth != null) playerHealth.health = saveData.playerHealth;
+
+            if (pim != null) pim.setItem(saveData.heldItemID);
+        }
+
+        // 월드 아이템 복구
+        if (itemSpawner != null)
+        {
+            itemSpawner.clearWorld();
+            if (saveData.worldItems != null)
             {
                 foreach (var itemData in saveData.worldItems)
                 {
                     itemSpawner.spawnItemToWorld(itemData.itemID, itemData.position);
                 }
             }
-            // 카트 위치 불러오기
-            GameObject.FindGameObjectWithTag("Cart").transform.position = saveData.cartPosition;
+        }
 
-            // 카트 아이템 불러오기
-            if (inventoryMain != null)
+        // 카트 복구
+        GameObject cart = GameObject.FindGameObjectWithTag("Cart");
+        if (cart != null) cart.transform.position = saveData.cartPosition;
+
+        // 인벤토리 복구
+        if (inventoryMain != null)
+        {
+            inventoryMain.gameObject.SetActive(true);
+            inventoryMain.ClearAllSlots();
+            if (saveData.cartItems != null)
             {
-                inventoryMain.gameObject.SetActive(true);
-                inventoryMain.ClearAllSlots();
-                if (saveData.cartItems != null && saveData.cartItems.Count > 0)
+                foreach (var itemData in saveData.cartItems)
                 {
-                    foreach (var itemData in saveData.cartItems)
+                    GameObject itemPrefab = itemdic.GetItemPrefab(itemData.itemID);
+                    if (itemPrefab != null)
                     {
-                        GameObject itemPrefab = itemdic.GetItemPrefab(itemData.itemID);
-                        if (itemPrefab != null)
+                        Item item = itemPrefab.GetComponent<WorldItem>().Item;
+                        if (item != null)
                         {
-                            Item item = itemPrefab.GetComponent<WorldItem>().Item;
-                            if (item != null)
-                            {
-                                inventoryMain.SetItemSlot(itemData.slotIndex, item, itemData.itemCount);
-                            }
+                            inventoryMain.SetItemSlot(itemData.slotIndex, item, itemData.itemCount);
                         }
                     }
                 }
-                inventoryMain.gameObject.SetActive(false);
-
             }
-            //대화 satge 불러오기
-             dialogueManager.CurrentStage= saveData.dialogueState;
-
-            // 미니게임 state 불러오기
-            minigameLauncher.sceneIndex = saveData.miniStateIdx;
-
-            // 플레이 시간과 저장 날짜 불러오기
-            GameManagerSystem.Instance.playTime = saveData.playTime;
-
-            Debug.Log($"슬롯 {slotIndex}에서 게임 불러오기 완료. 플레이 시간: {saveData.playTime}, 날짜: {saveData.lastSavedDate}");
+            inventoryMain.gameObject.SetActive(false);
         }
-        else
+
+        // 기타 상태 복구
+        if (dialogueManager != null) dialogueManager.CurrentStage = saveData.dialogueState;
+        if (minigameLauncher != null) minigameLauncher.sceneIndex = saveData.miniStateIdx;
+
+        // GameManagerSystem이 존재한다면 시간 복구
+        if (GameManagerSystem.Instance != null)
         {
-            Debug.Log($"슬롯 {slotIndex}에 세이브파일이 존재하지않습니다.");
+            GameManagerSystem.Instance.playTime = saveData.playTime;
         }
-    }
-    
 
-    // 세이브 파일 삭제 (슬롯 번호 지정)
+        Debug.Log($"슬롯 {slotIndex} 로드 완료 (씬: {saveData.sceneName})");
+    }
+
     public void DeleteSaveFile(int slotIndex)
     {
         string saveLocation = GetSavePath(slotIndex);
         if (File.Exists(saveLocation))
         {
             File.Delete(saveLocation);
-            Debug.Log($"슬롯 {slotIndex}의 세이브 파일이 삭제되었습니다.");
-        }
-        else
-        {
-            Debug.Log($"슬롯 {slotIndex}에는 삭제할 세이브 파일이 없습니다.");
+            Debug.Log($"슬롯 {slotIndex} 삭제됨");
         }
     }
 
-    // 저장 파일의 존재 여부를 반환하는 함수 (슬롯 번호 지정)
     public bool HasSaveFile(int slotIndex)
     {
         return File.Exists(GetSavePath(slotIndex));
     }
 
-    //슬롯의 플레이 시간 반환
     public float GetPlayTime(int slotIndex)
     {
         string saveLocation = GetSavePath(slotIndex);
@@ -239,7 +263,6 @@ public class SaveController : MonoBehaviour
         return 0f;
     }
 
-    // 슬롯의 마지막 저장 날짜를 반환하는 함수
     public string GetLastSavedDate(int slotIndex)
     {
         string saveLocation = GetSavePath(slotIndex);
@@ -251,41 +274,23 @@ public class SaveController : MonoBehaviour
         return "N/A";
     }
 
-
-    // 월드 초기화 (월드 아이템만 바꾸기. 나머지는 초기 상태 그대로 저장)
     public void initializeWorld()
     {
-       
-        //  월드 아이템 초기화
-        if (itemSpawner != null)
-        {
-            itemSpawner.clearWorld();
-        }
+        if (itemSpawner != null) itemSpawner.clearWorld();
 
-        // 5. 월드 아이템 새로 생성
         if (randomSpawners.Length > 0)
         {
-            for (int i = 0; i < randomSpawners.Length; i++)
+            foreach (var spawner in randomSpawners)
             {
-
-                if (randomSpawners[i] != null)
-                {
-                    randomSpawners[i].SpawnItems();
-                }
+                if (spawner != null) spawner.SpawnItems();
             }
         }
         Debug.Log("게임 월드 초기화");
     }
-    // 컨트롤러 재활성화를 위한 코루틴
+
     private IEnumerator ReEnableController(CharacterController controller)
     {
-        // 한 프레임 대기
         yield return null;
-
-        // 컨트롤러를 다시 활성화
-        if (controller != null)
-        {
-            controller.enabled = true;
-        }
+        if (controller != null) controller.enabled = true;
     }
 }
