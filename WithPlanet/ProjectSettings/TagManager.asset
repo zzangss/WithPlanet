@@ -13,6 +13,7 @@ TagManager:
   - Monster
   - NPC
   - Minigame
+  - StartPoint
   layers:
   - Default
   - TransparentFX
